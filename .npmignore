@@ -1,0 +1,6 @@
+.history
+.prettierrc
+coverage/
+src/
+test/
+Makefile

@@ -1,0 +1,11 @@
+{
+    "semi": false,
+    "tabWidth": 4,
+    "trailingComma": "none",
+    "overrides": [{
+        "files": "*.yaml",
+        "options": {
+            "tabWidth": 2
+        }
+    }]
+}
