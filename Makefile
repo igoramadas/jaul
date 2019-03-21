@@ -16,6 +16,7 @@ build:
 
 
 test:
+	tsc
 	$(MOCHA) --trace-warnings --exit -u tdd -R spec
 
 cover:
