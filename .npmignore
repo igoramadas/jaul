@@ -1,6 +1,8 @@
 .history
-.prettierrc
 coverage/
+docs/
 src/
 test/
 Makefile
+tsconfig.json
+typedoc.json

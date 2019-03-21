@@ -1,4 +1,4 @@
-/*
+/**
  * JAUL: System utilities
  */
 
@@ -10,12 +10,12 @@ const path = require("path")
 let lastCpuLoad = null
 
 /** Options for {@link SystemUtils.getInfo} */
-interface IGetInfoOptions {
+interface GetInfoOptions {
     /** If false, labels won't be added to the output (%, MB, etc). Default is true. */
     labels: boolean
 }
 
-interface ISystemMetrics {
+interface SystemMetrics {
     /** System uptime as human readable string. */
     uptime: string
     /** System hostname. */
@@ -36,22 +36,24 @@ interface ISystemMetrics {
     process: any
 }
 
-class SystemUtils {
-    private static _instance: SystemUtils
-    static get Instance() {
-        return this._instance || (this._instance = new this())
-    }
+interface CpuLoad {
+    /** Idle counter */
+    idle: number
+    /** Total counter */
+    total: number
+}
 
-    /*
+class SystemUtils {
+    /**
      * Return an object with general and health information about the system.
      * @param options - Options to define the output.
      * @returns Object with system metrics attached.
      */
-    getInfo(options: IGetInfoOptions) {
+    getInfo(options: GetInfoOptions): SystemMetrics {
         if (options == null) {
-            options = { labels: true }
+            options = {labels: true}
         }
-        let result = <ISystemMetrics>{}
+        let result = {} as SystemMetrics
 
         // Save parsed OS info to the result object.
         result.uptime = moment.duration(process.uptime(), "s").humanize()
@@ -59,10 +61,7 @@ class SystemUtils {
         result.title = path.basename(process.title)
         result.platform = os.platform() + " " + os.arch() + " " + os.release()
         result.memoryTotal = (os.totalmem() / 1024 / 1024).toFixed(0)
-        result.memoryUsage = (
-            100 -
-            (os.freemem() / os.totalmem()) * 100
-        ).toFixed(0)
+        result.memoryUsage = (100 - (os.freemem() / os.totalmem()) * 100).toFixed(0)
         result.cpuCores = os.cpus().length
 
         // Get process memory stats.
@@ -97,9 +96,11 @@ class SystemUtils {
         return result
     }
 
-    // Get current CPU load (used mainly by getServerInfo).
-    // @return {Object} CPU load with idle and total ticks.
-    getCpuLoad() {
+    /**
+     * Get current CPU load, used by getInfo().
+     * @returns CPU load information with idle and total counters.
+     */
+    getCpuLoad(): CpuLoad {
         let totalIdle = 0
         let totalTick = 0
         const cpus = os.cpus()
@@ -116,9 +117,9 @@ class SystemUtils {
             i++
         }
 
-        return { idle: totalIdle / cpus.length, total: totalTick / cpus.length }
+        return {idle: totalIdle / cpus.length, total: totalTick / cpus.length}
     }
 }
 
 // Exports singleton.
-export = SystemUtils.Instance
+export = SystemUtils

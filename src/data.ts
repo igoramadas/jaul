@@ -1,25 +1,23 @@
-/*
+/**
  * JAUL: Data utilities
  */
 
-class DataUtils {
-    private static _instance: DataUtils
-    static get Instance() {
-        return this._instance || (this._instance = new this())
-    }
+const _ = require("lodash")
 
-    /*
+class DataUtils {
+    /**
      * Removes all the specified characters from a string. For example you can cleanup
-     * phone numbers by using removeFromString(phone, [" ", "-", "(", ")"]).
-     * @param value - The original value to be cleaned.
-     * @param charsToRemove - Array of characters or single string to be removed from the original string.
-     * @returns Processed value with the characters removed.
+     * a phone number by using removeFromString(phone, [" ", "-", "(", ")", "/"]).
+     * @param value The original value to be cleaned.
+     * @param charsToRemove Array of characters or single string to be removed from the original string.
+     * @returns Value with the characters removed.
      */
-    removeFromString(value: string, charsToRemove: any[] | string) {
-        if (value == null || value === "") {
+    static removeFromString(value: string, charsToRemove: any[] | string): string {
+        if (!value) {
             return value
         }
 
+        // Make sure value is a valid string.
         let result = value.toString()
 
         if (!Array.isArray(charsToRemove)) {
@@ -33,19 +31,20 @@ class DataUtils {
         return result
     }
 
-    /*
+    /**
      * Masks the specified string. For eaxmple to mask a phone number but leave the
      * last 4 digits visible you could use maskString(phone, "X", 4).
-     * @param value - The original value to be masked.
-     * @param maskChar - Optional character to be used on the masking, default is *.
-     * @param leaveLast - Optional, leave last X positions of the string unmasked, default is 0.
-     * @return Masked string.
+     * @param value The original value to be masked.
+     * @param maskChar Optional character to be used on the masking, default is *.
+     * @param leaveLast Optional, leave last X positions of the string unmasked, default is 0.
+     * @returns The masked string.
      */
-    maskString(value: string, maskChar?: string, leaveLast?: number) {
-        if (value == null || !value || value == "") {
+    static maskString(value: string, maskChar?: string, leaveLast?: number): string {
+        if (!value) {
             return value
         }
 
+        // Make sure value is a valid string.
         value = value.toString()
 
         const separators = [" ", "-", "_", "+", "=", "/"]
@@ -76,7 +75,7 @@ class DataUtils {
             i++
         }
 
-        // Add last characters?
+        // Leave last characters?
         if (leaveLast > 0) {
             result += value.substr(value.length - leaveLast)
         }
@@ -84,19 +83,19 @@ class DataUtils {
         return result
     }
 
-    /*
+    /**
      * Minify the passed JSON value. Removes comments, unecessary white spaces etc.
-     * @param source - The JSON string or object to be minified.
-     * @param asString - If true, return as string instead of JSON object, default is false.
+     * @param source The JSON string or object to be minified.
+     * @param asString If true, return as string instead of JSON object, default is false.
      * @returns The minified JSON as object or string, depending on asString.
      */
-    minifyJson(source: string, asString?: boolean) {
-        if (typeof source === "object") {
+    static minifyJson(source: string, asString?: boolean): any {
+        if (_.isObject(source)) {
             source = JSON.stringify(source, null, 0)
         }
 
         let index = 0
-        const { length } = source
+        const {length} = source
         let result = ""
         let symbol = undefined
         let position = undefined
@@ -179,11 +178,11 @@ class DataUtils {
         }
     }
 
-    /*
-     * Generates a RFC1422-compliant unique ID using random numbers.
-     * @returns A single unique ID.
+    /**
+     * Generates a RFC4122-compliant unique ID using random numbers.
+     * @returns A unique ID.
      */
-    uuid() {
+    static uuid(): string {
         const baseStr = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
 
         const generator = function(c) {
@@ -197,4 +196,4 @@ class DataUtils {
 }
 
 // Exports singleton.
-export = DataUtils.Instance
+export = DataUtils

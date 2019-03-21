@@ -8,5 +8,12 @@
         "moduleResolution": "node",
         "noUnusedParameters": true,
         "noUnusedLocals": true
+    },
+    "typedocOptions": {
+        "excludeExternals": true,
+        "excludePrivate": true,
+        "mode": "modules",
+        "name": "JAUL",
+        "out": "docs"
     }
 }

@@ -1,4 +1,4 @@
-/*
+/**
  * JAUL: Network utilities
  */
 
@@ -7,21 +7,14 @@ const ipaddr = require("ipaddr.js")
 const os = require("os")
 
 class NetworkUtils {
-    private static _instance: NetworkUtils
-    static get Instance() {
-        return this._instance || (this._instance = new this())
-    }
-
-    /*
+    /**
      * Returns a list of valid server IPv4 and/or IPv6 addresses.
-     * @param family - IP family to be retrieved, can be "IPv4" or "IPv6".
+     * @param family IP family to be retrieved, can be "IPv4" or "IPv6".
      * @returns Array with the system's IP addresses, or empty.
      */
-    getIP(family: string) {
-        let ifaces
+    getIP(family: string): string[] {
         const result = []
-
-        ifaces = os.networkInterfaces()
+        let ifaces = os.networkInterfaces()
 
         if (family) {
             family = family.toLowerCase()
@@ -38,11 +31,11 @@ class NetworkUtils {
 
         return result
     }
-    /*
+    /**
      * Returns the first valid IPv4 address found on the system, or null if no valid IPs were found.
      * @returns First valid IPv4 address, or null.
      */
-    getSingleIPv4() {
+    getSingleIPv4(): string {
         const ips = this.getIP("ipv4")
 
         if ((ips != null ? ips.length : undefined) > 0) {
@@ -52,11 +45,11 @@ class NetworkUtils {
         return null
     }
 
-    /*
+    /**
      * Returns the first valid IPv6 address found on the system, or null if no valid IPs were found.
      * @returns First valid IPv6 address, or null.
      */
-    getSingleIPv6() {
+    getSingleIPv6(): string {
         const ips = this.getIP("ipv6")
 
         if ((ips != null ? ips.length : undefined) > 0) {
@@ -66,13 +59,13 @@ class NetworkUtils {
         return null
     }
 
-    /*
+    /**
      * Check if a specific IP is in the provided range.
-     * @param ip - The IP to be checked (IPv4 or IPv6).
-     * @param range - A string or array of strings representing the valid ranges.
+     * @param ip The IP to be checked (IPv4 or IPv6).
+     * @param range A string or array of strings representing the valid ranges.
      * @returns True if IP is in range, false otherwise.
      */
-    ipInRange(ip: string, range: string[] | string) {
+    ipInRange(ip: string, range: string[] | string): boolean {
         if (_.isString(range)) {
             const ipParsed = ipaddr.parse(ip)
 
@@ -105,4 +98,4 @@ class NetworkUtils {
 }
 
 // Exports singleton.
-export = NetworkUtils.Instance
+export = NetworkUtils

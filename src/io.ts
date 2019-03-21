@@ -1,4 +1,4 @@
-/*/*
+/**
  * JAUL: IO utilities
  */
 
@@ -6,19 +6,14 @@ const fs = require("fs")
 const path = require("path")
 
 class IOUtils {
-    private static _instance: IOUtils
-    static get Instance() {
-        return this._instance || (this._instance = new this())
-    }
-
-    /*
+    /**
      * Finds the correct path to the file looking first on current directory, then the running
      * directory, then the root directory of the app, then the parent of the root.
      * Returns null if file is not found.
-     * @param filename - The filename to be searched
+     * @param filename The filename to be searched
      * @returns The full path to the file if one was found, or null if not found.
      */
-    getFilePath(filename: string) {
+    static getFilePath(filename: string): string {
         const originalFilename = filename.toString()
 
         // Check if file exists on current directory.
@@ -35,22 +30,20 @@ class IOUtils {
         }
 
         // Try application root path.
-        filename = path.resolve(
-            path.dirname(require.main.filename),
-            originalFilename
-        )
+        filename = path.resolve(path.dirname(require.main.filename), originalFilename)
         hasFile = fs.existsSync(filename)
         if (hasFile) {
             return filename
         }
 
-        // Try parent paths...
+        // Try second level parent path. In case module is under node_modules.
         filename = path.resolve(__dirname, "../../", originalFilename)
         hasFile = fs.existsSync(filename)
         if (hasFile) {
             return filename
         }
 
+        // Try parent path.
         filename = path.resolve(__dirname, "../", originalFilename)
         hasFile = fs.existsSync(filename)
         if (hasFile) {
@@ -61,22 +54,22 @@ class IOUtils {
         return null
     }
 
-    /*
+    /**
      * Copy the `source` file to the `target`, both must be the full file path.
-     * @param source - The full source file path.
-     * @param target - The full target file path.
+     * @param source The full source file path.
+     * @param target The full target file path.
      */
-    copyFileSync(source: string, target: string) {
-        const srcContents = fs.readFileSync(source)
-        return fs.writeFileSync(target, srcContents)
+    static copyFileSync(source: string, target: string): void {
+        const fileBuffer = fs.readFileSync(source)
+        fs.writeFileSync(target, fileBuffer)
     }
 
-    /*
+    /**
      * Make sure the `target` directory exists by recursively iterating through its parents
      * and creating the directories.
-     * @param target - The full target path, with or without a trailing slash.
+     * @param target The full target path, with or without a trailing slash.
      */
-    mkdirRecursive(target: string) {
+    static mkdirRecursive(target: string): void {
         if (fs.existsSync(path.resolve(target))) {
             return
         }
@@ -95,28 +88,24 @@ class IOUtils {
                     try {
                         stat = fs.statSync(p)
                     } catch (ex1) {
-                        throw new Error(
-                            `Can't create directory. ${ex1.message}`
-                        )
+                        throw new Error(`Can't create directory. ${ex1.message}`)
                     }
                     if (!stat.isDirectory()) {
                         throw new Error(`Can't create directory. ${ex.message}`)
                     }
                 }
             }
-
-            return target
         }
 
-        return callback(target)
+        callback(target)
     }
 
-    /*
+    /**
      * Helper to delay async code execution. To be used inside async functions using await.
      * @param number - How long to stall the execution for, in milliseconds.
-     * @promise
+     * @returns A promise with a setTimeout for the specified milliseconds.
      */
-    sleep(ms: number) {
+    static sleep(ms: number): Promise<Function> {
         return new Promise(function(resolve) {
             return setTimeout(resolve, ms)
         })
@@ -124,4 +113,4 @@ class IOUtils {
 }
 
 // Exports singleton.
-export = IOUtils.Instance
+export = IOUtils

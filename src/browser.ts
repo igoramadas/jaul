@@ -1,19 +1,14 @@
-/*
+/**
  * JAUL: Browser utilities
  */
 
 class BrowserUtils {
-    private static _instance: BrowserUtils
-    static get Instance() {
-        return this._instance || (this._instance = new this())
-    }
-
-    /*
+    /**
      * Get the client IP. Works for http and socket requests, even when behind a proxy.
-     * @param reqOrSocket - The Express request or socket object.
+     * @param reqOrSocket The request or socket object.
      * @returns The client IP address, or null if not identified.
      */
-    getClientIP(reqOrSocket: any) {
+    static getClientIP(reqOrSocket: any): string {
         if (reqOrSocket == null) {
             return null
         }
@@ -31,11 +26,7 @@ class BrowserUtils {
             return reqOrSocket.connection.remoteAddress
         } else if (reqOrSocket.handshake && reqOrSocket.handshake.address) {
             return reqOrSocket.handshake.address
-        } else if (
-            reqOrSocket.request &&
-            reqOrSocket.request.connection &&
-            reqOrSocket.request.connection.remoteAddress
-        ) {
+        } else if (reqOrSocket.request && reqOrSocket.request.connection && reqOrSocket.request.connection.remoteAddress) {
             return reqOrSocket.request.connection.remoteAddress
         }
 
@@ -44,4 +35,4 @@ class BrowserUtils {
 }
 
 // Exports singleton.
-export = BrowserUtils.Instance
+export = BrowserUtils
