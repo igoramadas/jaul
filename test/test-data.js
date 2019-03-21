@@ -45,14 +45,49 @@ describe("JAUL Data tests", function() {
         }
     })
 
+    it("Mask password with defaults", function(done) {
+        var original = "password"
+        var masked = jaul.data.maskString(original)
+
+        if (masked == "********") {
+            done()
+        } else {
+            done("Expected '********', got '" + masked + "'.")
+        }
+    })
+
     it("Mask a phone number", function(done) {
         var original = "176 55555 9090"
-        var masked = jaul.data.maskString(original, "*", 4)
+        var masked = jaul.data.maskString(original, "X", 4)
 
-        if (masked == "*** ***** 9090") {
+        if (masked == "XXX XXXXX 9090") {
             done()
         } else {
             done("Expected '*** ***** 9090', got '" + masked + "'.")
+        }
+    })
+
+    it("Mask invalid data should return data itself", function(done) {
+        var original = null
+        var masked = jaul.data.maskString(null)
+
+        if (original == masked) {
+            done()
+        } else {
+            done("Original and masked values are not the same.")
+        }
+    })
+
+    it("Minify a JSON string, returning as JSON object", function(done) {
+        var original = '{"something": true} //comments here'
+
+        var minified = jaul.data.minifyJson(original)
+        var minifiedCompare = '{"something":true}'
+
+        if (minified.something && JSON.stringify(minified, null, 0) == minifiedCompare) {
+            done()
+        } else {
+            done("JSON object was not minified properly.")
         }
     })
 
@@ -69,7 +104,7 @@ describe("JAUL Data tests", function() {
         if (minified == minifiedCompare || minified == minifiedCompare.replace(/['"]+/g, "")) {
             done()
         } else {
-            done("JSON object was not minified properly: " + minified)
+            done("JSON object was not minified properly.")
         }
     })
 

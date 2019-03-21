@@ -16,6 +16,7 @@ describe("JAUL IO Tests", function() {
     var jaul = require("../index")
 
     var recursiveTarget = __dirname + "/mkdir/directory/inside/another"
+    var copyFileTarget = __dirname + "/test-io.js.copy"
 
     var cleanup = function() {
         if (fs.existsSync(recursiveTarget)) {
@@ -23,6 +24,10 @@ describe("JAUL IO Tests", function() {
             fs.rmdirSync(__dirname + "/mkdir/directory/inside")
             fs.rmdirSync(__dirname + "/mkdir/directory")
             fs.rmdirSync(__dirname + "/mkdir")
+        }
+
+        if (fs.existsSync(copyFileTarget)) {
+            fs.unlinkSync(copyFileTarget)
         }
     }
 
@@ -70,5 +75,36 @@ describe("JAUL IO Tests", function() {
         jaul.io.mkdirRecursive(recursiveTarget)
 
         setTimeout(checkDir, 1000)
+    })
+
+    it("Creates directory recursively again, should return straight away", function(done) {
+        jaul.io.mkdirRecursive(recursiveTarget)
+        done()
+    })
+
+    it("Fails to create recursive directory", function(done) {
+
+        try {
+            jaul.io.mkdirRecursive("../../../../../../...someinvalidpath../!@#$%^&*()-+")
+            done("The mkdirRecursive call should have thrown an exception.")
+        } catch (ex) {
+            done()
+        }
+    })
+
+    it("Copy file to another folder", function(done) {
+        jaul.io.copyFileSync(__dirname + "/test-io.js", copyFileTarget)
+
+        if (fs.existsSync(copyFileTarget)) {
+            done()
+        } else {
+            done("File not copied to " + copyFileTarget)
+        }
+
+    })
+
+    it("Sleep test", async function() {
+        let wait = await jaul.io.sleep(200)
+        return true
     })
 })

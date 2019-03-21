@@ -51,4 +51,16 @@ describe("JAUL Network Tests", function() {
             done()
         }
     })
+
+    it("Check IP against invalid range", function(done) {
+        var ip = "192.168.1.1"
+
+        if (jaul.network.ipInRange(ip, null)) {
+            done("Should have returned false for range null.")
+        } else if (jaul.network.ipInRange(ip, "/a./a")) {
+            done("Should have returned false for invalid range.")
+        } else {
+            done()
+        }
+    })
 })

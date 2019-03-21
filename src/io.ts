@@ -88,10 +88,12 @@ class IOUtils {
                     try {
                         stat = fs.statSync(p)
                     } catch (ex1) {
-                        throw new Error(`Can't create directory. ${ex1.message}`)
+                        ex1.friendlyMessage = `Can't create directory: ${p}`
+                        throw ex1
                     }
                     if (!stat.isDirectory()) {
-                        throw new Error(`Can't create directory. ${ex.message}`)
+                        ex.friendlyMessage = `Can't create directory: ${p}`
+                        throw ex
                     }
                 }
             }
