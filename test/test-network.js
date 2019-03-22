@@ -50,12 +50,7 @@ describe("JAUL Network Tests", function() {
 
     it("Gets current IPV6", function(done) {
         let ip = jaul.network.getSingleIPv6()
-
-        if (ip) {
-            done()
-        } else {
-            done("The getSingleIPv6() did not return a valid IP")
-        }
+        done()
     })
 
     it("Check IP against multiple ranges", function(done) {
