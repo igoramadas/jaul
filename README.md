@@ -2,8 +2,8 @@
 
 JAUL = Just Another Utilities Library
 
-[![Build Status](https://travis-ci.org/igoramadas/jaul.png?branch=master)](https://travis-ci.org/igoramadas/jaul)
-[![Coverage Status](https://coveralls.io/repos/github/igoramadas/jaul/badge.svg?branch=master)](https://coveralls.io/github/igoramadas/jaul?branch=master)
+[![Build Status](https://img.shields.io/travis/igoramadas/jaul.svg?style=flat-square)](https://travis-ci.org/igoramadas/jaul)
+[![Coverage Status](https://img.shields.io/coveralls/igoramadas/jaul.svg?style=flat-square)](https://coveralls.io/github/igoramadas/jaul?branch=master)
 
 ## What? Why?
 

@@ -1,10 +1,11 @@
 {
     "name": "jaul",
-    "version": "0.9.0",
-    "description": "Just another utilities library.",
+    "version": "1.0.0",
+    "description": "Just another utilities library. But a very good one.",
     "keywords": [
         "jaul",
-        "utils"
+        "utils",
+        "utilities"
     ],
     "author": "Igor Ramadas <igor@devv.com>",
     "homepage": "https://jaul.devv.com",
