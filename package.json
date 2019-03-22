@@ -29,7 +29,6 @@
     },
     "devDependencies": {
         "@types/node": "^11.11.4",
-        "async_hooks": "^1.0.0",
         "chai": "^4.2.0",
         "coveralls": "^3.0.3",
         "express": "^4.16.4",
