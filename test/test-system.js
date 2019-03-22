@@ -1,19 +1,22 @@
 // TEST: SYSTEM
 
-var env = process.env
-var chai = require("chai")
-var mocha = require("mocha")
-var describe = mocha.describe
-var it = mocha.it
+let chai = require("chai")
+let mocha = require("mocha")
+let before = mocha.before
+let describe = mocha.describe
+let it = mocha.it
+
 chai.should()
 
 describe("JAUL System Tests", function() {
-    env.NODE_ENV = "test"
+    let jaul = null
 
-    var jaul = require("../index")
+    before(function() {
+        jaul = require("../index")
+    })
 
     it("Get valid server info", function(done) {
-        var serverInfo = jaul.system.getInfo()
+        let serverInfo = jaul.system.getInfo()
 
         if (serverInfo.cpuCores > 0) {
             done()
@@ -23,7 +26,7 @@ describe("JAUL System Tests", function() {
     })
 
     it("Get server info without labels", function(done) {
-        var serverInfo = jaul.system.getInfo({
+        let serverInfo = jaul.system.getInfo({
             labels: false
         })
 

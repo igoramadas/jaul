@@ -1,21 +1,24 @@
 // TEST: DATA
 
-var env = process.env
-var chai = require("chai")
-var mocha = require("mocha")
-var describe = mocha.describe
-var it = mocha.it
+let chai = require("chai")
+let lodash = require("lodash")
+let mocha = require("mocha")
+let before = mocha.before
+let describe = mocha.describe
+let it = mocha.it
+
 chai.should()
 
 describe("JAUL Data tests", function() {
-    env.NODE_ENV = "test"
+    let jaul = null
 
-    var jaul = require("../index")
-    var lodash = require("lodash")
+    before(function() {
+        jaul = require("../index")
+    })
 
     it("Remove specified characters from string, passing as array", function(done) {
-        var original = "ABC123"
-        var removed = jaul.data.removeFromString(original, ["A", "1"])
+        let original = "ABC123"
+        let removed = jaul.data.removeFromString(original, ["A", "1"])
 
         if (removed == "BC23") {
             done()
@@ -25,8 +28,8 @@ describe("JAUL Data tests", function() {
     })
 
     it("Remove specified characters from string, passing as string", function(done) {
-        var original = "ABC123"
-        var removed = jaul.data.removeFromString(original, "ABC")
+        let original = "ABC123"
+        let removed = jaul.data.removeFromString(original, "ABC")
 
         if (removed == "123") {
             done()
@@ -36,7 +39,7 @@ describe("JAUL Data tests", function() {
     })
 
     it("Try removing characters from null string", function(done) {
-        var removed = jaul.data.removeFromString(null, ["A", "1"])
+        let removed = jaul.data.removeFromString(null, ["A", "1"])
 
         if (removed == null) {
             done()
@@ -46,8 +49,8 @@ describe("JAUL Data tests", function() {
     })
 
     it("Mask password with defaults", function(done) {
-        var original = "password"
-        var masked = jaul.data.maskString(original)
+        let original = "password"
+        let masked = jaul.data.maskString(original)
 
         if (masked == "********") {
             done()
@@ -57,8 +60,8 @@ describe("JAUL Data tests", function() {
     })
 
     it("Mask a phone number", function(done) {
-        var original = "176 55555 9090"
-        var masked = jaul.data.maskString(original, "X", 4)
+        let original = "176 55555 9090"
+        let masked = jaul.data.maskString(original, "X", 4)
 
         if (masked == "XXX XXXXX 9090") {
             done()
@@ -68,8 +71,8 @@ describe("JAUL Data tests", function() {
     })
 
     it("Mask invalid data should return data itself", function(done) {
-        var original = null
-        var masked = jaul.data.maskString(null)
+        let original = null
+        let masked = jaul.data.maskString(null)
 
         if (original == masked) {
             done()
@@ -79,10 +82,10 @@ describe("JAUL Data tests", function() {
     })
 
     it("Minify a JSON string, returning as JSON object", function(done) {
-        var original = '{"something": true} //comments here'
+        let original = '{"something": true} //comments here'
 
-        var minified = jaul.data.minifyJson(original)
-        var minifiedCompare = '{"something":true}'
+        let minified = jaul.data.minifyJson(original)
+        let minifiedCompare = '{"something":true}'
 
         if (minified.something && JSON.stringify(minified, null, 0) == minifiedCompare) {
             done()
@@ -92,14 +95,14 @@ describe("JAUL Data tests", function() {
     })
 
     it("Minify a JSON object, returning as string", function(done) {
-        var original = {
+        let original = {
             first: true,
             second: false,
             third: 0
         }
 
-        var minified = jaul.data.minifyJson(JSON.stringify(original), true)
-        var minifiedCompare = '{"first":true,"second":false,"third":0}'
+        let minified = jaul.data.minifyJson(JSON.stringify(original), true)
+        let minifiedCompare = '{"first":true,"second":false,"third":0}'
 
         if (minified == minifiedCompare || minified == minifiedCompare.replace(/['"]+/g, "")) {
             done()
@@ -109,10 +112,10 @@ describe("JAUL Data tests", function() {
     })
 
     it("Fail minifying a 'dirty' JSON string with invalid comments", function(done) {
-        var original = "" + " /* comment here // " + " { first: true } // "
+        let original = "" + " /* comment here // " + " { first: true } // "
 
         try {
-            var minified = jaul.data.minifyJson(original, true)
+            let minified = jaul.data.minifyJson(original, true)
             done("Minifying an invalid JSON should throw an exception.")
         } catch (ex) {
             done()
@@ -120,15 +123,15 @@ describe("JAUL Data tests", function() {
     })
 
     it("Generate unique IDs", function(done) {
-        var ids = []
-        var max = 500
-        var i
+        let ids = []
+        let max = 500
+        let i
 
         for (i = 0; i < max; i++) {
             ids.push(jaul.data.uuid())
         }
 
-        var noduplicates = lodash.uniq(ids)
+        let noduplicates = lodash.uniq(ids)
 
         if (noduplicates.length == max) {
             done()

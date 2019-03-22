@@ -49,7 +49,7 @@ class SystemUtils {
      * @param options - Options to define the output.
      * @returns Object with system metrics attached.
      */
-    getInfo(options: GetInfoOptions): SystemMetrics {
+    static getInfo(options: GetInfoOptions): SystemMetrics {
         if (options == null) {
             options = {labels: true}
         }
@@ -100,7 +100,7 @@ class SystemUtils {
      * Get current CPU load, used by getInfo().
      * @returns CPU load information with idle and total counters.
      */
-    getCpuLoad(): CpuLoad {
+    static getCpuLoad(): CpuLoad {
         let totalIdle = 0
         let totalTick = 0
         const cpus = os.cpus()

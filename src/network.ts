@@ -12,7 +12,7 @@ class NetworkUtils {
      * @param family IP family to be retrieved, can be "IPv4" or "IPv6".
      * @returns Array with the system's IP addresses, or empty.
      */
-    getIP(family: string): string[] {
+    static getIP(family: string): string[] {
         const result = []
         let ifaces = os.networkInterfaces()
 
@@ -35,7 +35,7 @@ class NetworkUtils {
      * Returns the first valid IPv4 address found on the system, or null if no valid IPs were found.
      * @returns First valid IPv4 address, or null.
      */
-    getSingleIPv4(): string {
+    static getSingleIPv4(): string {
         const ips = this.getIP("ipv4")
 
         if ((ips != null ? ips.length : undefined) > 0) {
@@ -49,7 +49,7 @@ class NetworkUtils {
      * Returns the first valid IPv6 address found on the system, or null if no valid IPs were found.
      * @returns First valid IPv6 address, or null.
      */
-    getSingleIPv6(): string {
+    static getSingleIPv6(): string {
         const ips = this.getIP("ipv6")
 
         if ((ips != null ? ips.length : undefined) > 0) {
@@ -60,12 +60,42 @@ class NetworkUtils {
     }
 
     /**
+     * Get the client IP. Works for http and socket requests, even when behind a proxy.
+     * @param reqOrSocket The request or socket object.
+     * @returns The client IP address, or null if not identified.
+     */
+    static getClientIP(reqOrSocket: any): string {
+        if (reqOrSocket == null) {
+            return null
+        }
+
+        // Try getting the xforwarded header first.
+        if (reqOrSocket.header != null) {
+            const xfor = reqOrSocket.header("X-Forwarded-For")
+            if (xfor != null && xfor != "") {
+                return xfor.split(",")[0]
+            }
+        }
+
+        // Get remote address.
+        if (reqOrSocket.connection && reqOrSocket.connection.remoteAddress) {
+            return reqOrSocket.connection.remoteAddress
+        } else if (reqOrSocket.handshake && reqOrSocket.handshake.address) {
+            return reqOrSocket.handshake.address
+        } else if (reqOrSocket.request && reqOrSocket.request.connection && reqOrSocket.request.connection.remoteAddress) {
+            return reqOrSocket.request.connection.remoteAddress
+        }
+
+        return reqOrSocket.remoteAddress
+    }
+
+    /**
      * Check if a specific IP is in the provided range.
      * @param ip The IP to be checked (IPv4 or IPv6).
      * @param range A string or array of strings representing the valid ranges.
      * @returns True if IP is in range, false otherwise.
      */
-    ipInRange(ip: string, range: string[] | string): boolean {
+    static ipInRange(ip: string, range: string[] | string): boolean {
         if (_.isString(range)) {
             const ipParsed = ipaddr.parse(ip)
 

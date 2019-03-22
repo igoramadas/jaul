@@ -1,24 +1,22 @@
 // TEST: IO
 
-var env = process.env
-var fs = require("fs")
-var chai = require("chai")
-var mocha = require("mocha")
-var describe = mocha.describe
-var before = mocha.before
-var after = mocha.after
-var it = mocha.it
+let fs = require("fs")
+let chai = require("chai")
+let mocha = require("mocha")
+let after = mocha.after
+let before = mocha.before
+let describe = mocha.describe
+let it = mocha.it
+
 chai.should()
 
 describe("JAUL IO Tests", function() {
-    env.NODE_ENV = "test"
+    let jaul = null
 
-    var jaul = require("../index")
+    let recursiveTarget = __dirname + "/mkdir/directory/inside/another"
+    let copyFileTarget = __dirname + "/test-io.js.copy"
 
-    var recursiveTarget = __dirname + "/mkdir/directory/inside/another"
-    var copyFileTarget = __dirname + "/test-io.js.copy"
-
-    var cleanup = function() {
+    let cleanup = function() {
         if (fs.existsSync(recursiveTarget)) {
             fs.rmdirSync(__dirname + "/mkdir/directory/inside/another")
             fs.rmdirSync(__dirname + "/mkdir/directory/inside")
@@ -32,6 +30,7 @@ describe("JAUL IO Tests", function() {
     }
 
     before(function() {
+        jaul = require("../index")
         cleanup()
     })
 
@@ -39,7 +38,7 @@ describe("JAUL IO Tests", function() {
         cleanup()
     })
 
-    it("Gets file from current folder using getFilePath", function(done) {
+    it("Gets file from app root folder using getFilePath", function(done) {
         let currentFile = jaul.io.getFilePath("package.json")
 
         if (currentFile) {
@@ -49,11 +48,21 @@ describe("JAUL IO Tests", function() {
         }
     })
 
+    it("Gets file from current folder using getFilePath", function(done) {
+        let currentFile = jaul.io.getFilePath("test-io.js", __dirname)
+
+        if (currentFile) {
+            done()
+        } else {
+            done("Could not find test-io.json file.")
+        }
+    })
+
     it("Fails to get non existing file using getFilePath", function(done) {
         let currentFile = jaul.io.getFilePath("this-does-not.exist")
 
         if (currentFile) {
-            done("The getFilePath('this-does-not.exist') should return null")
+            done("The getFilePath('this-does-not.exist') should return null.")
         } else {
             done()
         }
@@ -62,8 +71,8 @@ describe("JAUL IO Tests", function() {
     it("Creates directory recursively", function(done) {
         this.timeout = 5000
 
-        var checkDir = function() {
-            var stat = fs.statSync(recursiveTarget)
+        let checkDir = function() {
+            let stat = fs.statSync(recursiveTarget)
 
             if (stat.isDirectory()) {
                 done()
