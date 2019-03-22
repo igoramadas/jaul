@@ -103,7 +103,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/35e24bc/src/io.ts#L62">io.ts:62</a></li>
+									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/6089fd7/src/io.ts#L59">io.ts:59</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -134,19 +134,19 @@
 					<a name="getfilepath" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> get<wbr>File<wbr>Path</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>File<wbr>Path<span class="tsd-signature-symbol">(</span>filename<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>File<wbr>Path<span class="tsd-signature-symbol">(</span>filename<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, basepath<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/35e24bc/src/io.ts#L16">io.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/6089fd7/src/io.ts#L17">io.ts:17</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Finds the correct path to the file looking first on current directory, then the running
-										directory, then the root directory of the app, then the parent of the root.
+									<p>Finds the correct path to the file looking first on the (optional) base path
+										then the current or running directory, finally the root directory.
 									Returns null if file is not found.</p>
 								</div>
 							</div>
@@ -156,6 +156,12 @@
 									<h5>filename: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The filename to be searched</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> basepath: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Optional, basepath where to look for the file.</p>
 									</div>
 								</li>
 							</ul>
@@ -174,7 +180,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/35e24bc/src/io.ts#L72">io.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/6089fd7/src/io.ts#L69">io.ts:69</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -206,7 +212,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/35e24bc/src/io.ts#L108">io.ts:108</a></li>
+									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/6089fd7/src/io.ts#L107">io.ts:107</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -232,9 +238,6 @@
 				<ul>
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_browser_.html">"browser"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_data_.html">"data"</a>
