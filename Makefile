@@ -6,7 +6,7 @@ TYPEDOC:= ./node_modules/.bin/typedoc
 
 test:
 	tsc
-	@NODE_ENV=test $(MOCHA) --trace-warnings --exit -u tdd -R spec
+	NODE_ENV=test $(MOCHA) --trace-warnings --exit -u tdd -R spec
 
 cover:
 	tsc
