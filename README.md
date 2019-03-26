@@ -1,9 +1,9 @@
 # JAUL
 
-JAUL = Just Another Utilities Library
-
 [![Build Status](https://img.shields.io/travis/igoramadas/jaul.svg?style=flat-square)](https://travis-ci.org/igoramadas/jaul)
 [![Coverage Status](https://img.shields.io/coveralls/igoramadas/jaul.svg?style=flat-square)](https://coveralls.io/github/igoramadas/jaul?branch=master)
+
+JAUL = Just Another Utilities Library
 
 ## What? Why?
 
@@ -19,7 +19,6 @@ framework into smaller, standalone libraries.
 
 They're separated on the following areas:
 
-* Browser
 * Data
 * IO
 * Network
