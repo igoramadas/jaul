@@ -26,7 +26,8 @@ clean:
 	rm -rf ./node_modules
 
 update:
-	npm update
+	ncu -u
+	npm install
 
 .PHONY: test
 .PHONY: docs
