@@ -25,5 +25,8 @@ docs:
 clean:
 	rm -rf ./node_modules
 
+update:
+	npm update
+
 .PHONY: test
 .PHONY: docs
