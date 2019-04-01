@@ -58,6 +58,16 @@ describe("JAUL IO Tests", function() {
         }
     })
 
+    it("Gets file from running folder using getFilePath", function(done) {
+        let currentFile = jaul.io.getFilePath("_mocha", __dirname)
+
+        if (currentFile) {
+            done()
+        } else {
+            done("Could not find _mocha file.")
+        }
+    })
+
     it("Fails to get non existing file using getFilePath", function(done) {
         let currentFile = jaul.io.getFilePath("this-does-not.exist")
 
@@ -91,10 +101,20 @@ describe("JAUL IO Tests", function() {
         done()
     })
 
-    it("Fails to create recursive directory", function(done) {
+    it("Fails to create invalid recursive directory", function(done) {
 
         try {
             jaul.io.mkdirRecursive("../../../../../../...someinvalidpath../!@#$%^&*()-+")
+            done("The mkdirRecursive call should have thrown an exception.")
+        } catch (ex) {
+            done()
+        }
+    })
+
+    it("Fails to create recursive directory due to exiting file", function(done) {
+
+        try {
+            jaul.io.mkdirRecursive("./package.json")
             done("The mkdirRecursive call should have thrown an exception.")
         } catch (ex) {
             done()

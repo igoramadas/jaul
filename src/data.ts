@@ -2,6 +2,7 @@
  * JAUL: Data utilities
  */
 
+
 const _ = require("lodash")
 
 class DataUtils {

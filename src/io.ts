@@ -67,7 +67,16 @@ class IOUtils {
      * @param target The full target path, with or without a trailing slash.
      */
     static mkdirRecursive(target: string): void {
+        let stat
+
+        // Check if exists and not a file.
         if (fs.existsSync(path.resolve(target))) {
+            stat = fs.statSync(target)
+
+            if (!stat.isDirectory()) {
+                throw new Error(`Target ${target} is a file.`)
+            }
+
             return
         }
 
@@ -83,13 +92,12 @@ class IOUtils {
                 } else {
                     let stat
                     try {
-                        stat = fs.statSync(p)
                     } catch (ex1) {
                         ex1.friendlyMessage = `Can't create directory: ${p}`
                         throw ex1
                     }
                     if (!stat.isDirectory()) {
-                        ex.friendlyMessage = `Can't create directory: ${p}`
+                        ex.friendlyMessage = `Target ${p} is a file.`
                         throw ex
                     }
                 }

@@ -81,11 +81,17 @@ describe("JAUL Data tests", function() {
         }
     })
 
-    it("Minify a JSON string, returning as JSON object", function(done) {
-        let original = '{"something": true} //comments here'
+    it("Minify a JSON string with comments, returning as JSON object", function(done) {
+        let original = `
+        /* This is a multiline
+        comment */
+        {"something": true,
+        "somethingElse":   " space " } //comments here
+        // end
+        `
 
         let minified = jaul.data.minifyJson(original)
-        let minifiedCompare = '{"something":true}'
+        let minifiedCompare = '{"something":true,"somethingElse":" space "}'
 
         if (minified.something && JSON.stringify(minified, null, 0) == minifiedCompare) {
             done()
@@ -101,7 +107,7 @@ describe("JAUL Data tests", function() {
             third: 0
         }
 
-        let minified = jaul.data.minifyJson(JSON.stringify(original), true)
+        let minified = jaul.data.minifyJson(original, true)
         let minifiedCompare = '{"first":true,"second":false,"third":0}'
 
         if (minified == minifiedCompare || minified == minifiedCompare.replace(/['"]+/g, "")) {
@@ -111,12 +117,24 @@ describe("JAUL Data tests", function() {
         }
     })
 
-    it("Fail minifying a 'dirty' JSON string with invalid comments", function(done) {
-        let original = "" + " /* comment here // " + " { first: true } // "
+    it("Fail minifying 'dirty' JSON strings", function(done) {
+        try {
+            jaul.data.minifyJson(`{ "unterminated:{}}} "{//}"`)
+            done("Minifying an invalid JSON should throw an exception (unterminated string).")
+        } catch (ex) {
+            // do nothing
+        }
 
         try {
-            let minified = jaul.data.minifyJson(original, true)
-            done("Minifying an invalid JSON should throw an exception.")
+            jaul.data.minifyJson(`/* unterminated block comment {"something": true} /* unterminated block comment`)
+            done("Minifying an invalid JSON should throw an exception (unterminated block comment).")
+        } catch (ex) {
+            // do nothing
+        }
+
+        try {
+            jaul.data.minifyJson(`{"something": /invalid comment // invalid comment`)
+            done("Minifying an invalid JSON should throw an exception (invalid comment).")
         } catch (ex) {
             done()
         }
