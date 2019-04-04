@@ -121,5 +121,5 @@ class SystemUtils {
     }
 }
 
-// Exports singleton.
+// Exports...
 export = SystemUtils

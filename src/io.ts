@@ -119,5 +119,5 @@ class IOUtils {
     }
 }
 
-// Exports singleton.
+// Exports...
 export = IOUtils

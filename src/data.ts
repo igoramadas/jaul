@@ -2,7 +2,6 @@
  * JAUL: Data utilities
  */
 
-
 const _ = require("lodash")
 
 class DataUtils {
@@ -196,5 +195,5 @@ class DataUtils {
     }
 }
 
-// Exports singleton.
+// Exports...
 export = DataUtils

@@ -127,5 +127,5 @@ class NetworkUtils {
     }
 }
 
-// Exports singleton.
+// Exports...
 export = NetworkUtils
