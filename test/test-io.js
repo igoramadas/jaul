@@ -111,7 +111,7 @@ describe("JAUL IO Tests", function() {
         }
     })
 
-    it("Fails to create recursive directory due to exiting file", function(done) {
+    it("Fails to create recursive directory due to existing file", function(done) {
 
         try {
             jaul.io.mkdirRecursive("./package.json")

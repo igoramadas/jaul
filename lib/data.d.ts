@@ -1,6 +1,3 @@
-/**
- * JAUL: Data utilities
- */
 declare class DataUtils {
     /**
      * Removes all the specified characters from a string. For example you can cleanup

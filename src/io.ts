@@ -1,8 +1,8 @@
-/**
- * JAUL: IO utilities
- */
+// JAUL: io.ts
 
+/** @hidden */
 const fs = require("fs")
+/** @hidden */
 const path = require("path")
 
 class IOUtils {
@@ -36,6 +36,7 @@ class IOUtils {
         // Try running directory.
         filename = path.resolve(process.cwd(), originalFilename)
         hasFile = fs.existsSync(filename)
+        /* istanbul ignore if */
         if (hasFile) {
             return filename
         }
@@ -91,11 +92,15 @@ class IOUtils {
                     callback(p)
                 } else {
                     let stat
+
                     try {
+                        stat = fs.statSync(p)
                     } catch (ex1) {
                         ex1.friendlyMessage = `Can't create directory: ${p}`
                         throw ex1
                     }
+
+                    /* istanbul ignore if */
                     if (!stat.isDirectory()) {
                         ex.friendlyMessage = `Target ${p} is a file.`
                         throw ex

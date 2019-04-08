@@ -4,7 +4,4 @@ declare const _default: {
     network: any;
     system: any;
 };
-/**
- * Just Another Utilities Library
- */
 export = _default;

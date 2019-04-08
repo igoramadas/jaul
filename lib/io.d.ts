@@ -1,6 +1,3 @@
-/**
- * JAUL: IO utilities
- */
 declare class IOUtils {
     /**
      * Finds the correct path to the file looking first on the (optional) base path

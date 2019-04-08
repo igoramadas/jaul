@@ -1,6 +1,3 @@
-/**
- * JAUL: Network utilities
- */
 declare class NetworkUtils {
     /**
      * Returns a list of valid server IPv4 and/or IPv6 addresses.

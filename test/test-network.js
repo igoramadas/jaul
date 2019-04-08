@@ -12,6 +12,7 @@ let it = mocha.it
 chai.should()
 
 describe("JAUL Network Tests", function() {
+    let port = null
     let jaul = null
     let app = null
     let server = null
@@ -19,8 +20,7 @@ describe("JAUL Network Tests", function() {
 
     before(async function() {
         jaul = require("../index")
-
-        let port = await getPort(3000)
+        port = await getPort(3000)
 
         app = express()
         server = app.listen(port)
@@ -95,6 +95,35 @@ describe("JAUL Network Tests", function() {
         }
 
         supertest.get("/").set("X-Forwarded-For", "10.1.2.3").expect(200, body, done)
+    })
+
+    it("Get valid IP from socket connection", function(done) {
+        let options = {
+            transports: ["websocket"],
+            forceNew: true,
+            reconnection: false
+        }
+
+        let socketIO = require("socket.io-client")
+        let sender = socketIO(`http://localhost:${port}`, options)
+        let receiver = socketIO(`http://localhost:${port}`, options)
+        let called = false
+
+        app.use(function(req, res, next) {
+            if (!called) {
+                if (req.path.indexOf("socket.io") >= 0) {
+                    called = true
+                    let clientIP = jaul.network.getClientIP(req)
+                    if (clientIP) {
+                        done()
+                    } else {
+                        done("Could not fetch IP from socket connection.")
+                    }
+                }
+            }
+        })
+
+        sender.emit("message", "abc")
     })
 
     it("Fails to get IP from invalid objects", function(done) {

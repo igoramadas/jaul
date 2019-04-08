@@ -87,20 +87,16 @@ describe("JAUL Data tests", function() {
         comment */
         {
             "something": true,
-            "somethingElse":   " space ", //comments here
+            "somethingElse":   " space " //comments here
             // end
             /* Multiline comment
 
             * something else
             */
-
-            "something": "abc", // inline comments
-            "somethingElse": {/*hello there*/ "test": true},
-            "escaped": "This is escaped \\" a"
         }
         /*
         // More inline
-        /*
+        */
         `
 
         let minified = jaul.data.minifyJson(original)

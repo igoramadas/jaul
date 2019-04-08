@@ -12,9 +12,6 @@ utilities modules for my projects. And most of the time using
 too many external smaller modules might be a problem for
 security and complexity (node_modules bombs anyone?).
 
-This project is the very first step taken to debundle the [Expresser](https://github.com/igoramadas/expresser)
-framework into smaller, standalone libraries.
-
 ## What types of utilities?
 
 They're separated on the following areas:
@@ -36,3 +33,12 @@ throw an exception.
 
 Exceptions thrown on methods might have a `friendlyMessage`
 property appended to them with extra information.
+
+## API documentation
+
+You can browse the full API documentation at https://jaul.devv.com.
+
+Or check these following modules that are using Jaul:
+
+* [Expresser](https://travis-ci.org/igoramadas/expresser)
+* [Monitorado](https://travis-ci.org/igoramadas/monitorado)

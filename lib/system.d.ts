@@ -1,6 +1,3 @@
-/**
- * JAUL: System utilities
- */
 /** Options for {@link SystemUtils.getInfo} */
 interface GetInfoOptions {
     /** If false, labels won't be added to the output (%, MB, etc). Default is true. */

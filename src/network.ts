@@ -1,9 +1,10 @@
-/**
- * JAUL: Network utilities
- */
+// JAUL: network.ts
 
+/** @hidden */
 const _ = require("lodash")
+/** @hidden */
 const ipaddr = require("ipaddr.js")
+/** @hidden */
 const os = require("os")
 
 class NetworkUtils {
@@ -38,10 +39,11 @@ class NetworkUtils {
     static getSingleIPv4(): string {
         const ips = this.getIP("ipv4")
 
-        if ((ips != null ? ips.length : undefined) > 0) {
+        if (ips && ips.length > 0) {
             return ips[0]
         }
 
+        /* istanbul ignore next */
         return null
     }
 
@@ -52,10 +54,11 @@ class NetworkUtils {
     static getSingleIPv6(): string {
         const ips = this.getIP("ipv6")
 
-        if ((ips != null ? ips.length : undefined) > 0) {
+        if (ips && ips.length) {
             return ips[0]
         }
 
+        /* istanbul ignore next */
         return null
     }
 
@@ -80,9 +83,9 @@ class NetworkUtils {
         // Get remote address.
         if (reqOrSocket.connection && reqOrSocket.connection.remoteAddress) {
             return reqOrSocket.connection.remoteAddress
-        } else if (reqOrSocket.handshake && reqOrSocket.handshake.address) {
+        } /* istanbul ignore next */ else if (reqOrSocket.handshake && reqOrSocket.handshake.address) {
             return reqOrSocket.handshake.address
-        } else if (reqOrSocket.request && reqOrSocket.request.connection && reqOrSocket.request.connection.remoteAddress) {
+        } /* istanbul ignore next */ else if (reqOrSocket.request && reqOrSocket.request.connection && reqOrSocket.request.connection.remoteAddress) {
             return reqOrSocket.request.connection.remoteAddress
         }
 

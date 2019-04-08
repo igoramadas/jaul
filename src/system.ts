@@ -1,12 +1,13 @@
-/**
- * JAUL: System utilities
- */
+// JAUL: system.ts
 
+/** @hidden */
 const moment = require("moment")
+/** @hidden */
 const os = require("os")
+/** @hidden */
 const path = require("path")
 
-// Temporary variable used to calculate CPU usage.
+/** @hidden */
 let lastCpuLoad = null
 
 /** Options for {@link SystemUtils.getInfo} */

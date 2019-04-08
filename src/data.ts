@@ -1,7 +1,6 @@
-/**
- * JAUL: Data utilities
- */
+// JAUL: data.ts
 
+/** @hidden */
 const _ = require("lodash")
 
 class DataUtils {
