@@ -5,6 +5,7 @@ const fs = require("fs")
 /** @hidden */
 const path = require("path")
 
+/** IO Utilities class. */
 class IOUtils {
     /**
      * Finds the correct path to the file looking first on the (optional) base path

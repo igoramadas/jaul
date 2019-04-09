@@ -10,12 +10,13 @@ const path = require("path")
 /** @hidden */
 let lastCpuLoad = null
 
-/** Options for {@link SystemUtils.getInfo} */
+/** Options for [[getInfo]] */
 interface GetInfoOptions {
     /** If false, labels won't be added to the output (%, MB, etc). Default is true. */
     labels: boolean
 }
 
+/** Stats about the system, returned by [[getInfo]]. */
 interface SystemMetrics {
     /** System uptime as human readable string. */
     uptime: string
@@ -37,6 +38,7 @@ interface SystemMetrics {
     process: any
 }
 
+/** Describes a CPU load metric, returned by [[getCpuLoad]] */
 interface CpuLoad {
     /** Idle counter */
     idle: number
@@ -44,6 +46,7 @@ interface CpuLoad {
     total: number
 }
 
+/** System Utilities class. */
 class SystemUtils {
     /**
      * Return an object with general and health information about the system.

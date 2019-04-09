@@ -7,6 +7,7 @@ const ipaddr = require("ipaddr.js")
 /** @hidden */
 const os = require("os")
 
+/** Network Utilities class. */
 class NetworkUtils {
     /**
      * Returns a list of valid server IPv4 and/or IPv6 addresses.

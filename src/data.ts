@@ -3,6 +3,7 @@
 /** @hidden */
 const _ = require("lodash")
 
+/** Data Utilities class. */
 class DataUtils {
     /**
      * Removes all the specified characters from a string. For example you can cleanup
