@@ -83,7 +83,7 @@ describe("JAUL Data tests", function() {
 
     it("Minify a JSON string with comments, returning as JSON object", function(done) {
         let original = `
-        /* This is a multiline
+        /* This is a multiline \\
         comment */
         {
             "something": true,
@@ -137,6 +137,13 @@ describe("JAUL Data tests", function() {
         try {
             jaul.data.minifyJson(`/* unterminated block comment {"something": true} /* unterminated block comment`)
             done("Minifying an invalid JSON should throw an exception (unterminated block comment).")
+        } catch (ex) {
+            // do nothing
+        }
+
+        try {
+            jaul.data.minifyJson(`" test`)
+            done("Minifying an invalid JSON should throw an exception (unterminated string).")
         } catch (ex) {
             // do nothing
         }

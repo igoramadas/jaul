@@ -100,7 +100,7 @@ class IOUtils {
                         throw ex1
                     }
 
-                    /* istanbul ignore if */
+                    /* istanbul ignore next */
                     if (!stat.isDirectory()) {
                         ex.friendlyMessage = `Target ${p} is a file.`
                         throw ex

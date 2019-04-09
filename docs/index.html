@@ -70,7 +70,14 @@
 				<p>Because to this date I still haven&#39;t found a good mix of small
 					utilities modules for my projects. And most of the time using
 					too many external smaller modules might be a problem for
-				security and complexity (node_modules bombs anyone?).</p>
+				security and complexity. (node_modules exploding size anyone?)</p>
+				<h4 id="if-it-fails-it-throws">If it fails, it throws</h4>
+				<p>You&#39;ll never need to guess what&#39;s going on behind the scenes.
+					For instance if you try to minify an invalid JSON, it will
+				throw an exception.</p>
+				<h4 id="exceptions-with-friendly-messages">Exceptions with friendly messages</h4>
+				<p>Exceptions thrown on methods might have a <code>friendlyMessage</code>
+				property appended to them with extra information.</p>
 				<h2 id="what-types-of-utilities-">What types of utilities?</h2>
 				<p>They&#39;re separated on the following areas:</p>
 				<ul>
@@ -79,14 +86,58 @@
 					<li>Network</li>
 					<li>System</li>
 				</ul>
-				<h2 id="key-principles">Key principles</h2>
-				<h4 id="if-it-fails-it-throws">If it fails, it throws</h4>
-				<p>You&#39;ll never need to guess what&#39;s going on behind the scenes.
-					For instance if you try to minify an invalid JSON, it will
-				throw an exception.</p>
-				<h4 id="exceptions-with-friendly-messages">Exceptions with friendly messages</h4>
-				<p>Exceptions thrown on methods might have a <code>friendlyMessage</code>
-				property appended to them with extra information.</p>
+				<h2 id="basic-usage">Basic usage</h2>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> jaul = <span class="hljs-built_in">require</span>(<span class="hljs-string">"jaul"</span>)
+
+jaul.version <span class="hljs-comment">// current version</span></code></pre>
+				<h2 id="data-utils">Data Utils</h2>
+				<pre><code class="language-javascript"><span class="hljs-comment">// Removing characters from string</span>
+jaul.data.removeFromString(<span class="hljs-string">"A1A2A3"</span>, <span class="hljs-string">"A"</span>) <span class="hljs-comment">// 123</span>
+jaul.data.removeFromString(<span class="hljs-string">"A1A2A3"</span>, [<span class="hljs-string">"1"</span>, <span class="hljs-string">"2"</span>, <span class="hljs-string">"3"</span>]) <span class="hljs-comment">// AAA</span>
+
+<span class="hljs-comment">// Masking phone numbers</span>
+jaul.data.maskString(<span class="hljs-string">"55-1234-5678"</span>) <span class="hljs-comment">// **-****-****</span>
+jaul.data.maskString(<span class="hljs-string">"55-1234-5678"</span>, <span class="hljs-string">"#"</span>, <span class="hljs-number">4</span>) <span class="hljs-comment">// ##-####-5678</span>
+
+<span class="hljs-comment">// Minify JSON</span>
+jaul.data.minifyJson(someJsonStringWithComments) <span class="hljs-comment">// JSON object</span>
+
+<span class="hljs-comment">// Returns a random RFC4122 UID</span>
+jaul.data.uuid() <span class="hljs-comment">// ex. 12345678-1234-4444-y123-123457890111</span></code></pre>
+				<h2 id="io-utils">IO Utils</h2>
+				<pre><code class="language-javascript"><span class="hljs-comment">// Finds out the full path to the desired filename</span>
+jaul.io.getFilePath(<span class="hljs-string">"package.json"</span>) <span class="hljs-comment">// finds the package.json full path</span>
+jaul.io.getFilePath(<span class="hljs-string">"some-file.js"</span>, __dirname) <span class="hljs-comment">// specifying __dirname as base path</span>
+
+<span class="hljs-comment">// Copy file from source to target, sync</span>
+jaul.io.copyFileSync(<span class="hljs-string">"./source-file.json"</span>, <span class="hljs-string">"./folder/target.json"</span>) <span class="hljs-comment">// void</span>
+
+<span class="hljs-comment">// Ensure that target folder exists, recursively creating folders</span>
+jaul.io.mkdirRecursive(<span class="hljs-string">"path/to/some/deep/folder"</span>) <span class="hljs-comment">// void</span>
+
+<span class="hljs-comment">// Sleep code execution helper</span>
+<span class="hljs-keyword">await</span> jaul.io.sleep(<span class="hljs-number">1000</span>) <span class="hljs-comment">// wait 1 second</span></code></pre>
+				<h2 id="network-utils">Network Utils</h2>
+				<pre><code class="language-javascript"><span class="hljs-comment">// Get list of valid IPs on the system</span>
+jaul.network.getIP(<span class="hljs-string">"ipv4"</span>) <span class="hljs-comment">// array of IPv4 addresses</span>
+jaul.network.getIP(<span class="hljs-string">"ipv6"</span>) <span class="hljs-comment">// array of IPv6 addresses</span>
+jaul.network.getSingleIPv4() <span class="hljs-comment">// first valid IPv4 address</span>
+jaul.network.getSingleIPv6() <span class="hljs-comment">// first valid IPv6 address</span>
+
+<span class="hljs-comment">// Get IP address of client</span>
+jaul.network.getClientIP(req) <span class="hljs-comment">// IP address from http / express request object</span>
+jaul.network.getClientIP(sock) <span class="hljs-comment">// IP address from websocket request object</span>
+
+<span class="hljs-comment">// Check if specified IP is in range</span>
+jaul.network.ipInRange(<span class="hljs-string">"192.168.0.1"</span>, <span class="hljs-string">"192.168.0.0/24"</span>) <span class="hljs-comment">// true</span>
+jaul.network.ipInRange(<span class="hljs-string">"10.0.0.1"</span>, <span class="hljs-string">"192.168.0.0/32"</span>) <span class="hljs-comment">// false</span></code></pre>
+				<h2 id="system-utils">System Utils</h2>
+				<pre><code class="language-javascript"><span class="hljs-comment">// Get a summary of current system stats</span>
+jaul.system.getInfo() <span class="hljs-comment">// returns stats with labels (uptime, hostname, platform etc)</span>
+jaul.system.getInfo({<span class="hljs-attr">labels</span>: <span class="hljs-literal">false</span>}) <span class="hljs-comment">// returns stats without labels</span>
+
+<span class="hljs-comment">// Get current CPU load</span>
+jaul.system.getCpuLoad() <span class="hljs-comment">// returns CPU load info</span></code></pre>
 				<h2 id="api-documentation">API documentation</h2>
 				<p>You can browse the full API documentation at <a href="https://jaul.devv.com">https://jaul.devv.com</a>.</p>
 				<p>Or check these following modules that are using Jaul:</p>
