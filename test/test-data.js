@@ -87,7 +87,8 @@ describe("JAUL Data tests", function() {
         comment */
         {
             "something": true,
-            "somethingElse":   " space " //comments here
+            "somethingElse":   " space ", //comments here
+            "another": "\/escaped"
             // end
             /* Multiline comment
 
@@ -100,9 +101,9 @@ describe("JAUL Data tests", function() {
         `
 
         let minified = jaul.data.minifyJson(original)
-        let minifiedCompare = '{"something":true,"somethingElse":" space "}'
+        let minifiedCompare = '"something":true,"somethingElse":" space "'
 
-        if (minified.something && JSON.stringify(minified, null, 0) == minifiedCompare) {
+        if (minified.something && JSON.stringify(minified, null, 0).indexOf(minifiedCompare) > 0) {
             done()
         } else {
             done("JSON object was not minified properly.")
