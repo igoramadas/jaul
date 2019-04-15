@@ -1,5 +1,6 @@
 # JAUL
 
+[![Version](https://img.shields.io/npm/v/jaul.svg)](https://npmjs.com/package/jaul)
 [![Build Status](https://img.shields.io/travis/igoramadas/jaul.svg)](https://travis-ci.org/igoramadas/jaul)
 [![Coverage Status](https://img.shields.io/coveralls/igoramadas/jaul.svg)](https://coveralls.io/github/igoramadas/jaul?branch=master)
 
