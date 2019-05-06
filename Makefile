@@ -33,6 +33,7 @@ publish:
 update:
 	ncu -u
 	npm install
+	npm update
 	tsc
 
 .PHONY: test
