@@ -25,17 +25,16 @@ docs:
 
 clean:
 	rm -rf ./node_modules
+	rm -f package-lock.json
 
 publish:
 	tsc --removeComments
 	npm publish
 
 update:
-	rm package-lock.json
+	rm -f package-lock.json
 	ncu -u
 	npm install
-	npm update
 	tsc
 
-.PHONY: test
-.PHONY: docs
+.PHONY: docs test
