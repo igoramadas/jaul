@@ -5,7 +5,6 @@ const fs = require("fs")
 /** @hidden */
 const path = require("path")
 
-
 /** IO Utilities class. */
 class IOUtils {
     /**
@@ -24,15 +23,10 @@ class IOUtils {
         if (basepath) {
             filename = path.resolve(basepath, originalFilename)
             hasFile = fs.existsSync(filename)
+            /* istanbul ignore else */
             if (hasFile) {
                 return filename
             }
-        }
-
-        // Check if correct full path was passed.
-        hasFile = fs.existsSync(filename)
-        if (hasFile) {
-            return filename
         }
 
         // Try running directory.
@@ -45,6 +39,13 @@ class IOUtils {
 
         // Try application root path.
         filename = path.resolve(path.dirname(require.main.filename), originalFilename)
+        hasFile = fs.existsSync(filename)
+        /* istanbul ignore if */
+        if (hasFile) {
+            return filename
+        }
+
+        // Try local / absolute path.
         hasFile = fs.existsSync(filename)
         if (hasFile) {
             return filename
