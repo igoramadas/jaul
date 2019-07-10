@@ -1,5 +1,9 @@
 # Changelog for JAUL
 
+1.0.5
+=====
+* Updated dependencies.
+
 1.0.4
 =====
 * IO getFilePath() will try local / absolute path last.
