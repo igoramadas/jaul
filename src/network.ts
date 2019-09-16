@@ -7,7 +7,6 @@ const ipaddr = require("ipaddr.js")
 /** @hidden */
 const os = require("os")
 
-
 /** Network Utilities class. */
 class NetworkUtils {
     /**
