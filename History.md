@@ -2,6 +2,7 @@
 
 1.1.0
 =====
+* General refactoring.
 * Updated dependencies.
 
 1.0.5

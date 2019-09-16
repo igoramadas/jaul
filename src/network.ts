@@ -1,11 +1,11 @@
 // JAUL: network.ts
 
 /** @hidden */
-const _ = require("lodash")
+import _ = require("lodash")
 /** @hidden */
-const ipaddr = require("ipaddr.js")
+import ipaddr = require("ipaddr.js")
 /** @hidden */
-const os = require("os")
+import os = require("os")
 
 /** Network Utilities class. */
 class NetworkUtils {
@@ -94,7 +94,7 @@ class NetworkUtils {
     }
 
     /**
-     * Check if a specific IP is in the provided range.
+     * Check if a specific is in the provided range.
      * @param ip The IP to be checked (IPv4 or IPv6).
      * @param range A string or array of strings representing the valid ranges.
      * @returns True if IP is in range, false otherwise.
@@ -106,10 +106,9 @@ class NetworkUtils {
             // Range is a subnet? Then parse the IP address and check each block against the range.
             if (range.indexOf("/") >= 0) {
                 try {
-                    const rangeArr = (range as string).split("/")
-                    const rangeParsed = ipaddr.parse(rangeArr[0])
-
-                    return ipParsed.match(rangeParsed, rangeArr[1])
+                    const rangeParsed = ipaddr.parseCIDR(range as string)
+                    // @ts-ignore
+                    return ipParsed.match(rangeParsed)
                 } catch (err) {
                     return false
                 }
@@ -119,7 +118,7 @@ class NetworkUtils {
                 return ip === range
             }
         } else if (_.isObject(range)) {
-            // Array of IP ranges, check each one of them.
+            // Array of IP ranges, check each one of them.v
             for (let r in range as string[]) {
                 if (this.ipInRange(ip, range[r])) {
                     return true

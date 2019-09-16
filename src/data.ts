@@ -1,7 +1,7 @@
 // JAUL: data.ts
 
 /** @hidden */
-const _ = require("lodash")
+import _ = require("lodash")
 
 /** Data Utilities class. */
 class DataUtils {

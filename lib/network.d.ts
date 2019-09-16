@@ -23,7 +23,7 @@ declare class NetworkUtils {
      */
     static getClientIP(reqOrSocket: any): string;
     /**
-     * Check if a specific IP is in the provided range.
+     * Check if a specific is in the provided range.
      * @param ip The IP to be checked (IPv4 or IPv6).
      * @param range A string or array of strings representing the valid ranges.
      * @returns True if IP is in range, false otherwise.

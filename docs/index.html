@@ -62,22 +62,32 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="jaul">JAUL</h1>
+				<a href="#jaul" id="jaul" style="color: inherit; text-decoration: none;">
+					<h1>JAUL</h1>
+				</a>
 				<p><a href="https://npmjs.com/package/jaul"><img src="https://img.shields.io/npm/v/jaul.svg" alt="Version"></a>
 					<a href="https://travis-ci.org/igoramadas/jaul"><img src="https://img.shields.io/travis/igoramadas/jaul.svg" alt="Build Status"></a>
 				<a href="https://coveralls.io/github/igoramadas/jaul?branch=master"><img src="https://img.shields.io/coveralls/igoramadas/jaul.svg" alt="Coverage Status"></a></p>
 				<p>JAUL = Just Another Utilities Library</p>
-				<h2 id="what-why-">What? Why?</h2>
+				<a href="#what-why" id="what-why" style="color: inherit; text-decoration: none;">
+					<h2>What? Why?</h2>
+				</a>
 				<p>Because to this date I still haven&#39;t found a good mix of small
 				utilities modules for my projects.</p>
-				<h4 id="if-it-fails-it-throws">If it fails, it throws</h4>
+				<a href="#if-it-fails-it-throws" id="if-it-fails-it-throws" style="color: inherit; text-decoration: none;">
+					<h4>If it fails, it throws</h4>
+				</a>
 				<p>You&#39;ll never need to guess what&#39;s going on behind the scenes.
 					For instance if you try to minify an invalid JSON, it will
 				throw an exception.</p>
-				<h4 id="exceptions-with-friendly-messages">Exceptions with friendly messages</h4>
+				<a href="#exceptions-with-friendly-messages" id="exceptions-with-friendly-messages" style="color: inherit; text-decoration: none;">
+					<h4>Exceptions with friendly messages</h4>
+				</a>
 				<p>Exceptions thrown on methods might have a <code>friendlyMessage</code>
 				property appended to them with extra information.</p>
-				<h2 id="what-types-of-utilities-">What types of utilities?</h2>
+				<a href="#what-types-of-utilities" id="what-types-of-utilities" style="color: inherit; text-decoration: none;">
+					<h2>What types of utilities?</h2>
+				</a>
 				<p>They&#39;re separated on the following areas:</p>
 				<ul>
 					<li>Data</li>
@@ -85,11 +95,15 @@
 					<li>Network</li>
 					<li>System</li>
 				</ul>
-				<h2 id="basic-usage">Basic usage</h2>
+				<a href="#basic-usage" id="basic-usage" style="color: inherit; text-decoration: none;">
+					<h2>Basic usage</h2>
+				</a>
 				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> jaul = <span class="hljs-built_in">require</span>(<span class="hljs-string">"jaul"</span>)
 
 jaul.version <span class="hljs-comment">// current version</span></code></pre>
-				<h2 id="data-utils">Data Utils</h2>
+				<a href="#data-utils" id="data-utils" style="color: inherit; text-decoration: none;">
+					<h2>Data Utils</h2>
+				</a>
 				<pre><code class="language-javascript"><span class="hljs-comment">// Removing characters from string</span>
 jaul.data.removeFromString(<span class="hljs-string">"A1A2A3"</span>, <span class="hljs-string">"A"</span>) <span class="hljs-comment">// 123</span>
 jaul.data.removeFromString(<span class="hljs-string">"A1A2A3"</span>, [<span class="hljs-string">"1"</span>, <span class="hljs-string">"2"</span>, <span class="hljs-string">"3"</span>]) <span class="hljs-comment">// AAA</span>
@@ -103,7 +117,9 @@ jaul.data.minifyJson(someJsonStringWithComments) <span class="hljs-comment">// J
 
 <span class="hljs-comment">// Returns a random RFC4122 UID</span>
 jaul.data.uuid() <span class="hljs-comment">// ex. 12345678-1234-4444-y123-123457890111</span></code></pre>
-				<h2 id="io-utils">IO Utils</h2>
+				<a href="#io-utils" id="io-utils" style="color: inherit; text-decoration: none;">
+					<h2>IO Utils</h2>
+				</a>
 				<pre><code class="language-javascript"><span class="hljs-comment">// Finds out the full path to the desired filename</span>
 jaul.io.getFilePath(<span class="hljs-string">"package.json"</span>) <span class="hljs-comment">// finds the package.json full path</span>
 jaul.io.getFilePath(<span class="hljs-string">"some-file.js"</span>, __dirname) <span class="hljs-comment">// specifying __dirname as base path</span>
@@ -116,7 +132,9 @@ jaul.io.mkdirRecursive(<span class="hljs-string">"path/to/some/deep/folder"</spa
 
 <span class="hljs-comment">// Sleep code execution helper</span>
 <span class="hljs-keyword">await</span> jaul.io.sleep(<span class="hljs-number">1000</span>) <span class="hljs-comment">// wait 1 second</span></code></pre>
-				<h2 id="network-utils">Network Utils</h2>
+				<a href="#network-utils" id="network-utils" style="color: inherit; text-decoration: none;">
+					<h2>Network Utils</h2>
+				</a>
 				<pre><code class="language-javascript"><span class="hljs-comment">// Get list of valid IPs on the system</span>
 jaul.network.getIP(<span class="hljs-string">"ipv4"</span>) <span class="hljs-comment">// array of IPv4 addresses</span>
 jaul.network.getIP(<span class="hljs-string">"ipv6"</span>) <span class="hljs-comment">// array of IPv6 addresses</span>
@@ -130,14 +148,18 @@ jaul.network.getClientIP(sock) <span class="hljs-comment">// IP address from web
 <span class="hljs-comment">// Check if specified IP is in range</span>
 jaul.network.ipInRange(<span class="hljs-string">"192.168.0.1"</span>, <span class="hljs-string">"192.168.0.0/24"</span>) <span class="hljs-comment">// true</span>
 jaul.network.ipInRange(<span class="hljs-string">"10.0.0.1"</span>, <span class="hljs-string">"192.168.0.0/32"</span>) <span class="hljs-comment">// false</span></code></pre>
-				<h2 id="system-utils">System Utils</h2>
+				<a href="#system-utils" id="system-utils" style="color: inherit; text-decoration: none;">
+					<h2>System Utils</h2>
+				</a>
 				<pre><code class="language-javascript"><span class="hljs-comment">// Get a summary of current system stats</span>
 jaul.system.getInfo() <span class="hljs-comment">// returns stats with labels (uptime, hostname, platform etc)</span>
 jaul.system.getInfo({<span class="hljs-attr">labels</span>: <span class="hljs-literal">false</span>}) <span class="hljs-comment">// returns stats without labels</span>
 
 <span class="hljs-comment">// Get current CPU load</span>
 jaul.system.getCpuLoad() <span class="hljs-comment">// returns CPU load info</span></code></pre>
-				<h2 id="api-documentation">API documentation</h2>
+				<a href="#api-documentation" id="api-documentation" style="color: inherit; text-decoration: none;">
+					<h2>API documentation</h2>
+				</a>
 				<p>You can browse the full API documentation at <a href="https://jaul.devv.com">https://jaul.devv.com</a>.</p>
 				<p>Or check these following modules that are using Jaul:</p>
 				<ul>
@@ -188,6 +210,7 @@ jaul.system.getCpuLoad() <span class="hljs-comment">// returns CPU load info</sp
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -236,7 +259,7 @@ jaul.system.getCpuLoad() <span class="hljs-comment">// returns CPU load info</sp
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>

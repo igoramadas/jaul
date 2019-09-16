@@ -1,9 +1,9 @@
 // JAUL: io.ts
 
 /** @hidden */
-const fs = require("fs")
+import fs = require("fs")
 /** @hidden */
-const path = require("path")
+import path = require("path")
 
 /** IO Utilities class. */
 class IOUtils {

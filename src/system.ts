@@ -1,11 +1,11 @@
 // JAUL: system.ts
 
 /** @hidden */
-const moment = require("moment")
+import moment = require("moment")
 /** @hidden */
-const os = require("os")
+import os = require("os")
 /** @hidden */
-const path = require("path")
+import path = require("path")
 
 /** @hidden */
 let lastCpuLoad = null
