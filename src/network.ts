@@ -73,11 +73,16 @@ class NetworkUtils {
             return null
         }
 
-        // Try getting the xforwarded header first.
-        if (reqOrSocket.header != null) {
-            const xfor = reqOrSocket.header("X-Forwarded-For")
+        // Try getting IP from headers first.
+        if (reqOrSocket.get) {
+            const xfor = reqOrSocket.get("X-Forwarded-For")
             if (xfor != null && xfor != "") {
                 return xfor.split(",")[0]
+            }
+
+            const xreal = reqOrSocket.get("X-Real-IP")
+            if (xreal != null && xreal != "") {
+                return xreal
             }
         }
 
