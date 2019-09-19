@@ -2,7 +2,14 @@
     "name": "jaul",
     "version": "1.1.1",
     "description": "Just another utilities library. But a good one.",
-    "keywords": ["jaul", "utils", "utilities", "network", "io", "system"],
+    "keywords": [
+        "jaul",
+        "utils",
+        "utilities",
+        "network",
+        "io",
+        "system"
+    ],
     "author": "Igor Ramadas <igor@devv.com>",
     "homepage": "https://jaul.devv.com",
     "subdomain": "jaul",
