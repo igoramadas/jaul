@@ -1,5 +1,9 @@
 # Changelog for JAUL
 
+1.1.2
+=====
+* Updated dependencies.
+
 1.1.1
 =====
 * Network getClientIP() checks for additional headers.
