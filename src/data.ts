@@ -214,94 +214,98 @@ class DataUtils {
         for (let i = 0, length = html.length; i < length; i++) {
             let char = html[i]
 
-            if (state === PLAINTEXT) {
-                switch (char) {
-                    case "<":
-                        state = HTML
-                        tagBuffer += char
-                        break
-
-                    default:
-                        output += char
-                        break
-                }
-            } else if (state === HTML) {
-                switch (char) {
-                    case "<":
-                        if (qChar) {
+            try {
+                if (state === PLAINTEXT) {
+                    switch (char) {
+                        case "<":
+                            state = HTML
+                            tagBuffer += char
                             break
-                        }
 
-                        depth++
-                        break
-
-                    case ">":
-                        if (qChar) {
+                        default:
+                            output += char
                             break
-                        }
+                    }
+                } else if (state === HTML) {
+                    switch (char) {
+                        case "<":
+                            if (qChar) {
+                                break
+                            }
 
-                        if (depth) {
-                            depth--
+                            depth++
                             break
-                        }
 
-                        qChar = ""
-                        state = PLAINTEXT
-                        tagBuffer += ">"
-                        output += tagReplace
-                        tagBuffer = ""
-                        break
+                        case ">":
+                            if (qChar) {
+                                break
+                            }
 
-                    case '"':
-                    case "'":
-                        if (char === qChar) {
+                            if (depth) {
+                                depth--
+                                break
+                            }
+
                             qChar = ""
-                        } else {
-                            qChar = qChar || char
-                        }
-
-                        tagBuffer += char
-                        break
-
-                    case "-":
-                        if (tagBuffer === "<!-") {
-                            state = COMMENT
-                        }
-
-                        tagBuffer += char
-                        break
-
-                    case " ":
-                    case "\n":
-                        if (tagBuffer === "<") {
                             state = PLAINTEXT
-                            output += "< "
+                            tagBuffer += ">"
+                            output += tagReplace
                             tagBuffer = ""
-
                             break
-                        }
 
-                        tagBuffer += char
-                        break
+                        case '"':
+                        case "'":
+                            if (char === qChar) {
+                                qChar = ""
+                            } else {
+                                qChar = qChar || char
+                            }
 
-                    default:
-                        tagBuffer += char
-                        break
+                            tagBuffer += char
+                            break
+
+                        case "-":
+                            if (tagBuffer === "<!-") {
+                                state = COMMENT
+                            }
+
+                            tagBuffer += char
+                            break
+
+                        case " ":
+                        case "\n":
+                            if (tagBuffer === "<") {
+                                state = PLAINTEXT
+                                output += "< "
+                                tagBuffer = ""
+
+                                break
+                            }
+
+                            tagBuffer += char
+                            break
+
+                        default:
+                            tagBuffer += char
+                            break
+                    }
+                } else if (state === COMMENT) {
+                    switch (char) {
+                        case ">":
+                            if (tagBuffer.slice(-2) == "--") {
+                                state = PLAINTEXT
+                            }
+
+                            tagBuffer = ""
+                            break
+
+                        default:
+                            tagBuffer += char
+                            break
+                    }
                 }
-            } else if (state === COMMENT) {
-                switch (char) {
-                    case ">":
-                        if (tagBuffer.slice(-2) == "--") {
-                            state = PLAINTEXT
-                        }
-
-                        tagBuffer = ""
-                        break
-
-                    default:
-                        tagBuffer += char
-                        break
-                }
+            } catch (ex) {
+                // Ignore errors
             }
         }
 

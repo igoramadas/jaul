@@ -158,16 +158,25 @@ describe("JAUL Data tests", function() {
     })
 
     it("Strips tags replace on HTML with comments", function(done) {
+        let text = jaul.data.stripHtml("")
+
+        if (text !== "") {
+            return done("Stripping from empty string should return another empty string.")
+        }
+
         let html = `
-        <!–– Some comment -->
-        <div class="a">Empty</div>'String'<b disabled='1'>Works</b>`
+<!–– Some - comment -->
+<!–– - Comment with <tags> -->
+<div class="a">This</div>'is'<b disabled='1'>a</b><
+test`
 
-        let text = jaul.data.stripHtml(html).trim()
+        const expected = "This 'is' a < test"
+        text = jaul.data.stripHtml(html).trim()
 
-        if (text == "Empty 'String' Works") {
+        if (text == expected) {
             done()
         } else {
-            done(`Stripping result should be EmptyStringWorks, but got ${text}`)
+            done(`Stripping result should be (${expected}), but got (${text}).`)
         }
     })
 
