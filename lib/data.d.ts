@@ -25,6 +25,13 @@ declare class DataUtils {
      */
     static minifyJson(source: string, asString?: boolean): any;
     /**
+     * Strips all the HTML tags from the specified value and returns only the text.
+     * Tags will be replaced with an empty space by default.
+     * @param value The HTML string to be converted to only text.
+     * @param tagReplace Replace tags with that value
+     */
+    static stripHtml(html: string, tagReplace?: string): string;
+    /**
      * Generates a RFC4122-compliant unique ID using random numbers.
      * @returns A unique ID.
      */

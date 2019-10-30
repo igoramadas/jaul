@@ -1,5 +1,10 @@
 # Changelog for JAUL
 
+1.2.0
+=====
+* New data.stripHtml() to remove HTML tags from text.
+* Updated dependencies.
+
 1.1.2
 =====
 * Updated dependencies.

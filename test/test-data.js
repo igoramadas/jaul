@@ -157,6 +157,33 @@ describe("JAUL Data tests", function() {
         }
     })
 
+    it("Strips tags replace on HTML with comments", function(done) {
+        let html = `
+        <!–– Some comment -->
+        <div class="a">Empty</div>'String'<b disabled='1'>Works</b>`
+
+        let text = jaul.data.stripHtml(html).trim()
+
+        if (text == "Empty 'String' Works") {
+            done()
+        } else {
+            done(`Stripping result should be EmptyStringWorks, but got ${text}`)
+        }
+    })
+
+    it("Strips tags from valid HTML, replacing with empty string", function(done) {
+        let html1 = `<body><div>This</div><br><br /><br><p>And body</p><footer>Free from tags!</footer><<>></body>`
+        let html2 = `<div>This</div><br><p>And body</p><strong><br />Free from tags!</strong>`
+        let text1 = jaul.data.stripHtml(html1, "")
+        let text2 = jaul.data.stripHtml(html2, "")
+
+        if (text1 == text2) {
+            done()
+        } else {
+            done("The 2 HTML values should return the same text after sstripping the tags.")
+        }
+    })
+
     it("Generate unique IDs", function(done) {
         let ids = []
         let max = 500
