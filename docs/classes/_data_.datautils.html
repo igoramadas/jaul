@@ -92,6 +92,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_data_.datautils.html#maskstring" class="tsd-kind-icon">mask<wbr>String</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_data_.datautils.html#minifyjson" class="tsd-kind-icon">minify<wbr>Json</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_data_.datautils.html#removefromstring" class="tsd-kind-icon">remove<wbr>From<wbr>String</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_data_.datautils.html#striphtml" class="tsd-kind-icon">strip<wbr>Html</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_data_.datautils.html#uuid" class="tsd-kind-icon">uuid</a></li>
 							</ul>
 						</section>
@@ -110,7 +111,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/b0fdcd2/src/data.ts#L42">data.ts:42</a></li>
+									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/27e795c/src/data.ts#L42">data.ts:42</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -155,7 +156,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/b0fdcd2/src/data.ts#L92">data.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/27e795c/src/data.ts#L92">data.ts:92</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -193,7 +194,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/b0fdcd2/src/data.ts#L15">data.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/27e795c/src/data.ts#L15">data.ts:15</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -223,6 +224,41 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="striphtml" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> strip<wbr>Html</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">strip<wbr>Html<span class="tsd-signature-symbol">(</span>html<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, tagReplace<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/27e795c/src/data.ts#L189">data.ts:189</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Strips all the HTML tags from the specified value and returns only the text.
+									Tags will be replaced with an empty space by default.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>html: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> tagReplace: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Replace tags with that value</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
 					<a name="uuid" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> uuid</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
@@ -232,7 +268,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/b0fdcd2/src/data.ts#L187">data.ts:187</a></li>
+									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/27e795c/src/data.ts#L319">data.ts:319</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -285,6 +321,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="_data_.datautils.html#removefromstring" class="tsd-kind-icon">remove<wbr>From<wbr>String</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="_data_.datautils.html#striphtml" class="tsd-kind-icon">strip<wbr>Html</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="_data_.datautils.html#uuid" class="tsd-kind-icon">uuid</a>
