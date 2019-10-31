@@ -32,7 +32,7 @@
         "moment": "^2.24.0"
     },
     "devDependencies": {
-        "@types/node": "^12.12.1",
+        "@types/node": "^12.12.3",
         "chai": "^4.2.0",
         "coveralls": "^3.0.7",
         "express": "^4.17.1",
