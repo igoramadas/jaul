@@ -50,14 +50,17 @@ describe("JAUL Data tests", function() {
 
     it("Replace tags on text with values from object", function(done) {
         let empty = jaul.data.replaceTags(null, {a: 1})
-
         if (empty !== "") {
             return done("Calling replaceTags() passing a null value should return an empty string")
         }
 
+        let noObj = jaul.data.replaceTags("Nothing to ${replace}", null)
+        if (noObj !== "Nothing to ${replace}") {
+            return done("Calling replaceTags() passing no object should return the text itself")
+        }
+
         let expected = "This is a test"
         let text = jaul.data.replaceTags("This ${a} a ${b}", {a: "is", b: "test"})
-
         if (text != expected) {
             done(`Expected "${expected}", but got "${text}"`)
         }

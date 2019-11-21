@@ -43,12 +43,17 @@ class DataUtils {
             return ""
         }
 
+        if (!obj) {
+            return text
+        }
+
         // State variable.
-        let keepGoing = true
+        let keepGoing: boolean = true
 
         // Replace while we have more text to be processed.
         do {
             let beforeReplace = text
+
             const replacer = (wholeMatch, key) => {
                 let substitution = obj[key.trim()]
                 return substitution === undefined ? wholeMatch : substitution.toString()
