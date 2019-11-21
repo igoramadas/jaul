@@ -80,6 +80,16 @@ class NetworkUtils {
                 return xfor.split(",")[0]
             }
 
+            const forwarded = reqOrSocket.get("Forwarded")
+            if (forwarded != null && forwarded != "") {
+                const arr = forwarded.split(";")
+                for (let a of arr) {
+                    if (a.indexOf("for=") >= 0) {
+                        return a.replace("for=", "").trim()
+                    }
+                }
+            }
+
             const xreal = reqOrSocket.get("X-Real-IP")
             if (xreal != null && xreal != "") {
                 return xreal

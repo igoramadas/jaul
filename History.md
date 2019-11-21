@@ -1,5 +1,10 @@
 # Changelog for JAUL
 
+1.2.2
+=====
+* New data.replaceTags() to replace tags on a string with values from an object.
+* Now network.getClientIP() also checks for the Forwarded header.
+
 1.2.0
 =====
 * New data.stripHtml() to remove HTML tags from text.
