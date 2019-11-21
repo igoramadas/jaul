@@ -9,6 +9,14 @@ declare class DataUtils {
      */
     static removeFromString(value: string, charsToRemove: any[] | string): string;
     /**
+     * Replace tags on the passed text with values from the passed object.
+     * It follows the TypeScript default format: ${property_name}
+     * @param text The text with tags to be replaced.
+     * @param obj Object containing the keys and values for tag replacement.
+     * @returns Text with tags replaced by object's values.
+     */
+    static replaceTags: (text: string, obj: any) => string;
+    /**
      * Masks the specified string. For eaxmple to mask a phone number but leave the
      * last 4 digits visible you could use maskString(phone, "X", 4).
      * @param value The original value to be masked.

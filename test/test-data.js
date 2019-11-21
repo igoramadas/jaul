@@ -48,6 +48,23 @@ describe("JAUL Data tests", function() {
         }
     })
 
+    it("Replace tags on text with values from object", function(done) {
+        let empty = jaul.data.replaceTags(null, {a: 1})
+
+        if (empty !== "") {
+            return done("Calling replaceTags() passing a null value should return an empty string")
+        }
+
+        let expected = "This is a test"
+        let text = jaul.data.replaceTags("This ${a} a ${b}", {a: "is", b: "test"})
+
+        if (text != expected) {
+            done(`Expected "${expected}", but got "${text}"`)
+        }
+
+        done()
+    })
+
     it("Mask password with defaults", function(done) {
         let original = "password"
         let masked = jaul.data.maskString(original)

@@ -32,6 +32,36 @@ class DataUtils {
     }
 
     /**
+     * Replace tags on the passed text with values from the passed object.
+     * It follows the TypeScript default format: ${property_name}
+     * @param text The text with tags to be replaced.
+     * @param obj Object containing the keys and values for tag replacement.
+     * @returns Text with tags replaced by object's values.
+     */
+    static replaceTags = (text: string, obj: any): string => {
+        if (!text) {
+            return ""
+        }
+
+        // State variable.
+        let keepGoing = true
+
+        // Replace while we have more text to be processed.
+        do {
+            let beforeReplace = text
+            const replacer = (wholeMatch, key) => {
+                let substitution = obj[key.trim()]
+                return substitution === undefined ? wholeMatch : substitution.toString()
+            }
+
+            text = text.replace(/\${([^}]+)}/g, replacer)
+            keepGoing = text !== beforeReplace
+        } while (keepGoing)
+
+        return text
+    }
+
+    /**
      * Masks the specified string. For eaxmple to mask a phone number but leave the
      * last 4 digits visible you could use maskString(phone, "X", 4).
      * @param value The original value to be masked.
