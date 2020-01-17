@@ -1,5 +1,9 @@
 # Changelog for JAUL
 
+1.2.3
+=====
+* Updated dependencies.
+
 1.2.2
 =====
 * New data.replaceTags() to replace tags on a string with values from an object.
