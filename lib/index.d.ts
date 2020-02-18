@@ -1,14 +1,24 @@
-/** Exposes all utilities under their respective categories. */
-declare let index: {
+import DataUtils = require("./data");
+import IOUtils = require("./io");
+import NetworkUtils = require("./network");
+import SystemUtils = require("./system");
+/** Main JAUL class. */
+declare class JAUL {
+    private static _instance;
+    /** @hidden */
+    static get Instance(): JAUL;
+    /** Returns a new fresh instance of the App module. */
+    newInstance(): JAUL;
+    /** Default App constructor. */
+    constructor();
     /** [[DataUtils]] exposed as .data */
-    data: any;
+    data: DataUtils;
     /** [[IOUtils]] exposed as .io */
-    io: any;
+    io: IOUtils;
     /** [[NetworkUtils]] exposed as .network */
-    network: any;
+    network: NetworkUtils;
     /** [[SystemUtils]] exposed as .system */
-    system: any;
-    /** Library version */
-    version: any;
-};
-export = index;
+    system: SystemUtils;
+}
+declare const _default: JAUL;
+export = _default;

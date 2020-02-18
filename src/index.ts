@@ -1,27 +1,40 @@
 // JAUL: index.ts
 
-/** @hidden */
-let version
+import DataUtils = require("./data")
+import IOUtils = require("./io")
+import NetworkUtils = require("./network")
+import SystemUtils = require("./system")
 
-// Get package version.
-try {
-    version = JSON.parse(require("fs").readFileSync(`${__dirname}/../package.json`, {encoding: "utf8"})).version
-} catch (ex) {
-    version = null
-}
+/** Main JAUL class. */
+class JAUL {
+    private static _instance: JAUL
+    /** @hidden */
+    static get Instance() {
+        return this._instance || (this._instance = new this())
+    }
 
-/** Exposes all utilities under their respective categories. */
-let index = {
+    /** Returns a new fresh instance of the App module. */
+    newInstance(): JAUL {
+        return new JAUL()
+    }
+
+    /** Default App constructor. */
+    constructor() {
+        this.version = JSON.parse(require("fs").readFileSync(`${__dirname}/../package.json`, {encoding: "utf8"})).version
+    }
+
     /** [[DataUtils]] exposed as .data */
-    data: require("./data"),
+    data: DataUtils = require("./data")
+
     /** [[IOUtils]] exposed as .io */
-    io: require("./io"),
+    io: IOUtils = require("./io")
+
     /** [[NetworkUtils]] exposed as .network */
-    network: require("./network"),
+    network: NetworkUtils = require("./network")
+
     /** [[SystemUtils]] exposed as .system */
-    system: require("./system"),
-    /** Library version */
-    version: version
+    system: SystemUtils = require("./system")
 }
 
-export = index
+// Exports...
+export = JAUL.Instance
