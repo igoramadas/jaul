@@ -1,9 +1,9 @@
 // JAUL: index.ts
 
-import DataUtils = require("./data")
-import IOUtils = require("./io")
-import NetworkUtils = require("./network")
-import SystemUtils = require("./system")
+import {DataUtils} from "./data"
+import {IOUtils} from "./io"
+import {NetworkUtils} from "./network"
+import {SystemUtils} from "./system"
 
 /** Main JAUL class. */
 class JAUL {
@@ -22,16 +22,16 @@ class JAUL {
     version: string = JSON.parse(require("fs").readFileSync(`${__dirname}/../package.json`, {encoding: "utf8"})).version
 
     /** [[DataUtils]] exposed as .data */
-    data: DataUtils = require("./data")
+    data: DataUtils = DataUtils.Instance
 
     /** [[IOUtils]] exposed as .io */
-    io: IOUtils = require("./io")
+    io: IOUtils = IOUtils.Instance
 
     /** [[NetworkUtils]] exposed as .network */
-    network: NetworkUtils = require("./network")
+    network: NetworkUtils = NetworkUtils.Instance
 
     /** [[SystemUtils]] exposed as .system */
-    system: SystemUtils = require("./system")
+    system: SystemUtils = SystemUtils.Instance
 }
 
 // Exports...

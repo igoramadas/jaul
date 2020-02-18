@@ -6,7 +6,13 @@ import fs = require("fs")
 import path = require("path")
 
 /** IO Utilities class. */
-class IOUtils {
+export class IOUtils {
+    private static _instance: IOUtils
+    /** @hidden */
+    static get Instance() {
+        return this._instance || (this._instance = new this())
+    }
+
     /**
      * Finds the correct path to the file looking first on the (optional) base path
      * then the current or running directory, finally the root directory.
@@ -15,7 +21,7 @@ class IOUtils {
      * @param basepath Optional, basepath where to look for the file.
      * @returns The full path to the file if one was found, or null if not found.
      */
-    static getFilePath(filename: string, basepath?: string): string {
+    getFilePath = (filename: string, basepath?: string): string => {
         const originalFilename = filename.toString()
         let hasFile = false
 
@@ -60,7 +66,7 @@ class IOUtils {
      * @param source The full source file path.
      * @param target The full target file path.
      */
-    static copyFileSync(source: string, target: string): void {
+    copyFileSync = (source: string, target: string): void => {
         const fileBuffer = fs.readFileSync(source)
         fs.writeFileSync(target, fileBuffer)
     }
@@ -70,7 +76,7 @@ class IOUtils {
      * and creating the directories.
      * @param target The full target path, with or without a trailing slash.
      */
-    static mkdirRecursive(target: string): void {
+    mkdirRecursive = (target: string): void => {
         let stat
 
         // Check if exists and not a file.
@@ -120,7 +126,7 @@ class IOUtils {
      * @param number - How long to stall the execution for, in milliseconds.
      * @returns A promise with a setTimeout for the specified milliseconds.
      */
-    static sleep(ms: number): Promise<Function> {
+    sleep = (ms: number): Promise<Function> => {
         return new Promise(function(resolve) {
             return setTimeout(resolve, ms)
         })
@@ -128,4 +134,4 @@ class IOUtils {
 }
 
 // Exports...
-export = IOUtils
+export default IOUtils.Instance

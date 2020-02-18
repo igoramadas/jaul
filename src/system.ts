@@ -47,13 +47,19 @@ interface CpuLoad {
 }
 
 /** System Utilities class. */
-class SystemUtils {
+export class SystemUtils {
+    private static _instance: SystemUtils
+    /** @hidden */
+    static get Instance() {
+        return this._instance || (this._instance = new this())
+    }
+
     /**
      * Return an object with general and health information about the system.
      * @param options - Options to define the output.
      * @returns Object with system metrics attached.
      */
-    static getInfo(options: GetInfoOptions): SystemMetrics {
+    getInfo = (options: GetInfoOptions): SystemMetrics => {
         if (options == null) {
             options = {labels: true}
         }
@@ -104,7 +110,7 @@ class SystemUtils {
      * Get current CPU load, used by getInfo().
      * @returns CPU load information with idle and total counters.
      */
-    static getCpuLoad(): CpuLoad {
+    getCpuLoad = (): CpuLoad => {
         let totalIdle = 0
         let totalTick = 0
         const cpus = os.cpus()
@@ -126,4 +132,4 @@ class SystemUtils {
 }
 
 // Exports...
-export = SystemUtils
+export default SystemUtils.Instance

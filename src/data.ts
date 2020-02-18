@@ -4,7 +4,13 @@
 import _ = require("lodash")
 
 /** Data Utilities class. */
-class DataUtils {
+export class DataUtils {
+    private static _instance: DataUtils
+    /** @hidden */
+    static get Instance() {
+        return this._instance || (this._instance = new this())
+    }
+
     /**
      * Removes all the specified characters from a string. For example you can cleanup
      * a phone number by using removeFromString(phone, [" ", "-", "(", ")", "/"]).
@@ -12,7 +18,7 @@ class DataUtils {
      * @param charsToRemove Array of characters or single string to be removed from the original string.
      * @returns Value with the characters removed.
      */
-    static removeFromString(value: string, charsToRemove: any[] | string): string {
+    removeFromString = (value: string, charsToRemove: any[] | string): string => {
         if (!value) {
             return value
         }
@@ -38,7 +44,7 @@ class DataUtils {
      * @param obj Object containing the keys and values for tag replacement.
      * @returns Text with tags replaced by object's values.
      */
-    static replaceTags = (text: string, obj: any): string => {
+    replaceTags = (text: string, obj: any): string => {
         if (!text) {
             return ""
         }
@@ -74,7 +80,7 @@ class DataUtils {
      * @param leaveLast Optional, leave last X positions of the string unmasked, default is 0.
      * @returns The masked string.
      */
-    static maskString(value: string, maskChar?: string, leaveLast?: number): string {
+    maskString = (value: string, maskChar?: string, leaveLast?: number): string => {
         if (!value) {
             return value
         }
@@ -124,7 +130,7 @@ class DataUtils {
      * @param asString If true, return as string instead of JSON object, default is false.
      * @returns The minified JSON as object or string, depending on asString.
      */
-    static minifyJson(source: string, asString?: boolean): any {
+    minifyJson = (source: string, asString?: boolean): any => {
         if (_.isObject(source)) {
             source = JSON.stringify(source, null, 0)
         }
@@ -221,7 +227,7 @@ class DataUtils {
      * @param value The HTML string to be converted to only text.
      * @param tagReplace Replace tags with that value
      */
-    static stripHtml(html: string, tagReplace?: string): string {
+    stripHtml = (html: string, tagReplace?: string): string => {
         if (!html || html == "") {
             return ""
         }
@@ -351,7 +357,7 @@ class DataUtils {
      * Generates a RFC4122-compliant unique ID using random numbers.
      * @returns A unique ID.
      */
-    static uuid(): string {
+    uuid = (): string => {
         const baseStr = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
 
         const generator = function(c) {
@@ -365,4 +371,4 @@ class DataUtils {
 }
 
 // Exports...
-export = DataUtils
+export default DataUtils.Instance

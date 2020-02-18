@@ -8,13 +8,19 @@ import ipaddr = require("ipaddr.js")
 import os = require("os")
 
 /** Network Utilities class. */
-class NetworkUtils {
+export class NetworkUtils {
+    private static _instance: NetworkUtils
+    /** @hidden */
+    static get Instance() {
+        return this._instance || (this._instance = new this())
+    }
+
     /**
      * Returns a list of valid server IPv4 and/or IPv6 addresses.
      * @param family IP family to be retrieved, can be "IPv4" or "IPv6".
      * @returns Array with the system's IP addresses, or empty.
      */
-    static getIP(family: string): string[] {
+    getIP = (family: string): string[] => {
         const result = []
         let ifaces = os.networkInterfaces()
 
@@ -37,7 +43,7 @@ class NetworkUtils {
      * Returns the first valid IPv4 address found on the system, or null if no valid IPs were found.
      * @returns First valid IPv4 address, or null.
      */
-    static getSingleIPv4(): string {
+    getSingleIPv4 = (): string => {
         const ips = this.getIP("ipv4")
 
         if (ips && ips.length > 0) {
@@ -52,7 +58,7 @@ class NetworkUtils {
      * Returns the first valid IPv6 address found on the system, or null if no valid IPs were found.
      * @returns First valid IPv6 address, or null.
      */
-    static getSingleIPv6(): string {
+    getSingleIPv6 = (): string => {
         const ips = this.getIP("ipv6")
 
         if (ips && ips.length) {
@@ -68,7 +74,7 @@ class NetworkUtils {
      * @param reqOrSocket The request or socket object.
      * @returns The client IP address, or null if not identified.
      */
-    static getClientIP(reqOrSocket: any): string {
+    getClientIP = (reqOrSocket: any): string => {
         if (reqOrSocket == null) {
             return null
         }
@@ -114,7 +120,7 @@ class NetworkUtils {
      * @param range A string or array of strings representing the valid ranges.
      * @returns True if IP is in range, false otherwise.
      */
-    static ipInRange(ip: string, range: string[] | string): boolean {
+    ipInRange = (ip: string, range: string[] | string): boolean => {
         if (_.isString(range)) {
             const ipParsed = ipaddr.parse(ip)
 
@@ -146,4 +152,4 @@ class NetworkUtils {
 }
 
 // Exports...
-export = NetworkUtils
+export default NetworkUtils.Instance
