@@ -13,7 +13,7 @@ describe("JAUL Data tests", function() {
     let jaul = null
 
     before(function() {
-        jaul = require("../index")
+        jaul = require("../lib/index")
     })
 
     it("Remove specified characters from string, passing as array", function(done) {

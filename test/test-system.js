@@ -12,7 +12,7 @@ describe("JAUL System Tests", function() {
     let jaul = null
 
     before(function() {
-        jaul = require("../index")
+        jaul = require("../lib/index")
     })
 
     it("Get valid server info", function(done) {

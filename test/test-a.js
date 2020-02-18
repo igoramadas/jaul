@@ -13,7 +13,7 @@ describe("JAUL Main tests", function() {
     let jaul = null
 
     before(function() {
-        jaul = require("../index")
+        jaul = require("../lib/index")
     })
 
     it("Version available", function(done) {

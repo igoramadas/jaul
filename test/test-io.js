@@ -30,7 +30,7 @@ describe("JAUL IO Tests", function() {
     }
 
     before(function() {
-        jaul = require("../index")
+        jaul = require("../lib/index")
         cleanup()
     })
 

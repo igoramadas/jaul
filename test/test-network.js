@@ -19,7 +19,7 @@ describe("JAUL Network Tests", function() {
     let supertest = null
 
     before(async function() {
-        jaul = require("../index")
+        jaul = require("../lib/index")
         port = await getPort(3000)
 
         app = express()
@@ -94,7 +94,10 @@ describe("JAUL Network Tests", function() {
             ip: "10.1.2.3"
         }
 
-        supertest.get("/").set("X-Forwarded-For", "10.1.2.3").expect(200, body, done)
+        supertest
+            .get("/")
+            .set("X-Forwarded-For", "10.1.2.3")
+            .expect(200, body, done)
     })
 
     it("Get valid IP from socket connection", function(done) {
