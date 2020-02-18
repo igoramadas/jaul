@@ -1,5 +1,9 @@
 # Changelog for JAUL
 
+1.3.0
+=====
+* TypeScript types are now exported with the library.
+
 1.2.3
 =====
 * Updated dependencies.

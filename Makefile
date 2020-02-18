@@ -28,14 +28,11 @@ clean:
 	rm -f package-lock.json
 
 publish:
-	tsc --removeComments
 	npm publish
-	tsc
 
 update:
-	rm -f package-lock.json
 	-ncu -u
-	npm install
+	-npm install
 	tsc
 
 .PHONY: docs test
