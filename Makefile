@@ -3,6 +3,7 @@ MOCHA:= ./node_modules/.bin/mocha
 MOCHAEXEC:= ./node_modules/.bin/_mocha
 ISTANBUL:= ./node_modules/.bin/nyc
 TYPEDOC:= ./node_modules/.bin/typedoc
+TSC:= ./node_modules/.bin/tsc
 
 test:
 	tsc
@@ -33,6 +34,6 @@ publish:
 update:
 	-ncu -u
 	-npm install
-	tsc
+	$(TSC)
 
 .PHONY: docs test
