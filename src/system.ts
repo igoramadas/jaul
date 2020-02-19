@@ -56,7 +56,7 @@ export class SystemUtils {
      * @param options - Options to define the output.
      * @returns Object with system metrics attached.
      */
-    getInfo = (options: GetInfoOptions): SystemMetrics => {
+    getInfo = (options?: GetInfoOptions): SystemMetrics => {
         if (options == null) {
             options = {labels: true}
         }
