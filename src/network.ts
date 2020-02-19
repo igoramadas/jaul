@@ -1,10 +1,7 @@
 // JAUL: network.ts
 
-/** @hidden */
 import _ = require("lodash")
-/** @hidden */
 import ipaddr = require("ipaddr.js")
-/** @hidden */
 import os = require("os")
 
 /** Network Utilities class. */

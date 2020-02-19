@@ -1,8 +1,6 @@
 // JAUL: io.ts
 
-/** @hidden */
 import fs = require("fs")
-/** @hidden */
 import path = require("path")
 
 /** IO Utilities class. */

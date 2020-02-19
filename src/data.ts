@@ -1,6 +1,5 @@
 // JAUL: data.ts
 
-/** @hidden */
 import _ = require("lodash")
 
 /** Data Utilities class. */
