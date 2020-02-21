@@ -34,7 +34,7 @@
         "moment": "^2.24.0"
     },
     "devDependencies": {
-        "@types/node": "^13.7.2",
+        "@types/node": "^13.7.4",
         "chai": "^4.2.0",
         "coveralls": "^3.0.9",
         "express": "^4.17.1",
@@ -45,7 +45,7 @@
         "socket.io-client": "^2.3.0",
         "supertest": "^4.0.2",
         "typedoc": "^0.16.10",
-        "typescript": "^3.7.5"
+        "typescript": "^3.8.2"
     },
     "nyc": {
         "reporter": "lcov",
