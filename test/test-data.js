@@ -62,7 +62,17 @@ describe("JAUL Data tests", function() {
         let expected = "This is a test"
         let text = jaul.data.replaceTags("This ${a} a ${b}", {a: "is", b: "test"})
         if (text != expected) {
-            done(`Expected "${expected}", but got "${text}"`)
+            return done(`Expected "${expected}", but got "${text}"`)
+        }
+
+        done()
+    })
+
+    it("Replace tags, with a prefix", function(done) {
+        let expected = "This is a test"
+        let text = jaul.data.replaceTags("This ${hello.a} a ${hello.b}", {a: "is", b: "test"}, "hello.")
+        if (text != expected) {
+            return done(`Expected "${expected}", but got "${text}"`)
         }
 
         done()

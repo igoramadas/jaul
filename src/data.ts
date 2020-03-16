@@ -41,15 +41,18 @@ export class DataUtils {
      * It follows the TypeScript default format: ${property_name}
      * @param text The text with tags to be replaced.
      * @param obj Object containing the keys and values for tag replacement.
+     * @param prefix Optional tag prefix.
      * @returns Text with tags replaced by object's values.
      */
-    replaceTags = (text: string, obj: any): string => {
+    replaceTags = (text: string, obj: any, prefix?: String): string => {
         if (!text) {
             return ""
         }
-
         if (!obj) {
             return text
+        }
+        if (!prefix) {
+            prefix = ""
         }
 
         // State variable.
@@ -59,7 +62,13 @@ export class DataUtils {
         do {
             let beforeReplace = text
 
+            // Replacer function. If a prefix was passed, remove it
+            // before trying to assign value from object.
             const replacer = (wholeMatch, key) => {
+                if (prefix) {
+                    key = key.replace(prefix, "")
+                }
+
                 let substitution = obj[key.trim()]
                 return substitution === undefined ? wholeMatch : substitution.toString()
             }
