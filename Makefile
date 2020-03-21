@@ -25,6 +25,7 @@ docs:
 	cp .nojekyll docs/
 
 clean:
+	rm -rf ./lib
 	rm -rf ./node_modules
 	rm -f package-lock.json
 
