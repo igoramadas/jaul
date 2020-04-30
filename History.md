@@ -1,5 +1,9 @@
 # Changelog for JAUL
 
+1.3.3
+=====
+* Updated dependencies.
+
 1.3.2
 =====
 * The data.replaceTags() now accepts an optional tag prefix (removed before replacing).
