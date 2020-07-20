@@ -368,7 +368,7 @@ export class DataUtils {
     uuid = (): string => {
         const baseStr = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
 
-        const generator = function(c) {
+        const generator = function (c) {
             const r = (Math.random() * 16) | 0
             const v = c === "x" ? r : (r & 0x3) | 0x8
             return v.toString(16)
