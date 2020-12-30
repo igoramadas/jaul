@@ -7,6 +7,7 @@
 	<meta name="description" content="Documentation for JAUL">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
 </head>
 <body>
 <header>
@@ -38,8 +39,6 @@
 							</div>
 							<input type="checkbox" id="tsd-filter-inherited" checked />
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-only-exported" />
-							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -51,13 +50,13 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../globals.html">Globals</a>
+					<a href="../modules.html">JAUL</a>
 				</li>
 				<li>
-					<a href="../modules/_src_system_.html">&quot;src/system&quot;</a>
+					<a href="../modules/system.html">system</a>
 				</li>
 				<li>
-					<a href="_src_system_.systemutils.html">SystemUtils</a>
+					<a href="system.systemutils.html">SystemUtils</a>
 				</li>
 			</ul>
 			<h1>Class SystemUtils</h1>
@@ -87,13 +86,36 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="system.systemutils.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_system_.systemutils.html#getcpuload" class="tsd-kind-icon">get<wbr>Cpu<wbr>Load</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_system_.systemutils.html#getinfo" class="tsd-kind-icon">get<wbr>Info</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="system.systemutils.html#getcpuload" class="tsd-kind-icon">get<wbr>Cpu<wbr>Load</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="system.systemutils.html#getinfo" class="tsd-kind-icon">get<wbr>Info</a></li>
 							</ul>
 						</section>
 					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>System<wbr>Utils<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="system.systemutils.html" class="tsd-signature-type" data-tsd-kind="Class">SystemUtils</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="system.systemutils.html" class="tsd-signature-type" data-tsd-kind="Class">SystemUtils</a></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -102,13 +124,13 @@
 					<a name="getcpuload" class="tsd-anchor"></a>
 					<h3>get<wbr>Cpu<wbr>Load</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Cpu<wbr>Load<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_system_.cpuload.html" class="tsd-signature-type">CpuLoad</a></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Cpu<wbr>Load<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CpuLoad</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/10c0092/src/system.ts#L110">src/system.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/0711f1e/src/system.ts#L110">system.ts:110</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -116,7 +138,7 @@
 									<p>Get current CPU load, used by getInfo().</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_src_system_.cpuload.html" class="tsd-signature-type">CpuLoad</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">CpuLoad</span></h4>
 							<p>CPU load information with idle and total counters.</p>
 						</li>
 					</ul>
@@ -125,13 +147,13 @@
 					<a name="getinfo" class="tsd-anchor"></a>
 					<h3>get<wbr>Info</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Info<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_src_system_.getinfooptions.html" class="tsd-signature-type">GetInfoOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_system_.systemmetrics.html" class="tsd-signature-type">SystemMetrics</a></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Info<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">GetInfoOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SystemMetrics</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/10c0092/src/system.ts#L59">src/system.ts:59</a></li>
+									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/0711f1e/src/system.ts#L59">system.ts:59</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -142,15 +164,13 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/_src_system_.getinfooptions.html" class="tsd-signature-type">GetInfoOptions</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">GetInfoOptions</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Options to define the output.</p>
-										</div>
+										<p>Options to define the output.</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_src_system_.systemmetrics.html" class="tsd-signature-type">SystemMetrics</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">SystemMetrics</span></h4>
 							<p>Object with system metrics attached.</p>
 						</li>
 					</ul>
@@ -160,23 +180,20 @@
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals  ">
-						<a href="../globals.html"><em>Globals</em></a>
+					<li class=" ">
+						<a href="../modules.html">Exports</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/_src_data_.html">&quot;src/data&quot;</a>
+						<a href="../modules/data.html">data</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/_src_index_.html">&quot;src/index&quot;</a>
+						<a href="../modules/io.html">io</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/_src_io_.html">&quot;src/io&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/_src_network_.html">&quot;src/network&quot;</a>
+						<a href="../modules/network.html">network</a>
 					</li>
 					<li class="current tsd-kind-module">
-						<a href="../modules/_src_system_.html">&quot;src/system&quot;</a>
+						<a href="../modules/system.html">system</a>
 					</li>
 				</ul>
 			</nav>
@@ -185,36 +202,21 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-module">
-						<a href="_src_system_.systemutils.html" class="tsd-kind-icon">System<wbr>Utils</a>
+						<a href="system.systemutils.html" class="tsd-kind-icon">System<wbr>Utils</a>
 						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_src_system_.systemutils.html#getcpuload" class="tsd-kind-icon">get<wbr>Cpu<wbr>Load</a>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="system.systemutils.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_src_system_.systemutils.html#getinfo" class="tsd-kind-icon">get<wbr>Info</a>
+								<a href="system.systemutils.html#getcpuload" class="tsd-kind-icon">get<wbr>Cpu<wbr>Load</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="system.systemutils.html#getinfo" class="tsd-kind-icon">get<wbr>Info</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../interfaces/_src_system_.cpuload.html" class="tsd-kind-icon">Cpu<wbr>Load</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../interfaces/_src_system_.getinfooptions.html" class="tsd-kind-icon">Get<wbr>Info<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../interfaces/_src_system_.systemmetrics.html" class="tsd-kind-icon">System<wbr>Metrics</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../modules/_src_system_.html#moment" class="tsd-kind-icon">moment</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../modules/_src_system_.html#os" class="tsd-kind-icon">os</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../modules/_src_system_.html#path" class="tsd-kind-icon">path</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
@@ -226,13 +228,8 @@
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 			</ul>
 		</div>
 	</div>

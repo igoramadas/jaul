@@ -1,5 +1,9 @@
 # Changelog for JAUL
 
+1.3.6
+=====
+* Updated dependencies.
+
 1.3.5
 =====
 * Updated dependencies.

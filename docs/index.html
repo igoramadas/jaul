@@ -7,6 +7,7 @@
 	<meta name="description" content="Documentation for JAUL">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
 </head>
 <body>
 <header>
@@ -38,8 +39,6 @@
 							</div>
 							<input type="checkbox" id="tsd-filter-inherited" checked />
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-only-exported" />
-							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -49,11 +48,6 @@
 	</div>
 	<div class="tsd-page-title">
 		<div class="container">
-			<ul class="tsd-breadcrumb">
-				<li>
-					<a href="globals.html">Globals</a>
-				</li>
-			</ul>
 			<h1>JAUL</h1>
 		</div>
 	</div>
@@ -98,65 +92,70 @@
 				<a href="#basic-usage" id="basic-usage" style="color: inherit; text-decoration: none;">
 					<h2>Basic usage</h2>
 				</a>
-				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> jaul = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;jaul&quot;</span>)
+				<pre><code class="language-javascript"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">jaul</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;jaul&quot;</span><span style="color: #000000">)</span>
 
-jaul.version <span class="hljs-comment">// current version</span></code></pre>
+<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">version</span><span style="color: #000000"> </span><span style="color: #008000">// current version</span>
+</code></pre>
 				<a href="#data-utils" id="data-utils" style="color: inherit; text-decoration: none;">
 					<h2>Data Utils</h2>
 				</a>
-				<pre><code class="language-javascript"><span class="hljs-comment">// Removing characters from string</span>
-jaul.data.removeFromString(<span class="hljs-string">&quot;A1A2A3&quot;</span>, <span class="hljs-string">&quot;A&quot;</span>) <span class="hljs-comment">// 123</span>
-jaul.data.removeFromString(<span class="hljs-string">&quot;A1A2A3&quot;</span>, [<span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;2&quot;</span>, <span class="hljs-string">&quot;3&quot;</span>]) <span class="hljs-comment">// AAA</span>
+				<pre><code class="language-javascript"><span style="color: #008000">// Removing characters from string</span>
+<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">data</span><span style="color: #000000">.</span><span style="color: #795E26">removeFromString</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;A1A2A3&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;A&quot;</span><span style="color: #000000">) </span><span style="color: #008000">// 123</span>
+<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">data</span><span style="color: #000000">.</span><span style="color: #795E26">removeFromString</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;A1A2A3&quot;</span><span style="color: #000000">, [</span><span style="color: #A31515">&quot;1&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;2&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;3&quot;</span><span style="color: #000000">]) </span><span style="color: #008000">// AAA</span>
 
-<span class="hljs-comment">// Masking phone numbers</span>
-jaul.data.maskString(<span class="hljs-string">&quot;55-1234-5678&quot;</span>) <span class="hljs-comment">// **-****-****</span>
-jaul.data.maskString(<span class="hljs-string">&quot;55-1234-5678&quot;</span>, <span class="hljs-string">&quot;#&quot;</span>, <span class="hljs-number">4</span>) <span class="hljs-comment">// ##-####-5678</span>
+<span style="color: #008000">// Masking phone numbers</span>
+<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">data</span><span style="color: #000000">.</span><span style="color: #795E26">maskString</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;55-1234-5678&quot;</span><span style="color: #000000">) </span><span style="color: #008000">// **-****-****</span>
+<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">data</span><span style="color: #000000">.</span><span style="color: #795E26">maskString</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;55-1234-5678&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;#&quot;</span><span style="color: #000000">, </span><span style="color: #098658">4</span><span style="color: #000000">) </span><span style="color: #008000">// ##-####-5678</span>
 
-<span class="hljs-comment">// Minify JSON</span>
-jaul.data.minifyJson(someJsonStringWithComments) <span class="hljs-comment">// JSON object</span>
+<span style="color: #008000">// Minify JSON</span>
+<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">data</span><span style="color: #000000">.</span><span style="color: #795E26">minifyJson</span><span style="color: #000000">(</span><span style="color: #001080">someJsonStringWithComments</span><span style="color: #000000">) </span><span style="color: #008000">// JSON object</span>
 
-<span class="hljs-comment">// Returns a random RFC4122 UID</span>
-jaul.data.uuid() <span class="hljs-comment">// ex. 12345678-1234-4444-y123-123457890111</span></code></pre>
+<span style="color: #008000">// Returns a random RFC4122 UID</span>
+<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">data</span><span style="color: #000000">.</span><span style="color: #795E26">uuid</span><span style="color: #000000">() </span><span style="color: #008000">// ex. 12345678-1234-4444-y123-123457890111</span>
+</code></pre>
 				<a href="#io-utils" id="io-utils" style="color: inherit; text-decoration: none;">
 					<h2>IO Utils</h2>
 				</a>
-				<pre><code class="language-javascript"><span class="hljs-comment">// Finds out the full path to the desired filename</span>
-jaul.io.getFilePath(<span class="hljs-string">&quot;package.json&quot;</span>) <span class="hljs-comment">// finds the package.json full path</span>
-jaul.io.getFilePath(<span class="hljs-string">&quot;some-file.js&quot;</span>, __dirname) <span class="hljs-comment">// specifying __dirname as base path</span>
+				<pre><code class="language-javascript"><span style="color: #008000">// Finds out the full path to the desired filename</span>
+<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">io</span><span style="color: #000000">.</span><span style="color: #795E26">getFilePath</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;package.json&quot;</span><span style="color: #000000">) </span><span style="color: #008000">// finds the package.json full path</span>
+<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">io</span><span style="color: #000000">.</span><span style="color: #795E26">getFilePath</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;some-file.js&quot;</span><span style="color: #000000">, </span><span style="color: #001080">__dirname</span><span style="color: #000000">) </span><span style="color: #008000">// specifying __dirname as base path</span>
 
-<span class="hljs-comment">// Copy file from source to target, sync</span>
-jaul.io.copyFileSync(<span class="hljs-string">&quot;./source-file.json&quot;</span>, <span class="hljs-string">&quot;./folder/target.json&quot;</span>) <span class="hljs-comment">// void</span>
+<span style="color: #008000">// Copy file from source to target, sync</span>
+<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">io</span><span style="color: #000000">.</span><span style="color: #795E26">copyFileSync</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;./source-file.json&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;./folder/target.json&quot;</span><span style="color: #000000">) </span><span style="color: #008000">// void</span>
 
-<span class="hljs-comment">// Ensure that target folder exists, recursively creating folders</span>
-jaul.io.mkdirRecursive(<span class="hljs-string">&quot;path/to/some/deep/folder&quot;</span>) <span class="hljs-comment">// void</span>
+<span style="color: #008000">// Ensure that target folder exists, recursively creating folders</span>
+<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">io</span><span style="color: #000000">.</span><span style="color: #795E26">mkdirRecursive</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;path/to/some/deep/folder&quot;</span><span style="color: #000000">) </span><span style="color: #008000">// void</span>
 
-<span class="hljs-comment">// Sleep code execution helper</span>
-<span class="hljs-keyword">await</span> jaul.io.sleep(<span class="hljs-number">1000</span>) <span class="hljs-comment">// wait 1 second</span></code></pre>
+<span style="color: #008000">// Sleep code execution helper</span>
+<span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">io</span><span style="color: #000000">.</span><span style="color: #795E26">sleep</span><span style="color: #000000">(</span><span style="color: #098658">1000</span><span style="color: #000000">) </span><span style="color: #008000">// wait 1 second</span>
+</code></pre>
 				<a href="#network-utils" id="network-utils" style="color: inherit; text-decoration: none;">
 					<h2>Network Utils</h2>
 				</a>
-				<pre><code class="language-javascript"><span class="hljs-comment">// Get list of valid IPs on the system</span>
-jaul.network.getIP(<span class="hljs-string">&quot;ipv4&quot;</span>) <span class="hljs-comment">// array of IPv4 addresses</span>
-jaul.network.getIP(<span class="hljs-string">&quot;ipv6&quot;</span>) <span class="hljs-comment">// array of IPv6 addresses</span>
-jaul.network.getSingleIPv4() <span class="hljs-comment">// first valid IPv4 address</span>
-jaul.network.getSingleIPv6() <span class="hljs-comment">// first valid IPv6 address</span>
+				<pre><code class="language-javascript"><span style="color: #008000">// Get list of valid IPs on the system</span>
+<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">network</span><span style="color: #000000">.</span><span style="color: #795E26">getIP</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;ipv4&quot;</span><span style="color: #000000">) </span><span style="color: #008000">// array of IPv4 addresses</span>
+<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">network</span><span style="color: #000000">.</span><span style="color: #795E26">getIP</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;ipv6&quot;</span><span style="color: #000000">) </span><span style="color: #008000">// array of IPv6 addresses</span>
+<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">network</span><span style="color: #000000">.</span><span style="color: #795E26">getSingleIPv4</span><span style="color: #000000">() </span><span style="color: #008000">// first valid IPv4 address</span>
+<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">network</span><span style="color: #000000">.</span><span style="color: #795E26">getSingleIPv6</span><span style="color: #000000">() </span><span style="color: #008000">// first valid IPv6 address</span>
 
-<span class="hljs-comment">// Get IP address of client</span>
-jaul.network.getClientIP(req) <span class="hljs-comment">// IP address from http / express request object</span>
-jaul.network.getClientIP(sock) <span class="hljs-comment">// IP address from websocket request object</span>
+<span style="color: #008000">// Get IP address of client</span>
+<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">network</span><span style="color: #000000">.</span><span style="color: #795E26">getClientIP</span><span style="color: #000000">(</span><span style="color: #001080">req</span><span style="color: #000000">) </span><span style="color: #008000">// IP address from http / express request object</span>
+<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">network</span><span style="color: #000000">.</span><span style="color: #795E26">getClientIP</span><span style="color: #000000">(</span><span style="color: #001080">sock</span><span style="color: #000000">) </span><span style="color: #008000">// IP address from websocket request object</span>
 
-<span class="hljs-comment">// Check if specified IP is in range</span>
-jaul.network.ipInRange(<span class="hljs-string">&quot;192.168.0.1&quot;</span>, <span class="hljs-string">&quot;192.168.0.0/24&quot;</span>) <span class="hljs-comment">// true</span>
-jaul.network.ipInRange(<span class="hljs-string">&quot;10.0.0.1&quot;</span>, <span class="hljs-string">&quot;192.168.0.0/32&quot;</span>) <span class="hljs-comment">// false</span></code></pre>
+<span style="color: #008000">// Check if specified IP is in range</span>
+<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">network</span><span style="color: #000000">.</span><span style="color: #795E26">ipInRange</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;192.168.0.1&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;192.168.0.0/24&quot;</span><span style="color: #000000">) </span><span style="color: #008000">// true</span>
+<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">network</span><span style="color: #000000">.</span><span style="color: #795E26">ipInRange</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;10.0.0.1&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;192.168.0.0/32&quot;</span><span style="color: #000000">) </span><span style="color: #008000">// false</span>
+</code></pre>
 				<a href="#system-utils" id="system-utils" style="color: inherit; text-decoration: none;">
 					<h2>System Utils</h2>
 				</a>
-				<pre><code class="language-javascript"><span class="hljs-comment">// Get a summary of current system stats</span>
-jaul.system.getInfo() <span class="hljs-comment">// returns stats with labels (uptime, hostname, platform etc)</span>
-jaul.system.getInfo({<span class="hljs-attr">labels</span>: <span class="hljs-literal">false</span>}) <span class="hljs-comment">// returns stats without labels</span>
+				<pre><code class="language-javascript"><span style="color: #008000">// Get a summary of current system stats</span>
+<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">system</span><span style="color: #000000">.</span><span style="color: #795E26">getInfo</span><span style="color: #000000">() </span><span style="color: #008000">// returns stats with labels (uptime, hostname, platform etc)</span>
+<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">system</span><span style="color: #000000">.</span><span style="color: #795E26">getInfo</span><span style="color: #000000">({</span><span style="color: #001080">labels:</span><span style="color: #000000"> </span><span style="color: #0000FF">false</span><span style="color: #000000">}) </span><span style="color: #008000">// returns stats without labels</span>
 
-<span class="hljs-comment">// Get current CPU load</span>
-jaul.system.getCpuLoad() <span class="hljs-comment">// returns CPU load info</span></code></pre>
+<span style="color: #008000">// Get current CPU load</span>
+<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">system</span><span style="color: #000000">.</span><span style="color: #795E26">getCpuLoad</span><span style="color: #000000">() </span><span style="color: #008000">// returns CPU load info</span>
+</code></pre>
 				<a href="#api-documentation" id="api-documentation" style="color: inherit; text-decoration: none;">
 					<h2>API documentation</h2>
 				</a>
@@ -171,23 +170,20 @@ jaul.system.getCpuLoad() <span class="hljs-comment">// returns CPU load info</sp
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals  ">
-						<a href="globals.html"><em>Globals</em></a>
+					<li class=" ">
+						<a href="modules.html">Exports</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="modules/_src_data_.html">&quot;src/data&quot;</a>
+						<a href="modules/data.html">data</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="modules/_src_index_.html">&quot;src/index&quot;</a>
+						<a href="modules/io.html">io</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="modules/_src_io_.html">&quot;src/io&quot;</a>
+						<a href="modules/network.html">network</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="modules/_src_network_.html">&quot;src/network&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_src_system_.html">&quot;src/system&quot;</a>
+						<a href="modules/system.html">system</a>
 					</li>
 				</ul>
 			</nav>
@@ -202,12 +198,6 @@ jaul.system.getCpuLoad() <span class="hljs-comment">// returns CPU load info</sp
 	<div class="container">
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
-			<ul class="tsd-legend">
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 			</ul>

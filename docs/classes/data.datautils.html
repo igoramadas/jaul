@@ -7,6 +7,7 @@
 	<meta name="description" content="Documentation for JAUL">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
 </head>
 <body>
 <header>
@@ -38,8 +39,6 @@
 							</div>
 							<input type="checkbox" id="tsd-filter-inherited" checked />
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-only-exported" />
-							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -51,13 +50,13 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../globals.html">Globals</a>
+					<a href="../modules.html">JAUL</a>
 				</li>
 				<li>
-					<a href="../modules/_src_data_.html">&quot;src/data&quot;</a>
+					<a href="../modules/data.html">data</a>
 				</li>
 				<li>
-					<a href="_src_data_.datautils.html">DataUtils</a>
+					<a href="data.datautils.html">DataUtils</a>
 				</li>
 			</ul>
 			<h1>Class DataUtils</h1>
@@ -87,17 +86,40 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="data.datautils.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_data_.datautils.html#maskstring" class="tsd-kind-icon">mask<wbr>String</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_data_.datautils.html#minifyjson" class="tsd-kind-icon">minify<wbr>Json</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_data_.datautils.html#removefromstring" class="tsd-kind-icon">remove<wbr>From<wbr>String</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_data_.datautils.html#replacetags" class="tsd-kind-icon">replace<wbr>Tags</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_data_.datautils.html#striphtml" class="tsd-kind-icon">strip<wbr>Html</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_data_.datautils.html#uuid" class="tsd-kind-icon">uuid</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="data.datautils.html#maskstring" class="tsd-kind-icon">mask<wbr>String</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="data.datautils.html#minifyjson" class="tsd-kind-icon">minify<wbr>Json</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="data.datautils.html#removefromstring" class="tsd-kind-icon">remove<wbr>From<wbr>String</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="data.datautils.html#replacetags" class="tsd-kind-icon">replace<wbr>Tags</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="data.datautils.html#striphtml" class="tsd-kind-icon">strip<wbr>Html</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="data.datautils.html#uuid" class="tsd-kind-icon">uuid</a></li>
 							</ul>
 						</section>
 					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Data<wbr>Utils<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="data.datautils.html" class="tsd-signature-type" data-tsd-kind="Class">DataUtils</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="data.datautils.html" class="tsd-signature-type" data-tsd-kind="Class">DataUtils</a></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -112,7 +134,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/10c0092/src/data.ts#L91">src/data.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/0711f1e/src/data.ts#L91">data.ts:91</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -126,25 +148,19 @@
 								<li>
 									<h5>value: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>The original value to be masked.</p>
-										</div>
+										<p>The original value to be masked.</p>
 									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> maskChar: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Optional character to be used on the masking, default is *.</p>
-										</div>
+										<p>Optional character to be used on the masking, default is *.</p>
 									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> leaveLast: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Optional, leave last X positions of the string unmasked, default is 0.</p>
-										</div>
+										<p>Optional, leave last X positions of the string unmasked, default is 0.</p>
 									</div>
 								</li>
 							</ul>
@@ -163,7 +179,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/10c0092/src/data.ts#L141">src/data.ts:141</a></li>
+									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/0711f1e/src/data.ts#L141">data.ts:141</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -176,17 +192,13 @@
 								<li>
 									<h5>source: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>The JSON string or object to be minified.</p>
-										</div>
+										<p>The JSON string or object to be minified.</p>
 									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> asString: <span class="tsd-signature-type">boolean</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>If true, return as string instead of JSON object, default is false.</p>
-										</div>
+										<p>If true, return as string instead of JSON object, default is false.</p>
 									</div>
 								</li>
 							</ul>
@@ -199,13 +211,13 @@
 					<a name="removefromstring" class="tsd-anchor"></a>
 					<h3>remove<wbr>From<wbr>String</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">remove<wbr>From<wbr>String<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, charsToRemove<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>From<wbr>String<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, charsToRemove<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/10c0092/src/data.ts#L20">src/data.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/0711f1e/src/data.ts#L20">data.ts:20</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -219,17 +231,13 @@
 								<li>
 									<h5>value: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>The original value to be cleaned.</p>
-										</div>
+										<p>The original value to be cleaned.</p>
 									</div>
 								</li>
 								<li>
-									<h5>charsToRemove: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+									<h5>charsToRemove: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Array of characters or single string to be removed from the original string.</p>
-										</div>
+										<p>Array of characters or single string to be removed from the original string.</p>
 									</div>
 								</li>
 							</ul>
@@ -248,7 +256,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/10c0092/src/data.ts#L47">src/data.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/0711f1e/src/data.ts#L47">data.ts:47</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -262,25 +270,19 @@
 								<li>
 									<h5>text: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>The text with tags to be replaced.</p>
-										</div>
+										<p>The text with tags to be replaced.</p>
 									</div>
 								</li>
 								<li>
 									<h5>obj: <span class="tsd-signature-type">any</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Object containing the keys and values for tag replacement.</p>
-										</div>
+										<p>Object containing the keys and values for tag replacement.</p>
 									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> prefix: <span class="tsd-signature-type">String</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Optional tag prefix.</p>
-										</div>
+										<p>Optional tag prefix.</p>
 									</div>
 								</li>
 							</ul>
@@ -299,7 +301,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/10c0092/src/data.ts#L238">src/data.ts:238</a></li>
+									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/0711f1e/src/data.ts#L238">data.ts:238</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -316,9 +318,7 @@
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> tagReplace: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Replace tags with that value</p>
-										</div>
+										<p>Replace tags with that value</p>
 									</div>
 								</li>
 							</ul>
@@ -336,7 +336,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/10c0092/src/data.ts#L368">src/data.ts:368</a></li>
+									<li>Defined in <a href="https://github.com/igoramadas/jaul/blob/0711f1e/src/data.ts#L368">data.ts:368</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -354,23 +354,20 @@
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals  ">
-						<a href="../globals.html"><em>Globals</em></a>
+					<li class=" ">
+						<a href="../modules.html">Exports</a>
 					</li>
 					<li class="current tsd-kind-module">
-						<a href="../modules/_src_data_.html">&quot;src/data&quot;</a>
+						<a href="../modules/data.html">data</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/_src_index_.html">&quot;src/index&quot;</a>
+						<a href="../modules/io.html">io</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/_src_io_.html">&quot;src/io&quot;</a>
+						<a href="../modules/network.html">network</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/_src_network_.html">&quot;src/network&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/_src_system_.html">&quot;src/system&quot;</a>
+						<a href="../modules/system.html">system</a>
 					</li>
 				</ul>
 			</nav>
@@ -379,33 +376,33 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-module">
-						<a href="_src_data_.datautils.html" class="tsd-kind-icon">Data<wbr>Utils</a>
+						<a href="data.datautils.html" class="tsd-kind-icon">Data<wbr>Utils</a>
 						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_src_data_.datautils.html#maskstring" class="tsd-kind-icon">mask<wbr>String</a>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="data.datautils.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_src_data_.datautils.html#minifyjson" class="tsd-kind-icon">minify<wbr>Json</a>
+								<a href="data.datautils.html#maskstring" class="tsd-kind-icon">mask<wbr>String</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_src_data_.datautils.html#removefromstring" class="tsd-kind-icon">remove<wbr>From<wbr>String</a>
+								<a href="data.datautils.html#minifyjson" class="tsd-kind-icon">minify<wbr>Json</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_src_data_.datautils.html#replacetags" class="tsd-kind-icon">replace<wbr>Tags</a>
+								<a href="data.datautils.html#removefromstring" class="tsd-kind-icon">remove<wbr>From<wbr>String</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_src_data_.datautils.html#striphtml" class="tsd-kind-icon">strip<wbr>Html</a>
+								<a href="data.datautils.html#replacetags" class="tsd-kind-icon">replace<wbr>Tags</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_src_data_.datautils.html#uuid" class="tsd-kind-icon">uuid</a>
+								<a href="data.datautils.html#striphtml" class="tsd-kind-icon">strip<wbr>Html</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="data.datautils.html#uuid" class="tsd-kind-icon">uuid</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../modules/_src_data_.html#_" class="tsd-kind-icon">_</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
@@ -417,13 +414,8 @@
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 			</ul>
 		</div>
 	</div>
