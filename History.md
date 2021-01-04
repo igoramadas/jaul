@@ -1,5 +1,9 @@
 # Changelog for JAUL
 
+1.3.7
+=====
+* Fixed issue where the data.replaceTags() would fail if substitution was null.
+
 1.3.6
 =====
 * Updated dependencies.
