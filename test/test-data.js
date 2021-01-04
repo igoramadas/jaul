@@ -9,14 +9,14 @@ let it = mocha.it
 
 chai.should()
 
-describe("JAUL Data tests", function() {
+describe("JAUL Data tests", function () {
     let jaul = null
 
-    before(function() {
+    before(function () {
         jaul = require("../lib/index")
     })
 
-    it("Remove specified characters from string, passing as array", function(done) {
+    it("Remove specified characters from string, passing as array", function (done) {
         let original = "ABC123"
         let removed = jaul.data.removeFromString(original, ["A", "1"])
 
@@ -27,7 +27,7 @@ describe("JAUL Data tests", function() {
         }
     })
 
-    it("Remove specified characters from string, passing as string", function(done) {
+    it("Remove specified characters from string, passing as string", function (done) {
         let original = "ABC123"
         let removed = jaul.data.removeFromString(original, "ABC")
 
@@ -38,7 +38,7 @@ describe("JAUL Data tests", function() {
         }
     })
 
-    it("Try removing characters from null string", function(done) {
+    it("Try removing characters from null string", function (done) {
         let removed = jaul.data.removeFromString(null, ["A", "1"])
 
         if (removed == null) {
@@ -48,7 +48,7 @@ describe("JAUL Data tests", function() {
         }
     })
 
-    it("Replace tags on text with values from object", function(done) {
+    it("Replace tags on text with values from object", function (done) {
         let empty = jaul.data.replaceTags(null, {a: 1})
         if (empty !== "") {
             return done("Calling replaceTags() passing a null value should return an empty string")
@@ -68,7 +68,7 @@ describe("JAUL Data tests", function() {
         done()
     })
 
-    it("Replace tags, with a prefix", function(done) {
+    it("Replace tags, with a prefix", function (done) {
         let expected = "This is a test"
         let text = jaul.data.replaceTags("This ${hello.a} a ${hello.b}", {a: "is", b: "test"}, "hello.")
         if (text != expected) {
@@ -78,7 +78,17 @@ describe("JAUL Data tests", function() {
         done()
     })
 
-    it("Mask password with defaults", function(done) {
+    it("Replace null tag, should return empty string", function (done) {
+        let expected = "Hello "
+        let text = jaul.data.replaceTags("Hello ${a}", {a: null})
+        if (text != expected) {
+            return done(`Expected "${expected}", but got "${text}"`)
+        }
+
+        done()
+    })
+
+    it("Mask password with defaults", function (done) {
         let original = "password"
         let masked = jaul.data.maskString(original)
 
@@ -89,7 +99,7 @@ describe("JAUL Data tests", function() {
         }
     })
 
-    it("Mask a phone number", function(done) {
+    it("Mask a phone number", function (done) {
         let original = "176 55555 9090"
         let masked = jaul.data.maskString(original, "X", 4)
 
@@ -100,7 +110,7 @@ describe("JAUL Data tests", function() {
         }
     })
 
-    it("Mask invalid data should return data itself", function(done) {
+    it("Mask invalid data should return data itself", function (done) {
         let original = null
         let masked = jaul.data.maskString(null)
 
@@ -111,7 +121,7 @@ describe("JAUL Data tests", function() {
         }
     })
 
-    it("Minify a JSON string with comments, returning as JSON object", function(done) {
+    it("Minify a JSON string with comments, returning as JSON object", function (done) {
         let original = `
         /* This is a multiline \\
         comment */
@@ -140,7 +150,7 @@ describe("JAUL Data tests", function() {
         }
     })
 
-    it("Minify a JSON object, returning as string", function(done) {
+    it("Minify a JSON object, returning as string", function (done) {
         let original = {
             first: true,
             second: false,
@@ -157,7 +167,7 @@ describe("JAUL Data tests", function() {
         }
     })
 
-    it("Fail minifying 'dirty' JSON strings", function(done) {
+    it("Fail minifying 'dirty' JSON strings", function (done) {
         try {
             jaul.data.minifyJson(`{ "unterminated:{}}} "{//}"`)
             done("Minifying an invalid JSON should throw an exception (unterminated string).")
@@ -187,7 +197,7 @@ describe("JAUL Data tests", function() {
         }
     })
 
-    it("Strips tags replace on HTML with comments", function(done) {
+    it("Strips tags replace on HTML with comments", function (done) {
         let text = jaul.data.stripHtml("")
 
         if (text !== "") {
@@ -210,7 +220,7 @@ test`
         }
     })
 
-    it("Strips tags from valid HTML, replacing with empty string", function(done) {
+    it("Strips tags from valid HTML, replacing with empty string", function (done) {
         let html1 = `<body><div>This</div><br><br /><br><p>And body</p><footer>Free from tags!</footer><<>></body>`
         let html2 = `<div>This</div><br><p>And body</p><strong><br />Free from tags!</strong>`
         let text1 = jaul.data.stripHtml(html1, "")
@@ -223,7 +233,7 @@ test`
         }
     })
 
-    it("Generate unique IDs", function(done) {
+    it("Generate unique IDs", function (done) {
         let ids = []
         let max = 500
         let i
