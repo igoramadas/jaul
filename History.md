@@ -1,5 +1,10 @@
 # Changelog for JAUL
 
+1.3.8
+=====
+* Fixed regression bug on data.replaceTags() clearing ummatched tags.
+* Updated dependencies.
+
 1.3.7
 =====
 * Fixed issue where the data.replaceTags() would fail if substitution was null.

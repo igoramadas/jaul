@@ -78,6 +78,20 @@ describe("JAUL Data tests", function () {
         done()
     })
 
+    it("Replacing prefixed tags should not touch unprefixed tags", function (done) {
+        let expected = "a b c d"
+        let text = "${hello.a} ${hello.b} ${c} ${another.d}"
+        text = jaul.data.replaceTags(text, {a: "a", b: "b"}, "hello.")
+        text = jaul.data.replaceTags(text, {c: "c"})
+        text = jaul.data.replaceTags(text, {d: "d"}, "another.")
+
+        if (text != expected) {
+            return done(`Expected "${expected}", but got "${text}"`)
+        }
+
+        done()
+    })
+
     it("Replace null tag, should return empty string", function (done) {
         let expected = "Hello "
         let text = jaul.data.replaceTags("Hello ${a}", {a: null})

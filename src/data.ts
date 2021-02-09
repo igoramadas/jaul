@@ -70,7 +70,7 @@ export class DataUtils {
                 }
 
                 let substitution = obj[key.trim()]
-                if (substitution === null || typeof substitution == "undefined") substitution = ""
+                if (substitution === null) substitution = ""
 
                 return substitution === undefined ? wholeMatch : substitution.toString()
             }
