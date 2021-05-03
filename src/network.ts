@@ -1,6 +1,5 @@
 // JAUL: network.ts
 
-import _ = require("lodash")
 import ipaddr = require("ipaddr.js")
 import os = require("os")
 
@@ -27,7 +26,7 @@ export class NetworkUtils {
 
         // Parse network interfaces and try getting the valid IP addresses.
         for (let i in ifaces) {
-            ifaces[i].forEach(function(details) {
+            ifaces[i].forEach(function (details) {
                 if (!details.internal && (family == null || details.family.toLowerCase() == family)) {
                     return result.push(details.address)
                 }
@@ -118,7 +117,7 @@ export class NetworkUtils {
      * @returns True if IP is in range, false otherwise.
      */
     ipInRange = (ip: string, range: string[] | string): boolean => {
-        if (_.isString(range)) {
+        if (typeof range == "string") {
             const ipParsed = ipaddr.parse(ip)
 
             // Range is a subnet? Then parse the IP address and check each block against the range.
@@ -135,8 +134,10 @@ export class NetworkUtils {
             } else {
                 return ip === range
             }
-        } else if (_.isObject(range)) {
-            // Array of IP ranges, check each one of them.v
+        }
+
+        // Array of IP ranges, check each one of them.
+        if (Array.isArray(range)) {
             for (let r in range as string[]) {
                 if (this.ipInRange(ip, range[r])) {
                     return true

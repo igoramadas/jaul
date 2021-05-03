@@ -1,6 +1,5 @@
 // JAUL: system.ts
 
-import moment = require("moment")
 import os = require("os")
 import path = require("path")
 
@@ -62,8 +61,14 @@ export class SystemUtils {
         }
         let result = {} as SystemMetrics
 
+        // Get humanized uptime.
+        const upSeconds = process.uptime()
+        if (upSeconds >= 345600) result.uptime = `${(upSeconds / 86400).toFixed(1)} days`
+        else if (upSeconds >= 7200) result.uptime = `${(upSeconds / 3600).toFixed(1)} hours`
+        else if (upSeconds >= 120) result.uptime = `${(upSeconds / 60).toFixed(1)} minutes`
+        else result.uptime = `${upSeconds} seconds`
+
         // Save parsed OS info to the result object.
-        result.uptime = moment.duration(process.uptime(), "s").humanize()
         result.hostname = os.hostname()
         result.title = path.basename(process.title)
         result.platform = os.platform() + " " + os.arch() + " " + os.release()

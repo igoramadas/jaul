@@ -1,7 +1,5 @@
 // JAUL: data.ts
 
-import _ = require("lodash")
-
 /** Data Utilities class. */
 export class DataUtils {
     private static _instance: DataUtils
@@ -141,7 +139,7 @@ export class DataUtils {
      * @returns The minified JSON as object or string, depending on asString.
      */
     minifyJson = (source: string, asString?: boolean): any => {
-        if (_.isObject(source)) {
+        if (typeof source === "object" && source !== null) {
             source = JSON.stringify(source, null, 0)
         }
 
