@@ -1,5 +1,9 @@
 # Changelog for JAUL
 
+1.4.1
+=====
+* Updated dependencies.
+
 1.4.0
 =====
 * Removed "lodash" and "moment" dependencies.
