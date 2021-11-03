@@ -1,225 +1,79 @@
-<!doctype html>
-<html class="default no-js">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>JAUL</title>
-	<meta name="description" content="Documentation for JAUL">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="assets/css/main.css">
-	<script async src="assets/js/search.js" id="search-script"></script>
-</head>
-<body>
-<header>
-	<div class="tsd-page-toolbar">
-		<div class="container">
-			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
-					<div class="field">
-						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
-						<input id="tsd-search-field" type="text" />
-					</div>
-					<ul class="results">
-						<li class="state loading">Preparing search index...</li>
-						<li class="state failure">The search index is not available</li>
-					</ul>
-					<a href="index.html" class="title">JAUL</a>
-				</div>
-				<div class="table-cell" id="tsd-widgets">
-					<div id="tsd-filter">
-						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
-						<div class="tsd-filter-group">
-							<div class="tsd-select" id="tsd-filter-visibility">
-								<span class="tsd-select-label">All</span>
-								<ul class="tsd-select-list">
-									<li data-value="public">Public</li>
-									<li data-value="protected">Public/Protected</li>
-									<li data-value="private" class="selected">All</li>
-								</ul>
-							</div>
-							<input type="checkbox" id="tsd-filter-inherited" checked />
-							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-						</div>
-					</div>
-					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="tsd-page-title">
-		<div class="container">
-			<h1>JAUL</h1>
-		</div>
-	</div>
-</header>
-<div class="container container-main">
-	<div class="row">
-		<div class="col-8 col-content">
-			<div class="tsd-panel tsd-typography">
-				<a href="#jaul" id="jaul" style="color: inherit; text-decoration: none;">
-					<h1>JAUL</h1>
-				</a>
-				<p><a href="https://npmjs.com/package/jaul"><img src="https://img.shields.io/npm/v/jaul.svg" alt="Version"></a>
-					<a href="https://travis-ci.org/igoramadas/jaul"><img src="https://img.shields.io/travis/igoramadas/jaul.svg" alt="Build Status"></a>
-				<a href="https://coveralls.io/github/igoramadas/jaul?branch=master"><img src="https://img.shields.io/coveralls/igoramadas/jaul.svg" alt="Coverage Status"></a></p>
-				<p>JAUL = Just Another Utilities Library</p>
-				<a href="#what-why" id="what-why" style="color: inherit; text-decoration: none;">
-					<h2>What? Why?</h2>
-				</a>
-				<p>Because to this date I still haven&#39;t found a good mix of small
-				utilities modules for my projects.</p>
-				<a href="#if-it-fails-it-throws" id="if-it-fails-it-throws" style="color: inherit; text-decoration: none;">
-					<h4>If it fails, it throws</h4>
-				</a>
-				<p>You&#39;ll never need to guess what&#39;s going on behind the scenes.
-					For instance if you try to minify an invalid JSON, it will
-				throw an exception.</p>
-				<a href="#exceptions-with-friendly-messages" id="exceptions-with-friendly-messages" style="color: inherit; text-decoration: none;">
-					<h4>Exceptions with friendly messages</h4>
-				</a>
-				<p>Exceptions thrown on methods might have a <code>friendlyMessage</code>
-				property appended to them with extra information.</p>
-				<a href="#what-types-of-utilities" id="what-types-of-utilities" style="color: inherit; text-decoration: none;">
-					<h2>What types of utilities?</h2>
-				</a>
-				<p>They&#39;re separated on the following areas:</p>
-				<ul>
-					<li>Data</li>
-					<li>IO</li>
-					<li>Network</li>
-					<li>System</li>
-				</ul>
-				<a href="#basic-usage" id="basic-usage" style="color: inherit; text-decoration: none;">
-					<h2>Basic usage</h2>
-				</a>
-				<pre><code class="language-javascript"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">jaul</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;jaul&quot;</span><span style="color: #000000">)</span>
+<!DOCTYPE html><html class="default no-js"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>JAUL</title><meta name="description" content="Documentation for JAUL"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">JAUL</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1>JAUL</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
+<a href="#jaul" id="jaul" style="color: inherit; text-decoration: none;">
+  <h1>JAUL</h1>
+</a>
+<p><a href="https://npmjs.com/package/jaul"><img src="https://img.shields.io/npm/v/jaul.svg" alt="Version"></a>
+<a href="https://travis-ci.org/igoramadas/jaul"><img src="https://img.shields.io/travis/igoramadas/jaul.svg" alt="Build Status"></a>
+<a href="https://coveralls.io/github/igoramadas/jaul?branch=master"><img src="https://img.shields.io/coveralls/igoramadas/jaul.svg" alt="Coverage Status"></a></p>
+<p>JAUL = Just Another Utilities Library</p>
 
-<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">version</span><span style="color: #000000"> </span><span style="color: #008000">// current version</span>
+<a href="#what-why" id="what-why" style="color: inherit; text-decoration: none;">
+  <h2>What? Why?</h2>
+</a>
+<p>Because to this date I still haven&#39;t found a good mix of small
+utilities modules for my projects.</p>
+
+<a href="#if-it-fails-it-throws" id="if-it-fails-it-throws" style="color: inherit; text-decoration: none;">
+  <h4>If it fails, it throws</h4>
+</a>
+<p>You&#39;ll never need to guess what&#39;s going on behind the scenes.
+For instance if you try to minify an invalid JSON, it will
+throw an exception.</p>
+
+<a href="#exceptions-with-friendly-messages" id="exceptions-with-friendly-messages" style="color: inherit; text-decoration: none;">
+  <h4>Exceptions with friendly messages</h4>
+</a>
+<p>Exceptions thrown on methods might have a <code>friendlyMessage</code>
+property appended to them with extra information.</p>
+
+<a href="#what-types-of-utilities" id="what-types-of-utilities" style="color: inherit; text-decoration: none;">
+  <h2>What types of utilities?</h2>
+</a>
+<p>They&#39;re separated on the following areas:</p>
+<ul>
+<li>Data</li>
+<li>IO</li>
+<li>Network</li>
+<li>System</li>
+</ul>
+
+<a href="#basic-usage" id="basic-usage" style="color: inherit; text-decoration: none;">
+  <h2>Basic usage</h2>
+</a>
+<pre><code class="language-javascript"><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-2">jaul</span><span class="hl-1"> = </span><span class="hl-3">require</span><span class="hl-1">(</span><span class="hl-4">&quot;jaul&quot;</span><span class="hl-1">)</span><br/><br/><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">version</span><span class="hl-1"> </span><span class="hl-6">// current version</span>
 </code></pre>
-				<a href="#data-utils" id="data-utils" style="color: inherit; text-decoration: none;">
-					<h2>Data Utils</h2>
-				</a>
-				<pre><code class="language-javascript"><span style="color: #008000">// Removing characters from string</span>
-<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">data</span><span style="color: #000000">.</span><span style="color: #795E26">removeFromString</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;A1A2A3&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;A&quot;</span><span style="color: #000000">) </span><span style="color: #008000">// 123</span>
-<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">data</span><span style="color: #000000">.</span><span style="color: #795E26">removeFromString</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;A1A2A3&quot;</span><span style="color: #000000">, [</span><span style="color: #A31515">&quot;1&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;2&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;3&quot;</span><span style="color: #000000">]) </span><span style="color: #008000">// AAA</span>
 
-<span style="color: #008000">// Masking phone numbers</span>
-<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">data</span><span style="color: #000000">.</span><span style="color: #795E26">maskString</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;55-1234-5678&quot;</span><span style="color: #000000">) </span><span style="color: #008000">// **-****-****</span>
-<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">data</span><span style="color: #000000">.</span><span style="color: #795E26">maskString</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;55-1234-5678&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;#&quot;</span><span style="color: #000000">, </span><span style="color: #098658">4</span><span style="color: #000000">) </span><span style="color: #008000">// ##-####-5678</span>
-
-<span style="color: #008000">// Minify JSON</span>
-<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">data</span><span style="color: #000000">.</span><span style="color: #795E26">minifyJson</span><span style="color: #000000">(</span><span style="color: #001080">someJsonStringWithComments</span><span style="color: #000000">) </span><span style="color: #008000">// JSON object</span>
-
-<span style="color: #008000">// Returns a random RFC4122 UID</span>
-<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">data</span><span style="color: #000000">.</span><span style="color: #795E26">uuid</span><span style="color: #000000">() </span><span style="color: #008000">// ex. 12345678-1234-4444-y123-123457890111</span>
+<a href="#data-utils" id="data-utils" style="color: inherit; text-decoration: none;">
+  <h2>Data Utils</h2>
+</a>
+<pre><code class="language-javascript"><span class="hl-6">// Removing characters from string</span><br/><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">data</span><span class="hl-1">.</span><span class="hl-3">removeFromString</span><span class="hl-1">(</span><span class="hl-4">&quot;A1A2A3&quot;</span><span class="hl-1">, </span><span class="hl-4">&quot;A&quot;</span><span class="hl-1">) </span><span class="hl-6">// 123</span><br/><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">data</span><span class="hl-1">.</span><span class="hl-3">removeFromString</span><span class="hl-1">(</span><span class="hl-4">&quot;A1A2A3&quot;</span><span class="hl-1">, [</span><span class="hl-4">&quot;1&quot;</span><span class="hl-1">, </span><span class="hl-4">&quot;2&quot;</span><span class="hl-1">, </span><span class="hl-4">&quot;3&quot;</span><span class="hl-1">]) </span><span class="hl-6">// AAA</span><br/><br/><span class="hl-6">// Masking phone numbers</span><br/><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">data</span><span class="hl-1">.</span><span class="hl-3">maskString</span><span class="hl-1">(</span><span class="hl-4">&quot;55-1234-5678&quot;</span><span class="hl-1">) </span><span class="hl-6">// **-****-****</span><br/><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">data</span><span class="hl-1">.</span><span class="hl-3">maskString</span><span class="hl-1">(</span><span class="hl-4">&quot;55-1234-5678&quot;</span><span class="hl-1">, </span><span class="hl-4">&quot;#&quot;</span><span class="hl-1">, </span><span class="hl-7">4</span><span class="hl-1">) </span><span class="hl-6">// ##-####-5678</span><br/><br/><span class="hl-6">// Minify JSON</span><br/><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">data</span><span class="hl-1">.</span><span class="hl-3">minifyJson</span><span class="hl-1">(</span><span class="hl-5">someJsonStringWithComments</span><span class="hl-1">) </span><span class="hl-6">// JSON object</span><br/><br/><span class="hl-6">// Returns a random RFC4122 UID</span><br/><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">data</span><span class="hl-1">.</span><span class="hl-3">uuid</span><span class="hl-1">() </span><span class="hl-6">// ex. 12345678-1234-4444-y123-123457890111</span>
 </code></pre>
-				<a href="#io-utils" id="io-utils" style="color: inherit; text-decoration: none;">
-					<h2>IO Utils</h2>
-				</a>
-				<pre><code class="language-javascript"><span style="color: #008000">// Finds out the full path to the desired filename</span>
-<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">io</span><span style="color: #000000">.</span><span style="color: #795E26">getFilePath</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;package.json&quot;</span><span style="color: #000000">) </span><span style="color: #008000">// finds the package.json full path</span>
-<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">io</span><span style="color: #000000">.</span><span style="color: #795E26">getFilePath</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;some-file.js&quot;</span><span style="color: #000000">, </span><span style="color: #001080">__dirname</span><span style="color: #000000">) </span><span style="color: #008000">// specifying __dirname as base path</span>
 
-<span style="color: #008000">// Copy file from source to target, sync</span>
-<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">io</span><span style="color: #000000">.</span><span style="color: #795E26">copyFileSync</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;./source-file.json&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;./folder/target.json&quot;</span><span style="color: #000000">) </span><span style="color: #008000">// void</span>
-
-<span style="color: #008000">// Ensure that target folder exists, recursively creating folders</span>
-<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">io</span><span style="color: #000000">.</span><span style="color: #795E26">mkdirRecursive</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;path/to/some/deep/folder&quot;</span><span style="color: #000000">) </span><span style="color: #008000">// void</span>
-
-<span style="color: #008000">// Sleep code execution helper</span>
-<span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">io</span><span style="color: #000000">.</span><span style="color: #795E26">sleep</span><span style="color: #000000">(</span><span style="color: #098658">1000</span><span style="color: #000000">) </span><span style="color: #008000">// wait 1 second</span>
+<a href="#io-utils" id="io-utils" style="color: inherit; text-decoration: none;">
+  <h2>IO Utils</h2>
+</a>
+<pre><code class="language-javascript"><span class="hl-6">// Finds out the full path to the desired filename</span><br/><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">io</span><span class="hl-1">.</span><span class="hl-3">getFilePath</span><span class="hl-1">(</span><span class="hl-4">&quot;package.json&quot;</span><span class="hl-1">) </span><span class="hl-6">// finds the package.json full path</span><br/><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">io</span><span class="hl-1">.</span><span class="hl-3">getFilePath</span><span class="hl-1">(</span><span class="hl-4">&quot;some-file.js&quot;</span><span class="hl-1">, </span><span class="hl-5">__dirname</span><span class="hl-1">) </span><span class="hl-6">// specifying __dirname as base path</span><br/><br/><span class="hl-6">// Copy file from source to target, sync</span><br/><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">io</span><span class="hl-1">.</span><span class="hl-3">copyFileSync</span><span class="hl-1">(</span><span class="hl-4">&quot;./source-file.json&quot;</span><span class="hl-1">, </span><span class="hl-4">&quot;./folder/target.json&quot;</span><span class="hl-1">) </span><span class="hl-6">// void</span><br/><br/><span class="hl-6">// Ensure that target folder exists, recursively creating folders</span><br/><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">io</span><span class="hl-1">.</span><span class="hl-3">mkdirRecursive</span><span class="hl-1">(</span><span class="hl-4">&quot;path/to/some/deep/folder&quot;</span><span class="hl-1">) </span><span class="hl-6">// void</span><br/><br/><span class="hl-6">// Sleep code execution helper</span><br/><span class="hl-8">await</span><span class="hl-1"> </span><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">io</span><span class="hl-1">.</span><span class="hl-3">sleep</span><span class="hl-1">(</span><span class="hl-7">1000</span><span class="hl-1">) </span><span class="hl-6">// wait 1 second</span>
 </code></pre>
-				<a href="#network-utils" id="network-utils" style="color: inherit; text-decoration: none;">
-					<h2>Network Utils</h2>
-				</a>
-				<pre><code class="language-javascript"><span style="color: #008000">// Get list of valid IPs on the system</span>
-<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">network</span><span style="color: #000000">.</span><span style="color: #795E26">getIP</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;ipv4&quot;</span><span style="color: #000000">) </span><span style="color: #008000">// array of IPv4 addresses</span>
-<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">network</span><span style="color: #000000">.</span><span style="color: #795E26">getIP</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;ipv6&quot;</span><span style="color: #000000">) </span><span style="color: #008000">// array of IPv6 addresses</span>
-<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">network</span><span style="color: #000000">.</span><span style="color: #795E26">getSingleIPv4</span><span style="color: #000000">() </span><span style="color: #008000">// first valid IPv4 address</span>
-<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">network</span><span style="color: #000000">.</span><span style="color: #795E26">getSingleIPv6</span><span style="color: #000000">() </span><span style="color: #008000">// first valid IPv6 address</span>
 
-<span style="color: #008000">// Get IP address of client</span>
-<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">network</span><span style="color: #000000">.</span><span style="color: #795E26">getClientIP</span><span style="color: #000000">(</span><span style="color: #001080">req</span><span style="color: #000000">) </span><span style="color: #008000">// IP address from http / express request object</span>
-<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">network</span><span style="color: #000000">.</span><span style="color: #795E26">getClientIP</span><span style="color: #000000">(</span><span style="color: #001080">sock</span><span style="color: #000000">) </span><span style="color: #008000">// IP address from websocket request object</span>
-
-<span style="color: #008000">// Check if specified IP is in range</span>
-<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">network</span><span style="color: #000000">.</span><span style="color: #795E26">ipInRange</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;192.168.0.1&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;192.168.0.0/24&quot;</span><span style="color: #000000">) </span><span style="color: #008000">// true</span>
-<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">network</span><span style="color: #000000">.</span><span style="color: #795E26">ipInRange</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;10.0.0.1&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;192.168.0.0/32&quot;</span><span style="color: #000000">) </span><span style="color: #008000">// false</span>
+<a href="#network-utils" id="network-utils" style="color: inherit; text-decoration: none;">
+  <h2>Network Utils</h2>
+</a>
+<pre><code class="language-javascript"><span class="hl-6">// Get list of valid IPs on the system</span><br/><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">network</span><span class="hl-1">.</span><span class="hl-3">getIP</span><span class="hl-1">(</span><span class="hl-4">&quot;ipv4&quot;</span><span class="hl-1">) </span><span class="hl-6">// array of IPv4 addresses</span><br/><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">network</span><span class="hl-1">.</span><span class="hl-3">getIP</span><span class="hl-1">(</span><span class="hl-4">&quot;ipv6&quot;</span><span class="hl-1">) </span><span class="hl-6">// array of IPv6 addresses</span><br/><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">network</span><span class="hl-1">.</span><span class="hl-3">getSingleIPv4</span><span class="hl-1">() </span><span class="hl-6">// first valid IPv4 address</span><br/><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">network</span><span class="hl-1">.</span><span class="hl-3">getSingleIPv6</span><span class="hl-1">() </span><span class="hl-6">// first valid IPv6 address</span><br/><br/><span class="hl-6">// Get IP address of client</span><br/><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">network</span><span class="hl-1">.</span><span class="hl-3">getClientIP</span><span class="hl-1">(</span><span class="hl-5">req</span><span class="hl-1">) </span><span class="hl-6">// IP address from http / express request object</span><br/><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">network</span><span class="hl-1">.</span><span class="hl-3">getClientIP</span><span class="hl-1">(</span><span class="hl-5">sock</span><span class="hl-1">) </span><span class="hl-6">// IP address from websocket request object</span><br/><br/><span class="hl-6">// Check if specified IP is in range</span><br/><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">network</span><span class="hl-1">.</span><span class="hl-3">ipInRange</span><span class="hl-1">(</span><span class="hl-4">&quot;192.168.0.1&quot;</span><span class="hl-1">, </span><span class="hl-4">&quot;192.168.0.0/24&quot;</span><span class="hl-1">) </span><span class="hl-6">// true</span><br/><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">network</span><span class="hl-1">.</span><span class="hl-3">ipInRange</span><span class="hl-1">(</span><span class="hl-4">&quot;10.0.0.1&quot;</span><span class="hl-1">, </span><span class="hl-4">&quot;192.168.0.0/32&quot;</span><span class="hl-1">) </span><span class="hl-6">// false</span>
 </code></pre>
-				<a href="#system-utils" id="system-utils" style="color: inherit; text-decoration: none;">
-					<h2>System Utils</h2>
-				</a>
-				<pre><code class="language-javascript"><span style="color: #008000">// Get a summary of current system stats</span>
-<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">system</span><span style="color: #000000">.</span><span style="color: #795E26">getInfo</span><span style="color: #000000">() </span><span style="color: #008000">// returns stats with labels (uptime, hostname, platform etc)</span>
-<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">system</span><span style="color: #000000">.</span><span style="color: #795E26">getInfo</span><span style="color: #000000">({</span><span style="color: #001080">labels:</span><span style="color: #000000"> </span><span style="color: #0000FF">false</span><span style="color: #000000">}) </span><span style="color: #008000">// returns stats without labels</span>
 
-<span style="color: #008000">// Get current CPU load</span>
-<span style="color: #001080">jaul</span><span style="color: #000000">.</span><span style="color: #001080">system</span><span style="color: #000000">.</span><span style="color: #795E26">getCpuLoad</span><span style="color: #000000">() </span><span style="color: #008000">// returns CPU load info</span>
+<a href="#system-utils" id="system-utils" style="color: inherit; text-decoration: none;">
+  <h2>System Utils</h2>
+</a>
+<pre><code class="language-javascript"><span class="hl-6">// Get a summary of current system stats</span><br/><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">system</span><span class="hl-1">.</span><span class="hl-3">getInfo</span><span class="hl-1">() </span><span class="hl-6">// returns stats with labels (uptime, hostname, platform etc)</span><br/><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">system</span><span class="hl-1">.</span><span class="hl-3">getInfo</span><span class="hl-1">({</span><span class="hl-5">labels:</span><span class="hl-1"> </span><span class="hl-0">false</span><span class="hl-1">}) </span><span class="hl-6">// returns stats without labels</span><br/><br/><span class="hl-6">// Get current CPU load</span><br/><span class="hl-5">jaul</span><span class="hl-1">.</span><span class="hl-5">system</span><span class="hl-1">.</span><span class="hl-3">getCpuLoad</span><span class="hl-1">() </span><span class="hl-6">// returns CPU load info</span>
 </code></pre>
-				<a href="#api-documentation" id="api-documentation" style="color: inherit; text-decoration: none;">
-					<h2>API documentation</h2>
-				</a>
-				<p>You can browse the full API documentation at <a href="https://jaul.devv.com">https://jaul.devv.com</a>.</p>
-				<p>Or check these following modules that are using Jaul:</p>
-				<ul>
-					<li><a href="https://github.com/igoramadas/expresser">Expresser</a></li>
-					<li><a href="https://github.com/igoramadas/monitorado">Monitorado</a></li>
-				</ul>
-			</div>
-		</div>
-		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
-			<nav class="tsd-navigation primary">
-				<ul>
-					<li class=" ">
-						<a href="modules.html">Modules</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/data.html">data</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/index.html">index</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/io.html">io</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/network.html">network</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/system.html">system</a>
-					</li>
-				</ul>
-			</nav>
-			<nav class="tsd-navigation secondary menu-sticky">
-				<ul class="before-current">
-				</ul>
-			</nav>
-		</div>
-	</div>
-</div>
-<footer class="with-border-bottom">
-	<div class="container">
-		<h2>Legend</h2>
-		<div class="tsd-legend-group">
-			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-			</ul>
-		</div>
-	</div>
-</footer>
-<div class="container tsd-generator">
-	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
-</div>
-<div class="overlay"></div>
-<script src="assets/js/main.js"></script>
-<script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-        ga('create', 'UA-9331973-4', 'auto');
-        ga('send', 'pageview');
-    </script>
-</body>
-</html>
+<a href="#api-documentation" id="api-documentation" style="color: inherit; text-decoration: none;">
+  <h2>API documentation</h2>
+</a>
+<p>You can browse the full API documentation at <a href="https://jaul.devv.com">https://jaul.devv.com</a>.</p>
+<p>Or check these following modules that are using Jaul:</p>
+<ul>
+<li><a href="https://github.com/igoramadas/expresser">Expresser</a></li>
+<li><a href="https://github.com/igoramadas/monitorado">Monitorado</a></li>
+</ul>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script><script>(function(i,s,o,g,r,a,m){i[&#39;GoogleAnalyticsObject&#39;]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,&#39;script&#39;,&#39;//www.google-analytics.com/analytics.js&#39;,&#39;ga&#39;); ga(&#39;create&#39;, &#39;UA-9331973-4&#39;, &#39;auto&#39;); ga(&#39;send&#39;, &#39;pageview&#39;);</script></body></html>
