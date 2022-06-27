@@ -2,7 +2,6 @@
 
 let chai = require("chai")
 let express = require("express")
-let getPort = require("get-port")
 let mocha = require("mocha")
 let after = mocha.after
 let before = mocha.before
@@ -11,22 +10,24 @@ let it = mocha.it
 
 chai.should()
 
-describe("JAUL Network Tests", function() {
+describe("JAUL Network Tests", function () {
     let port = null
     let jaul = null
     let app = null
     let server = null
     let supertest = null
 
-    before(async function() {
+    before(async function () {
         jaul = require("../lib/index")
-        port = await getPort(3000)
+
+        let getPort = await import("get-port")
+        port = await getPort.default(3000)
 
         app = express()
         server = app.listen(port)
         supertest = require("supertest").agent(app)
 
-        app.get("/", function(req, res) {
+        app.get("/", function (req, res) {
             let ip = jaul.network.getClientIP(req)
             res.json({
                 ip: ip
@@ -34,11 +35,11 @@ describe("JAUL Network Tests", function() {
         })
     })
 
-    after(function() {
+    after(function () {
         server.close()
     })
 
-    it("Gets current IPV4", function(done) {
+    it("Gets current IPV4", function (done) {
         let ip = jaul.network.getSingleIPv4()
 
         if (ip) {
@@ -48,12 +49,12 @@ describe("JAUL Network Tests", function() {
         }
     })
 
-    it("Gets current IPV6", function(done) {
+    it("Gets current IPV6", function (done) {
         let ip = jaul.network.getSingleIPv6()
         done()
     })
 
-    it("Check IP against multiple ranges", function(done) {
+    it("Check IP against multiple ranges", function (done) {
         let ip = "192.168.1.1"
         let validIP = "192.168.1.1"
         let validRange = "192.168.1.0/24"
@@ -73,7 +74,7 @@ describe("JAUL Network Tests", function() {
         }
     })
 
-    it("Check IP against invalid range", function(done) {
+    it("Check IP against invalid range", function (done) {
         let ip = "192.168.1.1"
 
         if (jaul.network.ipInRange(ip, null)) {
@@ -85,22 +86,19 @@ describe("JAUL Network Tests", function() {
         }
     })
 
-    it("Get valid IP from browser", function(done) {
+    it("Get valid IP from browser", function (done) {
         supertest.get("/").expect(200, done)
     })
 
-    it("Get valid IP from X-Forwarded-For header", function(done) {
+    it("Get valid IP from X-Forwarded-For header", function (done) {
         let body = {
             ip: "10.1.2.3"
         }
 
-        supertest
-            .get("/")
-            .set("X-Forwarded-For", "10.1.2.3")
-            .expect(200, body, done)
+        supertest.get("/").set("X-Forwarded-For", "10.1.2.3").expect(200, body, done)
     })
 
-    it("Get valid IP from socket connection", function(done) {
+    it("Get valid IP from socket connection", function (done) {
         let options = {
             transports: ["websocket"],
             forceNew: true,
@@ -112,7 +110,7 @@ describe("JAUL Network Tests", function() {
         let receiver = socketIO(`http://localhost:${port}`, options)
         let called = false
 
-        app.use(function(req, res, next) {
+        app.use(function (req, res, next) {
             if (!called) {
                 if (req.path.indexOf("socket.io") >= 0) {
                     called = true
@@ -129,7 +127,7 @@ describe("JAUL Network Tests", function() {
         sender.emit("message", "abc")
     })
 
-    it("Fails to get IP from invalid objects", function(done) {
+    it("Fails to get IP from invalid objects", function (done) {
         let ip = jaul.network.getClientIP("invalid")
 
         if (ip != null) {

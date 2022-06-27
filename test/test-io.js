@@ -10,13 +10,13 @@ let it = mocha.it
 
 chai.should()
 
-describe("JAUL IO Tests", function() {
+describe("JAUL IO Tests", function () {
     let jaul = null
 
     let recursiveTarget = __dirname + "/mkdir/directory/inside/another"
     let copyFileTarget = __dirname + "/test-io.js.copy"
 
-    let cleanup = function() {
+    let cleanup = function () {
         if (fs.existsSync(recursiveTarget)) {
             fs.rmdirSync(__dirname + "/mkdir/directory/inside/another")
             fs.rmdirSync(__dirname + "/mkdir/directory/inside")
@@ -29,16 +29,16 @@ describe("JAUL IO Tests", function() {
         }
     }
 
-    before(function() {
+    before(function () {
         jaul = require("../lib/index")
         cleanup()
     })
 
-    after(function() {
+    after(function () {
         cleanup()
     })
 
-    it("Gets file from app root folder using getFilePath", function(done) {
+    it("Gets file from app root folder using getFilePath", function (done) {
         let currentFile = jaul.io.getFilePath("package.json")
 
         if (currentFile) {
@@ -48,7 +48,7 @@ describe("JAUL IO Tests", function() {
         }
     })
 
-    it("Gets file from current folder using getFilePath", function(done) {
+    it("Gets file from current folder using getFilePath", function (done) {
         let currentFile = jaul.io.getFilePath("test-io.js", __dirname)
 
         if (currentFile) {
@@ -58,7 +58,7 @@ describe("JAUL IO Tests", function() {
         }
     })
 
-    it("Fails to get non existing file using getFilePath", function(done) {
+    it("Fails to get non existing file using getFilePath", function (done) {
         let currentFile = jaul.io.getFilePath("this-does-not.exist")
 
         if (currentFile) {
@@ -68,30 +68,7 @@ describe("JAUL IO Tests", function() {
         }
     })
 
-    it("Creates directory recursively", function(done) {
-        this.timeout = 5000
-
-        let checkDir = function() {
-            let stat = fs.statSync(recursiveTarget)
-
-            if (stat.isDirectory()) {
-                done()
-            } else {
-                done("Folder " + recursiveTarget + " was not created.")
-            }
-        }
-
-        jaul.io.mkdirRecursive(recursiveTarget)
-
-        setTimeout(checkDir, 1000)
-    })
-
-    it("Creates directory recursively again, should return straight away", function(done) {
-        jaul.io.mkdirRecursive(recursiveTarget)
-        done()
-    })
-
-    it("Fails to create invalid recursive directory", function(done) {
+    it("Fails to create invalid recursive directory", function (done) {
         try {
             jaul.io.mkdirRecursive("../../../../../../...someinvalidpath../!@#$%^&*()-+")
             done("The mkdirRecursive call should have thrown an exception.")
@@ -100,7 +77,7 @@ describe("JAUL IO Tests", function() {
         }
     })
 
-    it("Fails to create recursive directory due to existing file", function(done) {
+    it("Fails to create recursive directory due to existing file", function (done) {
         try {
             jaul.io.mkdirRecursive("./package.json")
             done("The mkdirRecursive call should have thrown an exception.")
@@ -109,7 +86,7 @@ describe("JAUL IO Tests", function() {
         }
     })
 
-    it("Copy file to another folder", function(done) {
+    it("Copy file to another folder", function (done) {
         jaul.io.copyFileSync(__dirname + "/test-io.js", copyFileTarget)
 
         if (fs.existsSync(copyFileTarget)) {
@@ -119,7 +96,7 @@ describe("JAUL IO Tests", function() {
         }
     })
 
-    it("Sleep test", async function() {
+    it("Sleep test", async function () {
         let wait = await jaul.io.sleep(200)
         return true
     })

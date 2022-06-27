@@ -1,7 +1,6 @@
 // TEST: DATA
 
 let chai = require("chai")
-let lodash = require("lodash")
 let mocha = require("mocha")
 let before = mocha.before
 let describe = mocha.describe
@@ -256,7 +255,8 @@ test`
             ids.push(jaul.data.uuid())
         }
 
-        let noduplicates = lodash.uniq(ids)
+        let uniq = (value, index, self) => self.indexOf(value) === index
+        let noduplicates = ids.filter(uniq)
 
         if (noduplicates.length == max) {
             done()

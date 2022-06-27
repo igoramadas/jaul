@@ -1,6 +1,6 @@
 // JAUL: network.ts
 
-import ipaddr = require("ipaddr.js")
+import ipaddr = require("./ipaddr")
 import os = require("os")
 
 /** Network Utilities class. */
@@ -16,18 +16,14 @@ export class NetworkUtils {
      * @param family IP family to be retrieved, can be "IPv4" or "IPv6".
      * @returns Array with the system's IP addresses, or empty.
      */
-    getIP = (family: string): string[] => {
+    getIP = (family?: "IPv4" | "IPv6"): string[] => {
         const result = []
         let ifaces = os.networkInterfaces()
-
-        if (family) {
-            family = family.toLowerCase()
-        }
 
         // Parse network interfaces and try getting the valid IP addresses.
         for (let i in ifaces) {
             ifaces[i].forEach(function (details) {
-                if (!details.internal && (family == null || details.family.toLowerCase() == family)) {
+                if (!details.internal && (!family || details.family.toString() == family.substring(family.length - 1))) {
                     return result.push(details.address)
                 }
             })
@@ -40,7 +36,7 @@ export class NetworkUtils {
      * @returns First valid IPv4 address, or null.
      */
     getSingleIPv4 = (): string => {
-        const ips = this.getIP("ipv4")
+        const ips = this.getIP("IPv4")
 
         if (ips && ips.length > 0) {
             return ips[0]
@@ -55,7 +51,7 @@ export class NetworkUtils {
      * @returns First valid IPv6 address, or null.
      */
     getSingleIPv6 = (): string => {
-        const ips = this.getIP("ipv6")
+        const ips = this.getIP("IPv6")
 
         if (ips && ips.length) {
             return ips[0]

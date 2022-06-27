@@ -70,62 +70,12 @@ export class IOUtils {
     }
 
     /**
-     * Make sure the `target` directory exists by recursively iterating through its parents
-     * and creating the directories.
-     * @param target The full target path, with or without a trailing slash.
-     */
-    mkdirRecursive = (target: string): void => {
-        let stat
-
-        // Check if exists and not a file.
-        if (fs.existsSync(path.resolve(target))) {
-            stat = fs.statSync(target)
-
-            if (!stat.isDirectory()) {
-                throw new Error(`Target ${target} is a file.`)
-            }
-
-            return
-        }
-
-        var callback = function(p) {
-            p = path.resolve(p)
-
-            try {
-                fs.mkdirSync(p)
-            } catch (ex) {
-                if (ex.code === "ENOENT") {
-                    callback(path.dirname(p))
-                    callback(p)
-                } else {
-                    let stat
-
-                    try {
-                        stat = fs.statSync(p)
-                    } catch (ex1) {
-                        ex1.friendlyMessage = `Can't create directory: ${p}`
-                        throw ex1
-                    }
-
-                    /* istanbul ignore next */
-                    if (!stat.isDirectory()) {
-                        ex.friendlyMessage = `Target ${p} is a file.`
-                        throw ex
-                    }
-                }
-            }
-        }
-
-        callback(target)
-    }
-
-    /**
      * Helper to delay async code execution. To be used inside async functions using await.
      * @param number - How long to stall the execution for, in milliseconds.
      * @returns A promise with a setTimeout for the specified milliseconds.
      */
     sleep = (ms: number): Promise<Function> => {
-        return new Promise(function(resolve) {
+        return new Promise(function (resolve) {
             return setTimeout(resolve, ms)
         })
     }

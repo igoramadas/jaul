@@ -36,7 +36,7 @@ publish:
 	npm publish
 
 update:
-	-ncu -u
+	-ncu -u --target minor
 	-npm install
 	$(TSC)
 

@@ -1,7 +1,6 @@
 // TEST: MAIN
 
 let chai = require("chai")
-let lodash = require("lodash")
 let mocha = require("mocha")
 let before = mocha.before
 let describe = mocha.describe

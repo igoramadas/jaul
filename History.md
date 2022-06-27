@@ -1,5 +1,11 @@
 # Changelog for JAUL
 
+1.5.0
+=====
+* No more dependencies!
+* Improved TypeScript definitions.
+* Removed features that are available in Node: mkdirRecursive.
+
 1.4.3
 =====
 * Updated dependencies.
