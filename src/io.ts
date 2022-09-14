@@ -41,13 +41,16 @@ export class IOUtils {
             return filename
         }
 
-        // Try application root path.
-        // @ts-ignore: Unreachable code error
-        filename = path.resolve(path.dirname(require.main ? require.main.filename : import.meta.url), originalFilename)
-        hasFile = fs.existsSync(filename)
-        /* istanbul ignore if */
-        if (hasFile) {
-            return filename
+        // Try application root path (CommonJS).
+        // @ts-ignore
+        if (require.main) {
+            // @ts-ignore
+            filename = path.resolve(path.dirname(require.main.filename), originalFilename)
+            hasFile = fs.existsSync(filename)
+            /* istanbul ignore if */
+            if (hasFile) {
+                return filename
+            }
         }
 
         // Try local / absolute path.

@@ -1,8 +1,9 @@
 # Changelog for JAUL
 
-1.6.0
+1.6.1
 =====
 * Improved support for ESM modules.
+* Fixed regression bug on 1.6.0 (removed from NPM).
 
 1.5.0
 =====
