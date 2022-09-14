@@ -1,5 +1,9 @@
 # Changelog for JAUL
 
+1.6.0
+=====
+* Improved support for ESM modules.
+
 1.5.0
 =====
 * No more dependencies!

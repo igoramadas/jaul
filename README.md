@@ -31,17 +31,11 @@ They're separated on the following areas:
 * Network
 * System
 
-## Basic usage
+## Data Utils
 
 ```javascript
 const jaul = require("jaul")
 
-jaul.version // current version
-```
-
-## Data Utils
-
-```javascript
 // Removing characters from string
 jaul.data.removeFromString("A1A2A3", "A") // 123
 jaul.data.removeFromString("A1A2A3", ["1", "2", "3"]) // AAA
@@ -60,6 +54,8 @@ jaul.data.uuid() // ex. 12345678-1234-4444-y123-123457890111
 ## IO Utils
 
 ```javascript
+const jaul = require("jaul")
+
 // Finds out the full path to the desired filename
 jaul.io.getFilePath("package.json") // finds the package.json full path
 jaul.io.getFilePath("some-file.js", __dirname) // specifying __dirname as base path
@@ -77,6 +73,8 @@ await jaul.io.sleep(1000) // wait 1 second
 ## Network Utils
 
 ```javascript
+const jaul = require("jaul")
+
 // Get list of valid IPs on the system
 jaul.network.getIP("ipv4") // array of IPv4 addresses
 jaul.network.getIP("ipv6") // array of IPv6 addresses
@@ -95,6 +93,8 @@ jaul.network.ipInRange("10.0.0.1", "192.168.0.0/32") // false
 ## System Utils
 
 ```javascript
+const jaul = require("jaul")
+
 // Get a summary of current system stats
 jaul.system.getInfo() // returns stats with labels (uptime, hostname, platform etc)
 jaul.system.getInfo({labels: false}) // returns stats without labels

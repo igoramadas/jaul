@@ -18,9 +18,6 @@ class JAUL {
         return new JAUL()
     }
 
-    /** Package version. */
-    version: string = JSON.parse(require("fs").readFileSync(`${__dirname}/../package.json`, {encoding: "utf8"})).version
-
     /** [[DataUtils]] exposed as .data */
     data: DataUtils = DataUtils.Instance
 

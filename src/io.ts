@@ -42,7 +42,8 @@ export class IOUtils {
         }
 
         // Try application root path.
-        filename = path.resolve(path.dirname(require.main.filename), originalFilename)
+        // @ts-ignore: Unreachable code error
+        filename = path.resolve(path.dirname(require.main ? require.main.filename : import.meta.url), originalFilename)
         hasFile = fs.existsSync(filename)
         /* istanbul ignore if */
         if (hasFile) {
