@@ -101,6 +101,16 @@ describe("JAUL Data tests", function () {
         done()
     })
 
+    it("Replace tags with a static string", function (done) {
+        let expected = "Hello world world world"
+        let text = jaul.data.replaceTags("Hello ${a} ${b} ${c}", "world")
+        if (text != expected) {
+            return done(`Expected "${expected}", but got "${text}"`)
+        }
+
+        done()
+    })
+
     it("Mask password with defaults", function (done) {
         let original = "password"
         let masked = jaul.data.maskString(original)

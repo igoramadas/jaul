@@ -38,7 +38,7 @@ export class DataUtils {
      * Replace tags on the passed text with values from the passed object.
      * It follows the TypeScript default format: ${property_name}
      * @param text The text with tags to be replaced.
-     * @param obj Object containing the keys and values for tag replacement.
+     * @param obj Object containing the keys and values for tag replacement, or a single string.
      * @param prefix Optional tag prefix.
      * @returns Text with tags replaced by object's values.
      */
@@ -46,7 +46,7 @@ export class DataUtils {
         if (!text) {
             return ""
         }
-        if (!obj) {
+        if (obj === null || typeof obj === "undefined") {
             return text
         }
         if (!prefix) {
@@ -67,7 +67,7 @@ export class DataUtils {
                     key = key.replace(prefix, "")
                 }
 
-                let substitution = obj[key.trim()]
+                let substitution = typeof obj !== "object" ? obj.toString() : obj[key.trim()]
                 if (substitution === null) substitution = ""
 
                 return substitution === undefined ? wholeMatch : substitution.toString()

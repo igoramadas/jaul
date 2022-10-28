@@ -1,5 +1,9 @@
 # Changelog for JAUL
 
+1.6.2
+=====
+* The data.replaceTags() should now accept a direct replacement value as the second argument.
+
 1.6.1
 =====
 * Improved support for ESM modules.
