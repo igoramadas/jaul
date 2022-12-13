@@ -111,6 +111,16 @@ describe("JAUL Data tests", function () {
         done()
     })
 
+    it("Replace tags with a static string using a prefix", function (done) {
+        let expected = "Hello world world world"
+        let text = jaul.data.replaceTags("Hello ${prefix.another.a} ${prefix.another.b} ${prefix.another.c}", "world", "prefix.another.")
+        if (text != expected) {
+            return done(`Expected "${expected}", but got "${text}"`)
+        }
+
+        done()
+    })
+
     it("Mask password with defaults", function (done) {
         let original = "password"
         let masked = jaul.data.maskString(original)
