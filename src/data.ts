@@ -189,9 +189,9 @@ export class DataUtils {
                                 index = position += 2
                                 break
                             }
-                            throw new Error("Unterminated block comment.")
+                            throw new Error("Unterminated block comment")
                         default:
-                            throw new Error("Invalid comment.")
+                            throw new Error("Invalid comment")
                     }
                     break
 
@@ -212,7 +212,7 @@ export class DataUtils {
                         result += source.slice(position, (index += 1))
                         break
                     }
-                    throw new Error("Unterminated string.")
+                    throw new Error("Unterminated string")
 
                 // Preserve all other characters.
                 default:
