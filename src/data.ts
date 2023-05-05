@@ -42,7 +42,7 @@ export class DataUtils {
      * @param prefix Optional tag prefix.
      * @returns Text with tags replaced by object's values.
      */
-    replaceTags = (text: string, obj: any, prefix?: String): string => {
+    replaceTags = (text: string, obj: any, prefix?: string): string => {
         if (!text) {
             return ""
         }
