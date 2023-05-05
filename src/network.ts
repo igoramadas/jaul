@@ -22,11 +22,11 @@ export class NetworkUtils {
 
         // Parse network interfaces and try getting the valid IP addresses.
         for (let i in ifaces) {
-            ifaces[i].forEach(function (details) {
-                if (!details.internal && (!family || details.family.toString() == family.substring(family.length - 1))) {
-                    return result.push(details.address)
+            for (let details of ifaces[i]) {
+                if (!details.internal && (!family || details.family.toString() == family)) {
+                    result.push(details.address)
                 }
-            })
+            }
         }
 
         return result
