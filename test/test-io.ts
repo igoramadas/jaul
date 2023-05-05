@@ -1,16 +1,10 @@
 // TEST: IO
 
-let fs = require("fs")
-let chai = require("chai")
-let mocha = require("mocha")
-let after = mocha.after
-let before = mocha.before
-let describe = mocha.describe
-let it = mocha.it
-
-chai.should()
+import {after, before, describe, it} from "mocha"
+require("chai").should()
 
 describe("JAUL IO Tests", function () {
+    let fs = require("fs")
     let jaul = null
 
     let recursiveTarget = __dirname + "/mkdir/directory/inside/another"
@@ -30,7 +24,7 @@ describe("JAUL IO Tests", function () {
     }
 
     before(function () {
-        jaul = require("../lib/index")
+        jaul = require("../src/index")
         cleanup()
     })
 
@@ -49,7 +43,7 @@ describe("JAUL IO Tests", function () {
     })
 
     it("Gets file from current folder using getFilePath", function (done) {
-        let currentFile = jaul.io.getFilePath("test-io.js", __dirname)
+        let currentFile = jaul.io.getFilePath("test-io.ts", __dirname)
 
         if (currentFile) {
             done()
@@ -87,7 +81,7 @@ describe("JAUL IO Tests", function () {
     })
 
     it("Copy file to another folder", function (done) {
-        jaul.io.copyFileSync(__dirname + "/test-io.js", copyFileTarget)
+        jaul.io.copyFileSync(__dirname + "/test-io.ts", copyFileTarget)
 
         if (fs.existsSync(copyFileTarget)) {
             done()
@@ -97,7 +91,7 @@ describe("JAUL IO Tests", function () {
     })
 
     it("Sleep test", async function () {
-        let wait = await jaul.io.sleep(200)
+        await jaul.io.sleep(300)
         return true
     })
 })

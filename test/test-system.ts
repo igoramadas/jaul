@@ -1,21 +1,16 @@
 // TEST: SYSTEM
 
-let chai = require("chai")
-let mocha = require("mocha")
-let before = mocha.before
-let describe = mocha.describe
-let it = mocha.it
+import {before, describe, it} from "mocha"
+require("chai").should()
 
-chai.should()
-
-describe("JAUL System Tests", function() {
+describe("JAUL System Tests", function () {
     let jaul = null
 
-    before(function() {
-        jaul = require("../lib/index")
+    before(function () {
+        jaul = require("../src/index")
     })
 
-    it("Get valid server info", function(done) {
+    it("Get valid server info", function (done) {
         let serverInfo = jaul.system.getInfo()
 
         if (serverInfo.cpuCores > 0) {
@@ -25,7 +20,7 @@ describe("JAUL System Tests", function() {
         }
     })
 
-    it("Get server info without labels", function(done) {
+    it("Get server info without labels", function (done) {
         let serverInfo = jaul.system.getInfo({
             labels: false
         })

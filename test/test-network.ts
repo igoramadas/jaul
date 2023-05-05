@@ -1,16 +1,11 @@
 // TEST: NETWORK
 
-let chai = require("chai")
-let express = require("express")
-let mocha = require("mocha")
-let after = mocha.after
-let before = mocha.before
-let describe = mocha.describe
-let it = mocha.it
-
-chai.should()
+import {after, before, describe, it} from "mocha"
+require("chai").should()
 
 describe("JAUL Network Tests", function () {
+    let express = require("express")
+
     let port = null
     let jaul = null
     let app = null
@@ -18,10 +13,10 @@ describe("JAUL Network Tests", function () {
     let supertest = null
 
     before(async function () {
-        jaul = require("../lib/index")
+        jaul = require("../src/index")
 
         let getPort = await import("get-port")
-        port = await getPort.default(3000)
+        port = await getPort.default({port: 3000})
 
         app = express()
         server = app.listen(port)
@@ -51,7 +46,12 @@ describe("JAUL Network Tests", function () {
 
     it("Gets current IPV6", function (done) {
         let ip = jaul.network.getSingleIPv6()
-        done()
+
+        if (ip) {
+            done()
+        } else {
+            done("The getSingleIPv6() did not return a valid IP")
+        }
     })
 
     it("Check IP against multiple ranges", function (done) {
@@ -107,10 +107,10 @@ describe("JAUL Network Tests", function () {
 
         let socketIO = require("socket.io-client")
         let sender = socketIO(`http://localhost:${port}`, options)
-        let receiver = socketIO(`http://localhost:${port}`, options)
+        socketIO(`http://localhost:${port}`, options)
         let called = false
 
-        app.use(function (req, res, next) {
+        app.use(function (req, _res, _next) {
             if (!called) {
                 if (req.path.indexOf("socket.io") >= 0) {
                     called = true

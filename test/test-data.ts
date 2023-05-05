@@ -1,18 +1,13 @@
 // TEST: DATA
 
-let chai = require("chai")
-let mocha = require("mocha")
-let before = mocha.before
-let describe = mocha.describe
-let it = mocha.it
-
-chai.should()
+import {before, describe, it} from "mocha"
+require("chai").should()
 
 describe("JAUL Data tests", function () {
     let jaul = null
 
     before(function () {
-        jaul = require("../lib/index")
+        jaul = require("../src/index")
     })
 
     it("Remove specified characters from string, passing as array", function (done) {
@@ -281,7 +276,8 @@ test`
         if (noduplicates.length == max) {
             done()
         } else {
-            done("Out of " + max + ", " + max - noduplicates.length + " of the generated IDs were not unique.")
+            const diff = max - noduplicates.length
+            done("Out of " + max + ", " + diff + " of the generated IDs were not unique.")
         }
     })
 })
