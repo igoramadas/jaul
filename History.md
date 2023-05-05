@@ -1,5 +1,11 @@
 # Changelog for JAUL
 
+1.7.0
+=====
+* Fixed bugs with network's getSingleIPv4() and getSingleIPv6().
+* Code refactoring.
+* Updated dependencies.
+
 1.6.2
 =====
 * The data.replaceTags() should now accept a direct replacement value as the second argument.
