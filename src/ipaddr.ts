@@ -155,7 +155,7 @@ function padPart(part, length) {
     return part
 }
 
-const ipaddr: any = {}
+const ipaddr = {} as any
 
 // An IPv4 address (RFC791).
 ipaddr.IPv4 = (function () {
@@ -738,11 +738,9 @@ ipaddr.IPv6 = (function () {
 
     // Returns the address in compact, human-readable format like
     // 2001:db8:8:66::1
-    //
-    // Deprecated: use toRFC5952String() instead.
+    // Calls toRFC5952String under the hood.
     IPv6.prototype.toString = function () {
-        // Replace the first sequence of 1 or more '0' parts with '::'
-        return this.toNormalizedString().replace(/((^|:)(0(:|$))+)/, "::")
+        return this.toRFC5952String()
     }
 
     return IPv6
