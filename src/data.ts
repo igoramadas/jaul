@@ -40,9 +40,10 @@ export class DataUtils {
      * @param text The text with tags to be replaced.
      * @param obj Object containing the keys and values for tag replacement, or a single string.
      * @param prefix Optional tag prefix.
+     * @param blankUndefined Optional flag to replace not-found substitutions with a blank string.
      * @returns Text with tags replaced by object's values.
      */
-    replaceTags = (text: string, obj: any, prefix?: string): string => {
+    replaceTags = (text: string, obj: any, prefix?: string, blankUndefined?: boolean): string => {
         if (!text) {
             return ""
         }
@@ -68,9 +69,13 @@ export class DataUtils {
                 }
 
                 let substitution = typeof obj !== "object" ? obj.toString() : obj[key.trim()]
-                if (substitution === null) substitution = ""
+                if (substitution === undefined) {
+                    substitution = blankUndefined ? "" : wholeMatch
+                } else if (substitution === null) {
+                    substitution = ""
+                }
 
-                return substitution === undefined ? wholeMatch : substitution.toString()
+                return substitution.toString()
             }
 
             text = text.replace(/\${([^}]+)}/g, replacer)
@@ -81,7 +86,7 @@ export class DataUtils {
     }
 
     /**
-     * Masks the specified string. For eaxmple to mask a phone number but leave the
+     * Masks the specified string. For example to mask a phone number but leave the
      * last 4 digits visible you could use maskString(phone, "X", 4).
      * @param value The original value to be masked.
      * @param maskChar Optional character to be used on the masking, default is *.
@@ -133,7 +138,7 @@ export class DataUtils {
     }
 
     /**
-     * Minify the passed JSON value. Removes comments, unecessary white spaces etc.
+     * Minify the passed JSON value. Removes comments, unnecessary white spaces etc.
      * @param source The JSON string or object to be minified.
      * @param asString If true, return as string instead of JSON object, default is false.
      * @returns The minified JSON as object or string, depending on asString.
