@@ -1,5 +1,10 @@
 # Changelog for JAUL
 
+1.7.1
+=====
+* The data.replaceTags() now accept a fourth parameter to blank undefined values.
+* Updated dependencies.
+
 1.7.0
 =====
 * Fixed bugs with network's getSingleIPv4() and getSingleIPv6().

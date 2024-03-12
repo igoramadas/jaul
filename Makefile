@@ -18,7 +18,8 @@ test:
 	npm test
 
 update:
-	-ncu -u -x chalk,get-port
+	-ncu -u -x chai,chalk,get-port
+	-ncu -u --target minor
 	-rm -rf ./node_modules
 	-rm -f package-lock.json
 	npm install

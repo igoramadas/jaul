@@ -130,7 +130,7 @@ function matchCIDR(first, second, partSize, cidrBits) {
 }
 
 function parseIntAuto(string) {
-    // Hexadedimal base 16 (0x#)
+    // Hexadecimal base 16 (0x#)
     if (hexRegex.test(string)) {
         return parseInt(string, 16)
     }
@@ -399,7 +399,7 @@ ipaddr.IPv4.parseCIDR = function (string) {
     throw new Error("ipaddr: string is not formatted like an IPv4 CIDR range")
 }
 
-// Classful variants (like a.b, where a is an octet, and b is a 24-bit
+// Classfull variants (like a.b, where a is an octet, and b is a 24-bit
 // value representing last three octets; this corresponds to a class C
 // address) are omitted due to classless nature of modern Internet.
 ipaddr.IPv4.parser = function (string) {
