@@ -22,19 +22,15 @@ import jaul from "jaul"
 
 ## What? Why?
 
-Because to this date I still haven't found a good mix of small
-utilities modules for my projects.
+Because to this date I still haven't found a good mix of small utilities modules for my projects. I'm using JAUL in most of my personal and work-related projects.
 
 #### If it fails, it throws
 
-You'll never need to guess what's going on behind the scenes.
-For instance if you try to minify an invalid JSON, it will
-throw an exception.
+You'll never need to guess what's going on behind the scenes. For instance if you try to minify an invalid JSON, it will throw an exception.
 
 #### Exceptions with friendly messages
 
-Exceptions thrown on methods might have a `friendlyMessage`
-property appended to them with extra information.
+Exceptions thrown on methods might have a `friendlyMessage` property appended to them with extra information.
 
 ## What types of utilities?
 
@@ -79,11 +75,7 @@ const res = await client.request({
 })
 ```
 
-Requests that fail due to timeouts, dropped connections, or status codes 429, 500, 502, 503, 504, 520
-and 597, are retried once after `retryInterval`. Other 4xx errors and requests aborted by a `signal`
-passed by the caller are not retried. Non-2xx responses throw an error with `statusCode`, `url`,
-`response` (including the parsed `data`) and `isTimeout` (for timeouts) properties. When
-`rateLimitExtractor` reports a used quota at or above `backoffThreshold`, the request is delayed progressively.
+Requests that fail due to timeouts, dropped connections, or status codes 429, 500, 502, 503, 504, 520 and 597, are retried once after `retryInterval`. Other 4xx errors and requests aborted by a `signal` passed by the caller are not retried. Non-2xx responses throw an error with `statusCode`, `url`, `response` (including the parsed `data`) and `isTimeout` (for timeouts) properties. When `rateLimitExtractor` reports a used quota at or above `backoffThreshold`, the request is delayed progressively.
 
 ## Data Utils
 
@@ -100,6 +92,10 @@ jaul.data.maskString("55-1234-5678", "#", 4) // ##-####-5678
 
 // Minify JSON
 jaul.data.minifyJson(someJsonStringWithComments) // JSON object
+
+// Make sure the value ends with the specified suffix
+jaul.data.ensureTrailing("https://example.com", "/") // https://example.com/
+jaul.data.ensureTrailing("file", ".json") // file.json
 
 // Returns a cryptographically random UUID v4
 jaul.data.uuid() // ex. 12345678-1234-4444-8123-123457890111
@@ -127,12 +123,20 @@ await jaul.io.sleep(1000) // wait 1 second
 const throttle = jaul.io.throttle({limit: 60, interval: 60000})
 const throttledFetch = throttle((url) => fetch(url))
 await throttledFetch("https://example.com/api")
-```
 
-`throttle()` is based on [p-throttle](https://github.com/sindresorhus/p-throttle) and supports the
-same `limit`, `interval`, `strict` (sliding window), `signal`, `onDelay` and `weight` options. Calls
-run in FIFO order. Throttled functions expose `isEnabled` and `queueSize`. Unlike p-throttle, `limit`
-and `interval` must be positive.
+// Parallel tasks: run up to 5 tasks at the same time, in FIFO order
+const tasks = jaul.io.parallelTasks({maxConcurrent: 5, onSuccess: (result, id) => {}, onError: (err, id) => {}})
+tasks.schedule("task-1", () => fetch("https://example.com/api/1"))
+tasks.schedule("task-2", () => fetch("https://example.com/api/2"), onTask2Success, onTask2Error)
+await tasks.idle() // wait till all tasks have finished
+tasks.counters // {running, succeeded, failed}
+tasks.clear() // remove pending tasks, returns how many were removed
+
+// Rate limit: max 5 calls at the same time, and max 60 calls started per minute (sliding window)
+const limit = jaul.io.rateLimit({maxConcurrent: 5, maxPerInterval: 60, interval: 60000})
+const limitedFetch = limit((url) => fetch(url))
+await limitedFetch("https://example.com/api")
+```
 
 ## Network Utils
 
@@ -154,41 +158,6 @@ jaul.network.getClientIP(req, true) // also consider Cloudflare's CF-Connecting-
 jaul.network.ipInRange("192.168.0.1", "192.168.0.0/24") // true
 jaul.network.ipInRange("10.0.0.1", "192.168.0.0/32") // false
 ```
-
-`getClientIP(reqOrSocket, cfCheck = false)` only considers `CF-Connecting-IP` when
-`cfCheck` is `true`, preferring it over the other proxy headers and socket address.
-It supports this header on both Express requests and plain Node.js HTTP requests.
-Only trust proxy headers when the request comes through a trusted proxy; in
-particular, restrict direct access to your origin when relying on Cloudflare.
-
-### Bottleneck Factory Example
-
-The repository includes a sample factory in `examples/bottleneck.cjs`. It is not a
-new JAUL API or a runtime dependency: copy the example into your application and
-install `bottleneck` there. The factory returns a regular Bottleneck instance,
-with independent quotas for each call.
-
-```javascript
-const {createRateLimiter} = require("./examples/bottleneck.cjs")
-
-const limiter = createRateLimiter({
-    maxConcurrent: 2,
-    maxPerInterval: 60,
-    interval: 60000,
-    minTime: 100,
-    onError: (error) => console.error(error),
-    onDepleted: () => console.warn("Rate limited")
-})
-
-const response = await limiter.schedule(() => fetch("https://example.com/api"))
-
-await limiter.stop()
-limiter.disconnect()
-```
-
-`interval` defaults to one minute and must be a positive multiple of 250ms.
-For hourly quotas, use `interval: 3600000`. Provider-specific logging, request
-statistics, and retry policies remain the caller's responsibility.
 
 ## System Utils
 
