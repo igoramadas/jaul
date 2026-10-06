@@ -29,6 +29,25 @@ export class DataUtils {
     }
 
     /**
+     * Appends the suffix to the value, unless it already ends with it. Useful for example to
+     * make sure that URLs and paths end with a forward slash.
+     * @param value The original value.
+     * @param suffix The suffix to append.
+     * @returns Value ending with the suffix.
+     */
+    ensureTrailing = (value: string, suffix: string): string => {
+        if (typeof suffix !== "string") {
+            throw new TypeError("Expected suffix to be a string")
+        }
+        if (!value) {
+            return value
+        }
+
+        value = value.toString()
+        return value.endsWith(suffix) ? value : value + suffix
+    }
+
+    /**
      * Replace tags on the passed text with values from the passed object.
      * It follows the TypeScript default format: ${property_name}
      * @param text The text with tags to be replaced.

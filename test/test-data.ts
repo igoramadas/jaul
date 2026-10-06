@@ -27,6 +27,19 @@ describe("JAUL Data tests", function () {
         jaul.data.uuid().should.match(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/)
     })
 
+    it("Ensures values end with the trailing suffix", function () {
+        jaul.data.ensureTrailing("https://example.com", "/").should.equal("https://example.com/")
+        jaul.data.ensureTrailing("https://example.com/", "/").should.equal("https://example.com/")
+        jaul.data.ensureTrailing("path\\to", "\\").should.equal("path\\to\\")
+        jaul.data.ensureTrailing("file.json", ".json").should.equal("file.json")
+        jaul.data.ensureTrailing("abc", "").should.equal("abc")
+        jaul.data.ensureTrailing("", "/").should.equal("")
+        require("chai").expect(jaul.data.ensureTrailing(null, "/")).to.equal(null)
+        require("chai")
+            .expect(() => (jaul.data.ensureTrailing as any)("abc"))
+            .to.throw(TypeError)
+    })
+
     it("Remove specified characters from string, passing as array", function (done) {
         let original = "ABC123"
         let removed = jaul.data.removeFromString(original, ["A", "1"])
