@@ -28,6 +28,7 @@
         },
         "./lib/*.js": "./lib/*.js",
         "./lib/*.d.ts": "./lib/*.d.ts",
+        "./lib/esm.mjs": "./lib/esm.mjs",
         "./lib/*": "./lib/*.js",
         "./package.json": "./package.json"
     },
