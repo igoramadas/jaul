@@ -390,8 +390,8 @@ export class IOUtils {
                         }
                     }
 
-                    if (!throttled.isEnabled) return run()
                     if (signal?.aborted) return reject(signal.reason)
+                    if (!throttled.isEnabled) return run()
 
                     let cost = 1
                     if (weight) {
