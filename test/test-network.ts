@@ -24,7 +24,7 @@ describe("JAUL Network Tests", function () {
         supertest = require("supertest").agent(app)
 
         app.get("/", function (req, res) {
-            let ip = jaul.network.getClientIP(req)
+            let ip = jaul.network.getClientIP(req, req.query.cfCheck === "true")
             res.json({
                 ip: ip
             })
@@ -122,6 +122,31 @@ describe("JAUL Network Tests", function () {
         }
 
         supertest.get("/").set("X-Forwarded-For", "10.1.2.3").expect(200, body, done)
+    })
+
+    it("Prefers CF-Connecting-IP over other proxy headers", function (done) {
+        supertest.get("/?cfCheck=true").set("CF-Connecting-IP", "203.0.113.1").set("X-Forwarded-For", "10.1.2.3").set("X-Real-IP", "10.2.3.4").expect(200, {ip: "203.0.113.1"}, done)
+    })
+
+    it("Reads CF-Connecting-IP from plain HTTP request headers", function () {
+        assert.equal(jaul.network.getClientIP({headers: {"cf-connecting-ip": " 2001:db8::1 "}, remoteAddress: "127.0.0.1"}, true), "2001:db8::1")
+    })
+
+    it("Ignores CF-Connecting-IP unless cfCheck is true", function () {
+        const request = {headers: {"cf-connecting-ip": "203.0.113.1"}, remoteAddress: "127.0.0.1"}
+        assert.equal(jaul.network.getClientIP(request), "127.0.0.1")
+        assert.equal(jaul.network.getClientIP(request, false), "127.0.0.1")
+
+        const expressRequest = {get: (name) => ({"CF-Connecting-IP": "203.0.113.1", "X-Forwarded-For": "10.1.2.3"})[name]}
+        assert.equal(jaul.network.getClientIP(expressRequest), "10.1.2.3")
+        assert.equal(jaul.network.getClientIP(expressRequest, false), "10.1.2.3")
+    })
+
+    it("Falls back when CF-Connecting-IP is empty or not a string", function () {
+        for (const header of [undefined, "", "   ", ["203.0.113.1"]]) {
+            assert.equal(jaul.network.getClientIP({headers: {"cf-connecting-ip": header}, remoteAddress: "127.0.0.1"}, true), "127.0.0.1")
+        }
+        assert.equal(jaul.network.getClientIP({get: (name) => (name === "X-Forwarded-For" ? "10.1.2.3" : "")}, true), "10.1.2.3")
     })
 
     it("Get valid IP from socket connection", function (done) {
