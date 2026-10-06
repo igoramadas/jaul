@@ -42,7 +42,7 @@
         "build": "tsc -p tsconfig-build.json",
         "build-test": "tsc -p tsconfig-test.json",
         "clean": "rm -rf ./lib && rm -rf ./lib-test && rm -rf ./coverage",
-        "prebuild": "npm run clean",
+        "prebuild": "rm -rf ./lib ./lib-test",
         "test": "npm run build && npm run build-test && mocha ./test/*.ts && node ./test/test-esm.mjs",
         "test-coverage": "nyc --reporter=lcov npm test"
     },
