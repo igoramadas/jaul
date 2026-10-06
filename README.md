@@ -47,35 +47,37 @@ They're separated on the following areas:
 Request client using Node's native `fetch`, with retries and a simple rate limit backoff.
 
 ```javascript
-const jaul = require("jaul")
+async function main() {
+    const jaul = require("jaul")
 
-const client = jaul.fetch.create({
-    timeout: 30000, // default 120000
-    retryInterval: 1000, // default 1100
-    backoffThreshold: 90, // default 90 (% of API quota)
-    backoffInterval: 500, // default 500
-    userAgent: "MyApp / 1.0.0",
-    logger: console
-})
+    const client = jaul.fetch.create({
+        timeout: 30000, // default 120000
+        retryInterval: 1000, // default 1100
+        backoffThreshold: 90, // default 90 (% of API quota)
+        backoffInterval: 500, // default 500
+        userAgent: "MyApp / 1.0.0",
+        logger: console
+    })
 
-// Returns the parsed JSON (or text), or true for 204 responses
-const data = await client.request({url: "https://example.com/api", params: {page: 2}})
+    // Returns the parsed JSON (or text), or true for 204 responses
+    const data = await client.request({url: "https://example.com/api", params: {page: 2}})
 
-// Custom options on top of the regular fetch options
-const res = await client.request({
-    url: "/users",
-    baseURL: "https://example.com/api/v1", // joined like axios, giving /api/v1/users
-    method: "POST",
-    body: {hello: "world"}, // plain objects and arrays are sent as JSON
-    responseType: "auto", // or "json", "text", "arraybuffer" (returns a Buffer)
-    returnResponse: true, // return {status, statusText, ok, url, headers, data}
-    abortStatus: [404], // return null instead of throwing for these status codes
-    onRetry: (options) => {}, // called before retrying, return false to cancel
-    rateLimitExtractor: (res) => parseInt(res.headers.get("x-ratelimit-used-percent")) // used quota from 0 to 100
-})
+    // Custom options on top of the regular fetch options
+    const res = await client.request({
+        url: "/users",
+        baseURL: "https://example.com/api/v1", // joined like axios, giving /api/v1/users
+        method: "POST",
+        body: {hello: "world"}, // plain objects and arrays are sent as JSON
+        responseType: "auto", // or "json", "text", "arraybuffer" (returns a Buffer)
+        returnResponse: true, // return {status, statusText, ok, url, headers, data}
+        abortStatus: [404], // return null instead of throwing for these status codes
+        onRetry: (options) => {}, // called before retrying, return false to cancel
+        rateLimitExtractor: (res) => parseInt(res.headers.get("x-ratelimit-used-percent")) // used quota from 0 to 100
+    })
+}
+
+main().catch(console.error)
 ```
-
-Requests that fail due to timeouts, dropped connections, or status codes 429, 500, 502, 503, 504, 520 and 597, are retried once after `retryInterval`. Other 4xx errors and requests aborted by a `signal` passed by the caller are not retried. Non-2xx responses throw an error with `statusCode`, `url`, `response` (including the parsed `data`) and `isTimeout` (for timeouts) properties. When `rateLimitExtractor` reports a used quota at or above `backoffThreshold`, the request is delayed progressively.
 
 ## Data Utils
 

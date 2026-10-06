@@ -205,7 +205,8 @@ export class FetchUtils {
                 const res = await doFetch(options)
                 return await processResponse(res, options, logUrl)
             } catch (ex) {
-                const statusCode = ex.response?.status || 500
+                const response = ex.response as FetchResponse | undefined
+                const statusCode = response?.status || 500
                 if (!ex.statusCode) ex.statusCode = statusCode
 
                 const message = [ex.name, ex.code, ex.message, ex.cause?.code]
@@ -213,17 +214,22 @@ export class FetchUtils {
                     .join(" ")
                     .toUpperCase()
                 const isTimeout = timeoutMessages.some((m) => message.includes(m))
-                const isRetryable = ex.response && retryableStatus.includes(statusCode)
-                const accessDenied = ex.response && [401, 403].includes(statusCode)
+                const isRetryable = response && retryableStatus.includes(statusCode)
+                const accessDenied = response && [401, 403].includes(statusCode)
+                const isIdempotent = ["GET", "HEAD", "OPTIONS", "TRACE", "PUT", "DELETE"].includes(options.method.toUpperCase())
 
-                if (options.abortStatus?.includes(statusCode)) {
+                if (response && options.abortStatus?.includes(statusCode)) {
                     warn("Fetch.request", options.method, logUrl, `Aborted with status ${statusCode}`)
                     return null
                 }
 
                 // Requests aborted by the caller's own signal are not retried.
-                if ((isTimeout || isRetryable) && !accessDenied && !options.signal?.aborted) {
-                    await delay(opts.retryInterval)
+                if ((isTimeout || isRetryable) && isIdempotent && !accessDenied && !options.signal?.aborted) {
+                    if (response?.status == 429) {
+                        await rateLimitDelay(response, logUrl, options.rateLimitExtractor)
+                    } else {
+                        await delay(opts.retryInterval)
+                    }
 
                     if (options.onRetry && options.onRetry(options) === false) {
                         warn("Fetch.request", options.method, logUrl, ex, "Failed, and retry condition hasn't passed")

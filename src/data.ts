@@ -25,7 +25,7 @@ export class DataUtils {
         }
 
         const characters = Array.isArray(charsToRemove) ? charsToRemove : Array.from(charsToRemove)
-        return characters.reduce((result, character) => result.replaceAll(character, ""), value.toString())
+        return characters.reduce((result, character) => (character instanceof RegExp ? result.split(character).join("") : result.replaceAll(character, "")), value.toString())
     }
 
     /**

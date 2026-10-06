@@ -149,7 +149,7 @@ export class ParallelTasks {
      */
     run = (): void => {
         while (this.counters.running < this.maxConcurrent && this.queue.length > 0) {
-            void this.execute(this.queue.shift())
+            void this.execute(this.queue.shift()).catch((ex) => process.emitWarning(ex))
         }
 
         if (!this.isRunning) {
@@ -403,9 +403,9 @@ export class IOUtils {
                         if (!Number.isFinite(cost) || cost < 0) {
                             return reject(new TypeError("Expected weight to be a finite non-negative number"))
                         }
-                        if (cost > limit) {
-                            return reject(new RangeError(`Expected weight (${cost}) to be <= limit (${limit})`))
-                        }
+                    }
+                    if (cost > limit) {
+                        return reject(new RangeError(`Expected weight (${cost}) to be <= limit (${limit})`))
                     }
 
                     queue.push({weight: cost, run, reject})

@@ -135,6 +135,14 @@ describe("JAUL IO Tests", function () {
         assert.equal(throttled.queueSize, 0)
     })
 
+    it("Throttle rejects default call weights that exceed fractional limits", async function () {
+        for (const strict of [false, true]) {
+            const throttled = jaul.io.throttle({limit: 0.5, interval: 10000, strict})(() => "unreachable")
+            await assert.rejects(throttled(), RangeError)
+            assert.equal(throttled.queueSize, 0)
+        }
+    })
+
     it("Throttle in strict mode never exceeds the limit in any rolling window", async function () {
         const times: number[] = []
         const throttled = jaul.io.throttle({limit: 3, interval: 150, strict: true})(() => times.push(Date.now()))
@@ -305,6 +313,30 @@ describe("JAUL IO Tests", function () {
         assert.deepEqual(errors.sort(), ["default async: Async", "default callback: Callback", "default sync: Sync"])
         assert.equal(custom, "Custom")
         assert.deepEqual(tasks.counters, {running: 0, succeeded: 1, failed: 3})
+    })
+
+    it("Parallel task callback errors are warned without stopping the queue", async function () {
+        const warnings: Error[] = []
+        const onWarning = (warning: Error) => warnings.push(warning)
+        process.on("warning", onWarning)
+
+        try {
+            const tasks = jaul.io.parallelTasks({
+                onSuccess: () => {
+                    throw new Error("Callback failed")
+                }
+            })
+            tasks.schedule("one", () => "ok")
+            tasks.schedule("two", () => "ok")
+            await tasks.idle()
+            await new Promise((resolve) => setImmediate(resolve))
+
+            assert.equal(tasks.counters.succeeded, 2)
+            assert.equal(warnings.length, 2)
+            assert.ok(warnings.every((warning) => warning.message == "Callback failed"))
+        } finally {
+            process.off("warning", onWarning)
+        }
     })
 
     it("Parallel tasks clear pending tasks but let running ones finish", async function () {

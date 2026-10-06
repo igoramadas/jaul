@@ -14,6 +14,7 @@ describe("JAUL Data tests", function () {
         jaul.data.removeFromString("ABAB.x$", ["AB", ".", "$"]).should.equal("x")
         jaul.data.removeFromString("a\u{1F600}b", "\u{1F600}").should.equal("ab")
         jaul.data.removeFromString("abc", []).should.equal("abc")
+        jaul.data.removeFromString("a1b2", [/\d/]).should.equal("ab")
     })
 
     it("Masks with defaults, literal replacements and oversized visible suffixes", function () {
