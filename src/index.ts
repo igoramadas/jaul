@@ -5,7 +5,9 @@ import {IOUtils} from "./io"
 import {NetworkUtils} from "./network"
 import {SystemUtils} from "./system"
 
-/** Main JAUL class. */
+/**
+ * JAUL
+ */
 class JAUL {
     private static _instance: JAUL
     /** @hidden */

@@ -1,13 +1,14 @@
 {
-  "compilerOptions": {
-    "baseUrl": "",
-    "target": "ES2022",
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-    "esModuleInterop": true,
-    "noUnusedParameters": true,
-    "noUnusedLocals": true,
-    "declaration": true,
-    "skipLibCheck": true
-  }
+    "compilerOptions": {
+        "target": "es2025",
+        "module": "nodenext",
+        "moduleResolution": "nodenext",
+        "declaration": true,
+        "esModuleInterop": true,
+        "noUnusedParameters": true,
+        "noUnusedLocals": true,
+        "skipLibCheck": true,
+        "strict": false,
+        "types": ["node"]
+    }
 }

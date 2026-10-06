@@ -1,6 +1,10 @@
 // JAUL: data.ts
 
-/** Data Utilities class. */
+import {randomUUID} from "node:crypto"
+
+/**
+ * Data Utilities
+ */
 export class DataUtils {
     private static _instance: DataUtils
     /** @hidden */
@@ -20,18 +24,8 @@ export class DataUtils {
             return value
         }
 
-        // Make sure value is a valid string.
-        let result = value.toString()
-
-        if (!Array.isArray(charsToRemove)) {
-            charsToRemove = Array.from(charsToRemove)
-        }
-
-        for (let c of charsToRemove) {
-            result = result.split(c).join("")
-        }
-
-        return result
+        const characters = Array.isArray(charsToRemove) ? charsToRemove : Array.from(charsToRemove)
+        return characters.reduce((result, character) => result.replaceAll(character, ""), value.toString())
     }
 
     /**
@@ -40,7 +34,7 @@ export class DataUtils {
      * @param text The text with tags to be replaced.
      * @param obj Object containing the keys and values for tag replacement, or a single string.
      * @param prefix Optional tag prefix.
-     * @param blankUndefined Optional flag to replace not-found substitutions with a blank string.
+     * @param blankUndefined Optional flag to replace not-found substitutions with a blank string, default is false.
      * @returns Text with tags replaced by object's values.
      */
     replaceTags = (text: string, obj: any, prefix?: string, blankUndefined?: boolean): string => {
@@ -63,7 +57,7 @@ export class DataUtils {
 
             // Replacer function. If a prefix was passed, remove it
             // before trying to assign value from object.
-            const replacer = (wholeMatch, key) => {
+            const replacer = (wholeMatch: any, key: any) => {
                 if (prefix) {
                     key = key.replace(prefix, "")
                 }
@@ -101,8 +95,6 @@ export class DataUtils {
         // Make sure value is a valid string.
         value = value.toString()
 
-        const separators = [" ", "-", "_", "+", "=", "/"]
-
         if (maskChar == null || maskChar == "") {
             maskChar = "*"
         }
@@ -111,30 +103,7 @@ export class DataUtils {
             leaveLast = 0
         }
 
-        let result = ""
-        let i = 0
-
-        // First split characters, then iterate to replace.
-        const arr = value.split("")
-
-        while (i < arr.length - leaveLast) {
-            const char = arr[i]
-
-            if (separators.indexOf(char) < 0) {
-                result += maskChar
-            } else {
-                result += char
-            }
-
-            i++
-        }
-
-        // Leave last characters?
-        if (leaveLast > 0) {
-            result += value.substr(value.length - leaveLast)
-        }
-
-        return result
+        return value.replace(/[^ \-_+=/]/g, (character, offset) => (offset < value.length - leaveLast ? maskChar : character))
     }
 
     /**
@@ -367,19 +336,12 @@ export class DataUtils {
     }
 
     /**
-     * Generates a RFC4122-compliant unique ID using random numbers.
+     * DEPRECATED! Generates a RFC4122-compliant unique ID using random numbers.
      * @returns A unique ID.
+     * @deprecated Use randomUUID() from node:crypto instead.
      */
     uuid = (): string => {
-        const baseStr = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
-
-        const generator = function (c) {
-            const r = (Math.random() * 16) | 0
-            const v = c === "x" ? r : (r & 0x3) | 0x8
-            return v.toString(16)
-        }
-
-        return baseStr.replace(/[xy]/g, generator)
+        return randomUUID()
     }
 }
 

@@ -10,6 +10,23 @@ describe("JAUL Data tests", function () {
         jaul = require("../src/index")
     })
 
+    it("Removes literal tokens and Unicode characters", function () {
+        jaul.data.removeFromString("ABAB.x$", ["AB", ".", "$"]).should.equal("x")
+        jaul.data.removeFromString("a\u{1F600}b", "\u{1F600}").should.equal("ab")
+        jaul.data.removeFromString("abc", []).should.equal("abc")
+    })
+
+    it("Masks with defaults, literal replacements and oversized visible suffixes", function () {
+        jaul.data.maskString("abc", "*", 5).should.equal("abc")
+        jaul.data.maskString("abc", "", -1).should.equal("***")
+        jaul.data.maskString("a-b_c+d=e/f g", "#", 2).should.equal("#-#_#+#=#/# g")
+        jaul.data.maskString("abc", "$&", 1).should.equal("$&$&c")
+    })
+
+    it("Generates version 4 UUIDs", function () {
+        jaul.data.uuid().should.match(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/)
+    })
+
     it("Remove specified characters from string, passing as array", function (done) {
         let original = "ABC123"
         let removed = jaul.data.removeFromString(original, ["A", "1"])

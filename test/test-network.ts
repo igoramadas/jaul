@@ -1,6 +1,7 @@
 // TEST: NETWORK
 
 import {after, before, describe, it} from "mocha"
+import assert = require("node:assert/strict")
 require("chai").should()
 
 describe("JAUL Network Tests", function () {
@@ -84,6 +85,31 @@ describe("JAUL Network Tests", function () {
         } else {
             done()
         }
+    })
+
+    it("Matches IPv6 subnets and rejects mixed families", function () {
+        assert.equal(jaul.network.ipInRange("2001:db8::1", "2001:db8::/32"), true)
+        assert.equal(jaul.network.ipInRange("2001:db9::1", "2001:db8::/32"), false)
+        assert.equal(jaul.network.ipInRange("::ffff:192.168.1.1", "192.168.1.0/24"), false)
+        assert.equal(jaul.network.ipInRange("192.168.1.1", "::ffff:192.168.1.0/120"), false)
+    })
+
+    it("Preserves legacy IPv4 syntax and literal address comparisons", function () {
+        assert.equal(jaul.network.ipInRange("127.1", "127.0.0.0/8"), true)
+        assert.equal(jaul.network.ipInRange("192.168.1.1", "0xc0.0250.1.0/24"), true)
+        assert.equal(jaul.network.ipInRange("2001:db8::1", "2001:0db8::1"), false)
+    })
+
+    it("Handles subnet boundaries, invalid ranges and arrays", function () {
+        assert.equal(jaul.network.ipInRange("192.168.1.1", "0.0.0.0/0"), true)
+        assert.equal(jaul.network.ipInRange("192.168.1.1", "192.168.1.1/32"), true)
+        assert.equal(jaul.network.ipInRange("::1", "::1/128"), true)
+        for (const range of ["192.168.1.0/33", "::/129", "192.168.1.0/-1", "192.168.1.0/24/1", "192.168.1.0/"]) {
+            assert.equal(jaul.network.ipInRange("192.168.1.1", range), false)
+        }
+        assert.equal(jaul.network.ipInRange("192.168.1.1", ["10.0.0.0/8", "192.168.1.0/24"]), true)
+        assert.equal(jaul.network.ipInRange("192.168.1.1", []), false)
+        assert.throws(() => jaul.network.ipInRange("invalid", "192.168.1.0/24"))
     })
 
     it("Get valid IP from browser", function (done) {

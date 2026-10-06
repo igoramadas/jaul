@@ -1,9 +1,12 @@
 // JAUL: network.ts
 
-import ipaddr = require("./ipaddr")
-import os = require("os")
+import {BlockList, isIP} from "node:net"
+import ipaddr from "./ipaddr"
+import os from "os"
 
-/** Network Utilities class. */
+/**
+ * Network Utilities
+ */
 export class NetworkUtils {
     private static _instance: NetworkUtils
     /** @hidden */
@@ -17,33 +20,14 @@ export class NetworkUtils {
      * @returns Array with the system's IP addresses, or empty.
      */
     getIP = (family?: "IPv4" | "IPv6"): string[] => {
-        const result = []
-        let ifaces = os.networkInterfaces()
-
-        // Parse network interfaces and try getting the valid IP addresses.
-        for (let i in ifaces) {
-            for (let details of ifaces[i]) {
-                if (!details.internal && (!family || details.family.toString() == family)) {
-                    result.push(details.address)
-                }
-            }
-        }
-
-        return result
+        return Object.values(os.networkInterfaces()).flatMap((interfaces) => (interfaces ?? []).filter((details) => !details.internal && (!family || details.family === family)).map((details) => details.address))
     }
     /**
      * Returns the first valid IPv4 address found on the system, or null if no valid IPs were found.
      * @returns First valid IPv4 address, or null.
      */
     getSingleIPv4 = (): string => {
-        const ips = this.getIP("IPv4")
-
-        if (ips && ips.length > 0) {
-            return ips[0]
-        }
-
-        /* istanbul ignore next */
-        return null
+        return this.getIP("IPv4")[0] ?? null
     }
 
     /**
@@ -51,14 +35,7 @@ export class NetworkUtils {
      * @returns First valid IPv6 address, or null.
      */
     getSingleIPv6 = (): string => {
-        const ips = this.getIP("IPv6")
-
-        if (ips && ips.length) {
-            return ips[0]
-        }
-
-        /* istanbul ignore next */
-        return null
+        return this.getIP("IPv6")[0] ?? null
     }
 
     /**
@@ -66,7 +43,7 @@ export class NetworkUtils {
      * @param reqOrSocket The request or socket object.
      * @returns The client IP address, or null if not identified.
      */
-    getClientIP = (reqOrSocket: any): string => {
+    getClientIP = (reqOrSocket: any): string | null => {
         if (reqOrSocket == null) {
             return null
         }
@@ -113,31 +90,32 @@ export class NetworkUtils {
      * @returns True if IP is in range, false otherwise.
      */
     ipInRange = (ip: string, range: string[] | string): boolean => {
-        if (typeof range == "string") {
-            const ipParsed = ipaddr.parse(ip)
+        if (Array.isArray(range)) {
+            return range.some((candidate) => this.ipInRange(ip, candidate))
+        }
 
-            // Range is a subnet? Then parse the IP address and check each block against the range.
+        if (typeof range == "string") {
+            const address = isIP(ip) ? ip : ipaddr.parse(ip).toString()
+
             if (range.indexOf("/") >= 0) {
                 try {
-                    const rangeParsed = ipaddr.parseCIDR(range as string)
-                    // @ts-ignore
-                    return ipParsed.match(rangeParsed)
+                    const parts = range.split("/")
+                    if (parts.length !== 2 || !/^\d+$/.test(parts[1])) {
+                        return false
+                    }
+                    const subnet = isIP(parts[0]) ? parts[0] : ipaddr.parse(parts[0]).toString()
+                    if (isIP(address) !== isIP(subnet)) {
+                        return false
+                    }
+                    const family = isIP(address) === 6 ? "ipv6" : "ipv4"
+                    const blockList = new BlockList()
+                    blockList.addSubnet(subnet, Number(parts[1]), family)
+                    return blockList.check(address, family)
                 } catch (err) {
                     return false
                 }
-
-                // Range is a single IP address.
             } else {
                 return ip === range
-            }
-        }
-
-        // Array of IP ranges, check each one of them.
-        if (Array.isArray(range)) {
-            for (let r in range as string[]) {
-                if (this.ipInRange(ip, range[r])) {
-                    return true
-                }
             }
         }
 

@@ -1,6 +1,7 @@
 // TEST: IO
 
 import {after, before, describe, it} from "mocha"
+import assert = require("node:assert/strict")
 require("chai").should()
 
 describe("JAUL IO Tests", function () {
@@ -84,6 +85,9 @@ describe("JAUL IO Tests", function () {
         jaul.io.copyFileSync(__dirname + "/test-io.ts", copyFileTarget)
 
         if (fs.existsSync(copyFileTarget)) {
+            fs.readFileSync(copyFileTarget)
+                .equals(fs.readFileSync(__dirname + "/test-io.ts"))
+                .should.equal(true)
             done()
         } else {
             done("File not copied to " + copyFileTarget)
@@ -91,7 +95,10 @@ describe("JAUL IO Tests", function () {
     })
 
     it("Sleep test", async function () {
-        await jaul.io.sleep(300)
+        const start = performance.now()
+        const result = await jaul.io.sleep(300)
+        assert.ok(performance.now() - start >= 280)
+        assert.equal(result, undefined)
         return true
     })
 })

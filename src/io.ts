@@ -1,9 +1,12 @@
 // JAUL: io.ts
 
-import fs = require("fs")
-import path = require("path")
+import {setTimeout} from "node:timers/promises"
+import fs from "fs"
+import path from "path"
 
-/** IO Utilities class. */
+/**
+ * IO Utilities
+ */
 export class IOUtils {
     private static _instance: IOUtils
     /** @hidden */
@@ -21,67 +24,29 @@ export class IOUtils {
      */
     getFilePath = (filename: string, basepath?: string): string => {
         const originalFilename = filename.toString()
-        let hasFile = false
-
-        // A basepath was passed? Try there first.
-        if (basepath) {
-            filename = path.resolve(basepath, originalFilename)
-            hasFile = fs.existsSync(filename)
-            /* istanbul ignore else */
-            if (hasFile) {
-                return filename
-            }
-        }
-
-        // Try running directory.
-        filename = path.resolve(process.cwd(), originalFilename)
-        hasFile = fs.existsSync(filename)
-        /* istanbul ignore if */
-        if (hasFile) {
-            return filename
-        }
-
-        // Try application root path (CommonJS).
-        // @ts-ignore
-        if (require.main) {
-            // @ts-ignore
-            filename = path.resolve(path.dirname(require.main.filename), originalFilename)
-            hasFile = fs.existsSync(filename)
-            /* istanbul ignore if */
-            if (hasFile) {
-                return filename
-            }
-        }
-
-        // Try local / absolute path.
-        hasFile = fs.existsSync(filename)
-        if (hasFile) {
-            return filename
-        }
-
-        // Nothing found, so return null.
-        return null
+        const mainFile = require.main?.filename ?? process.argv[1]
+        const directories = [basepath, process.cwd(), mainFile ? path.dirname(mainFile) : null].filter((directory) => directory != null)
+        return directories.map((directory) => path.resolve(directory, originalFilename)).find((candidate) => fs.existsSync(candidate)) ?? null
     }
 
     /**
-     * Copy the `source` file to the `target`, both must be the full file path.
+     * DEPRECATED! Copy the `source` file to the `target`, both must be the full file path.
      * @param source The full source file path.
      * @param target The full target file path.
+     * @deprecated Use fs.copyFileSync instead.
      */
     copyFileSync = (source: string, target: string): void => {
-        const fileBuffer = fs.readFileSync(source)
-        fs.writeFileSync(target, fileBuffer)
+        fs.copyFileSync(source, target)
     }
 
     /**
-     * Helper to delay async code execution. To be used inside async functions using await.
+     * DEPRECATED! Helper to delay async code execution. To be used inside async functions using await.
      * @param number - How long to stall the execution for, in milliseconds.
      * @returns A promise with a setTimeout for the specified milliseconds.
+     * @deprecated Use setTimeout from "node:timers/promises" instead.
      */
-    sleep = (ms: number): Promise<Function> => {
-        return new Promise(function (resolve) {
-            return setTimeout(resolve, ms)
-        })
+    sleep = (ms: number): Promise<void> => {
+        return setTimeout(ms)
     }
 }
 
