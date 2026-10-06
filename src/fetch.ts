@@ -151,6 +151,7 @@ export class FetchUtils {
             }
         }
 
+        // Helper to extract a simplified log URL from the request options.
         const getLogUrl = (options: FetchRequestOptions): string => {
             try {
                 const urlInfo = buildUrl(options)
@@ -160,6 +161,7 @@ export class FetchUtils {
             }
         }
 
+        // Helper to perform the actual fetch request with the given options.
         const doFetch = async (options: FetchRequestOptions): Promise<FetchResponse> => {
             const init: RequestInit = Object.fromEntries(Object.entries(options).filter(([key]) => !customOptions.includes(key)))
             const headers = new Headers()
