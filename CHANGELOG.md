@@ -8,7 +8,10 @@
 - NEW: The `io.rateLimit()` limits both concurrent calls and calls started per interval.
 - NEW: The `data.ensureTrailing()` makes sure a value ends with the specified suffix (for example a slash on URLs and paths).
 - NEW: The `network.getClientIP()` accepts a second parameter to also check Cloudflare's `CF-Connecting-IP` header.
-- NEW: Native ESM support via package exports, alongside CommonJS.
++ NEW: Native ESM support via package exports, alongside CommonJS.
++- BREAKING: Requires Node.js 22 or newer.
++- BREAKING: The `io.sleep()` now returns `Promise<void>`.
++- BREAKING: The `network.ipInRange()` returns false when mixing IPv4 and IPv6, including IPv4-mapped IPv6 addresses.
 - DEPRECATED: `data.uuid()`, use `crypto.randomUUID()` instead.
 - DEPRECATED: `io.copyFileSync()`, use `fs.copyFileSync()` instead.
 - DEPRECATED: `io.sleep()`, use `setTimeout()` from `node:timers/promises` instead.
