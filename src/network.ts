@@ -41,11 +41,20 @@ export class NetworkUtils {
     /**
      * Get the client IP. Works for http and socket requests, even when behind a proxy.
      * @param reqOrSocket The request or socket object.
+     * @param cfCheck Check CF-Connecting-IP (Cloudflare header)first when true. Defaults to false.
      * @returns The client IP address, or null if not identified.
      */
-    getClientIP = (reqOrSocket: any): string | null => {
+    getClientIP = (reqOrSocket: any, cfCheck: boolean = false): string | null => {
         if (reqOrSocket == null) {
             return null
+        }
+
+        // Check Cloudflare header?
+        if (cfCheck === true) {
+            const cloudflare = reqOrSocket.get?.("CF-Connecting-IP") || reqOrSocket.headers?.["cf-connecting-ip"]
+            if (typeof cloudflare === "string" && cloudflare.trim()) {
+                return cloudflare.trim()
+            }
         }
 
         // Try getting IP from headers first.
