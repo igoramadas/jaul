@@ -246,4 +246,144 @@ describe("JAUL IO Tests", function () {
         assert.throws(() => jaul.io.throttle({limit: 1, interval: Infinity}), RangeError)
         assert.throws(() => jaul.io.throttle({limit: 1, interval: 100, weight: 1}), TypeError)
     })
+
+    it("Parallel tasks respect maxConcurrent and run in order", async function () {
+        const tasks = jaul.io.parallelTasks({maxConcurrent: 2})
+        const started: string[] = []
+        const succeeded: string[] = []
+        let maxRunning = 0
+
+        tasks.onSuccess = (result: string, id: string) => succeeded.push(`${id}:${result}`)
+
+        for (const id of ["a", "b", "c", "d"]) {
+            tasks.schedule(id, async () => {
+                started.push(id)
+                maxRunning = Math.max(maxRunning, tasks.counters.running)
+                await jaul.io.sleep(20)
+                return id.toUpperCase()
+            })
+        }
+
+        assert.equal(tasks.isRunning, true)
+        assert.equal(tasks.queue.length, 2)
+        await tasks.idle()
+
+        assert.equal(maxRunning, 2)
+        assert.deepEqual(started, ["a", "b", "c", "d"])
+        assert.deepEqual(succeeded, ["a:A", "b:B", "c:C", "d:D"])
+        assert.deepEqual(tasks.counters, {running: 0, succeeded: 4, failed: 0})
+        assert.equal(tasks.isRunning, false)
+    })
+
+    it("Parallel tasks call error callbacks, with per task overrides", async function () {
+        const errors: string[] = []
+        const tasks = jaul.io.parallelTasks({maxConcurrent: 3, onError: (err: Error, id: string) => errors.push(`default ${id}: ${err.message}`)})
+        let custom = null
+
+        tasks.schedule("sync", () => {
+            throw new Error("Sync")
+        })
+        tasks.schedule("async", async () => Promise.reject(new Error("Async")))
+        tasks.schedule(
+            "custom",
+            () => {
+                throw new Error("Custom")
+            },
+            null,
+            (err: Error) => (custom = err.message)
+        )
+        tasks.schedule(
+            "callback",
+            () => "ok",
+            () => {
+                throw new Error("Callback")
+            }
+        )
+
+        await tasks.idle()
+
+        assert.deepEqual(errors.sort(), ["default async: Async", "default callback: Callback", "default sync: Sync"])
+        assert.equal(custom, "Custom")
+        assert.deepEqual(tasks.counters, {running: 0, succeeded: 1, failed: 3})
+    })
+
+    it("Parallel tasks clear pending tasks but let running ones finish", async function () {
+        const tasks = jaul.io.parallelTasks()
+        const done: string[] = []
+
+        for (const id of ["a", "b", "c"]) {
+            tasks.schedule(id, async () => {
+                await jaul.io.sleep(20)
+                done.push(id)
+            })
+        }
+
+        assert.equal(tasks.clear(), 2)
+        await tasks.idle()
+        assert.deepEqual(done, ["a"])
+        assert.equal(tasks.counters.running, 0)
+        await tasks.idle()
+    })
+
+    it("Parallel tasks validate their options", function () {
+        assert.throws(() => jaul.io.parallelTasks({maxConcurrent: 0}), RangeError)
+        assert.throws(() => jaul.io.parallelTasks({maxConcurrent: 1.5}), RangeError)
+        assert.equal(jaul.io.parallelTasks({maxConcurrent: Infinity}).maxConcurrent, Infinity)
+        assert.throws(() => jaul.io.parallelTasks().schedule("x", null), TypeError)
+    })
+
+    it("Rate limit respects max concurrent and max per interval", async function () {
+        const start = Date.now()
+        const limit = jaul.io.rateLimit({maxConcurrent: 2, maxPerInterval: 3, interval: 150})
+        const times: number[] = []
+        let running = 0
+        let maxRunning = 0
+
+        const limited = limit(async (i: number) => {
+            times.push(Date.now() - start)
+            maxRunning = Math.max(maxRunning, ++running)
+            await jaul.io.sleep(20)
+            running--
+            return i * 10
+        })
+
+        const results = await Promise.all([1, 2, 3, 4, 5, 6].map((i) => limited(i)))
+        assert.deepEqual(results, [10, 20, 30, 40, 50, 60])
+        assert.equal(maxRunning, 2)
+        assert.ok(times[2] < 100)
+        for (let i = 3; i < times.length; i++) {
+            assert.ok(times[i] - times[i - 3] >= 145, `call ${i} ran too early`)
+        }
+    })
+
+    it("Rate limit shares limits between wrapped functions, keeps this and propagates errors", async function () {
+        const limit = jaul.io.rateLimit({maxConcurrent: 1, maxPerInterval: 10, interval: 100})
+        let running = 0
+        let maxRunning = 0
+
+        const track = async () => {
+            maxRunning = Math.max(maxRunning, ++running)
+            await jaul.io.sleep(10)
+            running--
+        }
+        const a = limit(async function (this: any) {
+            await track()
+            return this?.value
+        })
+        const b = limit(async () => {
+            await track()
+            throw new Error("Boom")
+        })
+
+        const [value, failed] = await Promise.allSettled([a.call({value: 42}), b()])
+        assert.deepEqual(value, {status: "fulfilled", value: 42})
+        assert.match((failed as PromiseRejectedResult).reason.message, /Boom/)
+        assert.equal(maxRunning, 1)
+    })
+
+    it("Rate limit validates its options", function () {
+        assert.throws(() => jaul.io.rateLimit({maxConcurrent: 0, maxPerInterval: 1, interval: 100}), RangeError)
+        assert.throws(() => jaul.io.rateLimit({maxConcurrent: 1, maxPerInterval: 0, interval: 100}), RangeError)
+        assert.throws(() => jaul.io.rateLimit({maxConcurrent: 1, maxPerInterval: 1, interval: 0}), RangeError)
+    })
 })

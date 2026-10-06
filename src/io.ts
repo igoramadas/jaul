@@ -42,6 +42,180 @@ export interface ThrottleJob {
 }
 
 /**
+ * Options for [[IOUtils.rateLimit]].
+ */
+export interface RateLimitOptions {
+    /** Maximum number of calls running at the same time. */
+    maxConcurrent: number
+    /** Maximum number of calls started per interval. */
+    maxPerInterval: number
+    /** Interval length, in milliseconds. */
+    interval: number
+}
+
+/**
+ * A rate limited function returned by [[IOUtils.rateLimit]].
+ */
+export type RateLimitedFunction<F extends (...args: any[]) => any> = (this: ThisParameterType<F>, ...args: Parameters<F>) => Promise<Awaited<ReturnType<F>>>
+
+/**
+ * Options for [[IOUtils.parallelTasks]].
+ */
+export interface ParallelTasksOptions {
+    /** Maximum number of tasks running at the same time, default is 1. */
+    maxConcurrent?: number
+    /** Default callback for tasks that succeeded. */
+    onSuccess?: (result: any, id: string) => any
+    /** Default callback for tasks that failed, or whose onSuccess callback threw. */
+    onError?: (err: any, id: string) => any
+}
+
+/**
+ * Task counters of a [[ParallelTasks]] queue.
+ */
+export interface ParallelTasksCounters {
+    running: number
+    succeeded: number
+    failed: number
+}
+
+/**
+ * Represents a task waiting in the [[ParallelTasks]] queue.
+ */
+export interface ParallelTask {
+    id: string
+    task: () => any
+    onSuccess?: (result: any, id: string) => any
+    onError?: (err: any, id: string) => any
+}
+
+/**
+ * Queue that runs scheduled tasks in FIFO order, with a limit of concurrent tasks.
+ */
+export class ParallelTasks {
+    constructor(options?: ParallelTasksOptions) {
+        const maxConcurrent = options?.maxConcurrent ?? 1
+
+        if (maxConcurrent !== Infinity && (!Number.isInteger(maxConcurrent) || maxConcurrent <= 0)) {
+            throw new RangeError("Expected maxConcurrent to be a positive integer")
+        }
+
+        this.maxConcurrent = maxConcurrent
+        this.onSuccess = options?.onSuccess ?? null
+        this.onError = options?.onError ?? null
+    }
+
+    /** Maximum number of tasks running at the same time. */
+    maxConcurrent: number
+
+    /** Default callback for tasks that succeeded. */
+    onSuccess: (result: any, id: string) => any
+
+    /** Default callback for tasks that failed, or whose onSuccess callback threw. */
+    onError: (err: any, id: string) => any
+
+    /** How many tasks are running, succeeded and failed since the last clear(). */
+    counters: ParallelTasksCounters = {running: 0, succeeded: 0, failed: 0}
+
+    /** Tasks waiting to be executed. */
+    queue: ParallelTask[] = []
+
+    private idleResolvers: (() => void)[] = []
+
+    /** True if there are tasks running or waiting in the queue. */
+    get isRunning(): boolean {
+        return this.counters.running > 0 || this.queue.length > 0
+    }
+
+    /**
+     * Schedule a task to run as soon as there's a free slot.
+     * @param id Task ID, passed to the callbacks.
+     * @param task The task to run, can be sync or async.
+     * @param onSuccess Optional callback for this task, overrides the default onSuccess.
+     * @param onError Optional callback for this task, overrides the default onError.
+     */
+    schedule = (id: string, task: () => any, onSuccess?: (result: any, id: string) => any, onError?: (err: any, id: string) => any): void => {
+        if (typeof task !== "function") {
+            throw new TypeError("Expected task to be a function")
+        }
+
+        this.queue.push({id, task, onSuccess, onError})
+        this.run()
+    }
+
+    /**
+     * Start queued tasks while there are free slots. Called automatically,
+     * but can be used to fill new slots after increasing maxConcurrent.
+     */
+    run = (): void => {
+        while (this.counters.running < this.maxConcurrent && this.queue.length > 0) {
+            void this.execute(this.queue.shift())
+        }
+
+        if (!this.isRunning) {
+            this.idleResolvers.splice(0).forEach((resolve) => resolve())
+        }
+    }
+
+    /**
+     * Wait till the queue is empty and all running tasks have finished.
+     */
+    idle = (): Promise<void> => {
+        if (!this.isRunning) {
+            return Promise.resolve()
+        }
+
+        return new Promise((resolve) => this.idleResolvers.push(resolve))
+    }
+
+    /**
+     * Remove all pending tasks from the queue and reset the succeeded and failed
+     * counters. Tasks that are already running will still finish.
+     * @returns How many pending tasks were removed.
+     */
+    clear = (): number => {
+        const count = this.queue.length
+
+        this.queue = []
+        this.counters.succeeded = 0
+        this.counters.failed = 0
+        this.run()
+
+        return count
+    }
+
+    private execute = async (item: ParallelTask): Promise<void> => {
+        const onSuccess = item.onSuccess ?? this.onSuccess
+        const onError = item.onError ?? this.onError
+        this.counters.running++
+
+        try {
+            let result: any
+
+            try {
+                result = await item.task()
+            } catch (ex) {
+                this.counters.failed++
+                if (onError) await onError(ex, item.id)
+                return
+            }
+
+            this.counters.succeeded++
+
+            try {
+                if (onSuccess) await onSuccess(result, item.id)
+            } catch (ex) {
+                if (!onError) throw ex
+                await onError(ex, item.id)
+            }
+        } finally {
+            this.counters.running--
+            this.run()
+        }
+    }
+}
+
+/**
  * IO Utilities
  */
 export class IOUtils {
@@ -84,6 +258,15 @@ export class IOUtils {
      */
     sleep = (ms: number): Promise<void> => {
         return delay(ms)
+    }
+
+    /**
+     * Creates a new tasks queue that runs up to `maxConcurrent` tasks at the same time.
+     * @param options The queue options (maxConcurrent, onSuccess, onError).
+     * @returns A new [[ParallelTasks]] instance.
+     */
+    parallelTasks = (options?: ParallelTasksOptions): ParallelTasks => {
+        return new ParallelTasks(options)
     }
 
     /**
@@ -241,6 +424,26 @@ export class IOUtils {
             Object.defineProperty(throttled, "queueSize", {get: () => queue.length - head})
 
             return throttled
+        }
+    }
+
+    /**
+     * Creates a rate limiter that limits both concurrent calls and calls started per interval.
+     * The interval is a sliding window, so the limit is never exceeded in any rolling interval.
+     * All functions wrapped by the same rate limiter share the same limits, and calls run in FIFO order.
+     * @param options The rate limit options (maxConcurrent, maxPerInterval, interval).
+     * @returns A function that wraps the passed function into a rate limited, promise-returning one.
+     */
+    rateLimit = (options: RateLimitOptions): (<F extends (...args: any[]) => any>(fn: F) => RateLimitedFunction<F>) => {
+        const tasks = this.parallelTasks({maxConcurrent: options.maxConcurrent})
+        const throttle = this.throttle({limit: options.maxPerInterval, interval: options.interval, strict: true})
+
+        return <F extends (...args: any[]) => any>(fn: F): RateLimitedFunction<F> => {
+            const throttled = throttle(fn)
+
+            return function (this: any, ...args: any[]): Promise<any> {
+                return new Promise((resolve, reject) => tasks.schedule("", () => throttled.apply(this, args), resolve, reject))
+            }
         }
     }
 }
