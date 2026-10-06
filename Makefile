@@ -15,7 +15,6 @@ test:
 	npm test
 
 update:
-	-ncu -u -x
 	-rm -rf ./node_modules
 	-rm -f package-lock.json
 	npm install

@@ -54,9 +54,49 @@ property appended to them with extra information.
 They're separated on the following areas:
 
 - Data
+- Fetch
 - IO
 - Network
 - System
+
+## Fetch Utils
+
+Request client using Node's native `fetch`, with retries and a simple rate limit backoff.
+
+```javascript
+const jaul = require("jaul")
+
+const client = jaul.fetch.create({
+    timeout: 30000, // default 120000
+    retryInterval: 1000, // default 1100
+    backoffThreshold: 90, // default 90 (% of API quota)
+    backoffInterval: 500, // default 500
+    userAgent: "MyApp / 1.0.0",
+    logger: console
+})
+
+// Returns the parsed JSON (or text), or true for 204 responses
+const data = await client.request({url: "https://example.com/api", params: {page: 2}})
+
+// Custom options on top of the regular fetch options
+const res = await client.request({
+    url: "/users",
+    baseURL: "https://example.com/api/v1", // joined like axios, giving /api/v1/users
+    method: "POST",
+    body: {hello: "world"}, // plain objects and arrays are sent as JSON
+    responseType: "auto", // or "json", "text", "arraybuffer" (returns a Buffer)
+    returnResponse: true, // return {status, statusText, ok, url, headers, data}
+    abortStatus: [404], // return null instead of throwing for these status codes
+    onRetry: (options) => {}, // called before retrying, return false to cancel
+    rateLimitExtractor: (res) => parseInt(res.headers.get("x-ratelimit-used-percent")) // used quota from 0 to 100
+})
+```
+
+Requests that fail due to timeouts, dropped connections, or status codes 429, 500, 502, 503, 504, 520
+and 597, are retried once after `retryInterval`. Other 4xx errors and requests aborted by a `signal`
+passed by the caller are not retried. Non-2xx responses throw an error with `statusCode`, `url`,
+`response` (including the parsed `data`) and `isTimeout` (for timeouts) properties. When
+`rateLimitExtractor` reports a used quota at or above `backoffThreshold`, the request is delayed progressively.
 
 ## Data Utils
 
@@ -95,7 +135,17 @@ require("node:fs").mkdirSync("path/to/some/deep/folder", {recursive: true})
 
 // Sleep code execution helper
 await jaul.io.sleep(1000) // wait 1 second
+
+// Throttle: max 60 calls per minute, shared by all functions wrapped by the same throttle
+const throttle = jaul.io.throttle({limit: 60, interval: 60000})
+const throttledFetch = throttle((url) => fetch(url))
+await throttledFetch("https://example.com/api")
 ```
+
+`throttle()` is based on [p-throttle](https://github.com/sindresorhus/p-throttle) and supports the
+same `limit`, `interval`, `strict` (sliding window), `signal`, `onDelay` and `weight` options. Calls
+run in FIFO order. Throttled functions expose `isEnabled` and `queueSize`. Unlike p-throttle, `limit`
+and `interval` must be positive.
 
 ## Network Utils
 
@@ -111,11 +161,47 @@ jaul.network.getSingleIPv6() // first valid IPv6 address
 // Get IP address of client
 jaul.network.getClientIP(req) // IP address from http / express request object
 jaul.network.getClientIP(sock) // IP address from websocket request object
+jaul.network.getClientIP(req, true) // also consider Cloudflare's CF-Connecting-IP header
 
 // Check if specified IP is in range
 jaul.network.ipInRange("192.168.0.1", "192.168.0.0/24") // true
 jaul.network.ipInRange("10.0.0.1", "192.168.0.0/32") // false
 ```
+
+`getClientIP(reqOrSocket, cfCheck = false)` only considers `CF-Connecting-IP` when
+`cfCheck` is `true`, preferring it over the other proxy headers and socket address.
+It supports this header on both Express requests and plain Node.js HTTP requests.
+Only trust proxy headers when the request comes through a trusted proxy; in
+particular, restrict direct access to your origin when relying on Cloudflare.
+
+### Bottleneck Factory Example
+
+The repository includes a sample factory in `examples/bottleneck.cjs`. It is not a
+new JAUL API or a runtime dependency: copy the example into your application and
+install `bottleneck` there. The factory returns a regular Bottleneck instance,
+with independent quotas for each call.
+
+```javascript
+const {createRateLimiter} = require("./examples/bottleneck.cjs")
+
+const limiter = createRateLimiter({
+    maxConcurrent: 2,
+    maxPerInterval: 60,
+    interval: 60000,
+    minTime: 100,
+    onError: (error) => console.error(error),
+    onDepleted: () => console.warn("Rate limited")
+})
+
+const response = await limiter.schedule(() => fetch("https://example.com/api"))
+
+await limiter.stop()
+limiter.disconnect()
+```
+
+`interval` defaults to one minute and must be a positive multiple of 250ms.
+For hourly quotas, use `interval: 3600000`. Provider-specific logging, request
+statistics, and retry policies remain the caller's responsibility.
 
 ## System Utils
 
