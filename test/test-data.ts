@@ -275,6 +275,15 @@ test`
         }
     })
 
+    it("Minifies JSON with tabs, carriage returns and escaped quotes", function () {
+        jaul.data.minifyJson('{\t"a":\r\n"b\\"c"}').should.deep.equal({a: 'b"c'})
+    })
+
+    it("Strips HTML comments and quoted angle brackets", function () {
+        jaul.data.stripHtml("x<!-- a > b -->y").should.equal("xy")
+        jaul.data.stripHtml('<a title="<b>">x</a>').should.equal(" x ")
+    })
+
     it("Strips tags from valid HTML, replacing with empty string", function (done) {
         let html1 = `<body><div>This</div><br><br /><br><p>And body</p><footer>Free from tags!</footer><<>></body>`
         let html2 = `<div>This</div><br><p>And body</p><strong><br />Free from tags!</strong>`

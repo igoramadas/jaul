@@ -149,6 +149,36 @@ describe("JAUL Network Tests", function () {
         assert.equal(jaul.network.getClientIP({get: (name) => (name === "X-Forwarded-For" ? "10.1.2.3" : "")}, true), "10.1.2.3")
     })
 
+    it("Gets IPs skipping internal and empty interfaces", function () {
+        const os = require("os")
+        const networkInterfaces = os.networkInterfaces
+
+        try {
+            os.networkInterfaces = () => ({lo: [{internal: true, family: "IPv4", address: "127.0.0.1"}], none: undefined, eth: [{internal: false, family: "IPv4", address: "10.0.0.1"}]})
+            assert.deepEqual(jaul.network.getIP(), ["10.0.0.1"])
+            assert.equal(jaul.network.getSingleIPv4(), "10.0.0.1")
+            assert.equal(jaul.network.getSingleIPv6(), null)
+
+            os.networkInterfaces = () => ({})
+            assert.equal(jaul.network.getSingleIPv4(), null)
+        } finally {
+            os.networkInterfaces = networkInterfaces
+        }
+    })
+
+    it("Gets IP from Forwarded and X-Real-IP headers", function () {
+        const request = (headers) => ({get: (name) => headers[name]})
+
+        assert.equal(jaul.network.getClientIP(request({Forwarded: "by=10.0.0.9; for=10.0.0.1"})), "10.0.0.1")
+        assert.equal(jaul.network.getClientIP(request({Forwarded: "by=10.0.0.9", "X-Real-IP": "10.0.0.2"})), "10.0.0.2")
+        assert.equal(jaul.network.getClientIP(request({"X-Real-IP": "10.0.0.3"})), "10.0.0.3")
+    })
+
+    it("Gets IP from handshake and nested request connections", function () {
+        assert.equal(jaul.network.getClientIP({connection: {}, handshake: {address: "10.0.0.4"}}), "10.0.0.4")
+        assert.equal(jaul.network.getClientIP({request: {connection: {remoteAddress: "10.0.0.5"}}}), "10.0.0.5")
+    })
+
     it("Get valid IP from socket connection", function (done) {
         let options = {
             transports: ["websocket"],

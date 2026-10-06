@@ -63,6 +63,22 @@ describe("JAUL IO Tests", function () {
         }
     })
 
+    it("Gets file path when there is no main file", function () {
+        const main = require.main
+        const mainFilename = main?.filename
+        const argv1 = process.argv[1]
+
+        try {
+            if (main) main.filename = undefined
+            process.argv[1] = undefined
+            assert.ok(jaul.io.getFilePath("package.json"))
+            assert.equal(jaul.io.getFilePath("this-does-not.exist"), null)
+        } finally {
+            if (main) main.filename = mainFilename
+            process.argv[1] = argv1
+        }
+    })
+
     it("Fails to create invalid recursive directory", function (done) {
         try {
             jaul.io.mkdirRecursive("../../../../../../...someinvalidpath../!@#$%^&*()-+")
@@ -167,6 +183,62 @@ describe("JAUL IO Tests", function () {
         await assert.rejects(throttled(), /Aborted/)
         assert.equal(throttled.queueSize, 0)
         assert.throws(() => jaul.io.throttle({limit: 1, interval: 100, signal: controller.signal}), /Aborted/)
+    })
+
+    it("Throttle in strict mode waits for enough weight to expire", async function () {
+        const start = Date.now()
+        const throttled = jaul.io.throttle({limit: 3, interval: 100, strict: true, weight: (cost: number) => cost})(() => Date.now() - start)
+
+        const results = await Promise.all([throttled(1), throttled(1), throttled(1), throttled(2)])
+        assert.ok(results[2] < 50)
+        assert.ok(results[3] >= 95)
+    })
+
+    it("Throttle in strict mode compacts expired ticks", async function () {
+        const realNow = Date.now
+        let now = realNow()
+        Date.now = () => now
+
+        try {
+            const throttled = jaul.io.throttle({limit: 200, interval: 100, strict: true})((i: number) => i)
+            const first = Array.from({length: 100}, (_, i) => throttled(i))
+            now += 50
+            const second = Array.from({length: 50}, (_, i) => throttled(100 + i))
+            now += 60
+            const third = Array.from({length: 149}, (_, i) => throttled(150 + i))
+
+            const results = await Promise.all([...first, ...second, ...third])
+            assert.deepEqual(
+                results,
+                Array.from({length: 299}, (_, i) => i)
+            )
+            assert.equal(throttled.queueSize, 0)
+        } finally {
+            Date.now = realNow
+        }
+    })
+
+    it("Throttle compacts large queues, in order", async function () {
+        const throttled = jaul.io.throttle({limit: 1100, interval: 100})((i: number) => i)
+
+        const results = await Promise.all(Array.from({length: 2700}, (_, i) => throttled(i)))
+        assert.deepEqual(
+            results,
+            Array.from({length: 2700}, (_, i) => i)
+        )
+        assert.equal(throttled.queueSize, 0)
+    })
+
+    it("Throttle rejects calls when the weight function throws", async function () {
+        const throttled = jaul.io.throttle({
+            limit: 1,
+            interval: 100,
+            weight: () => {
+                throw new Error("Bad weight")
+            }
+        })(() => "ok")
+
+        await assert.rejects(throttled(), /Bad weight/)
     })
 
     it("Throttle validates its options", function () {

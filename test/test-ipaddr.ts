@@ -661,4 +661,38 @@ describe("JAUL IP Address Tests", () => {
         assert.equal(ipaddr.IPv6.broadcastAddressFromCIDR("2001:db8:f53a::1/128"), "2001:db8:f53a::1")
         done()
     })
+
+    it("throws when matching addresses of different kinds or lengths", () => {
+        const ipv4 = ipaddr.parse("10.0.0.1")
+        const ipv6 = ipaddr.parse("::1")
+
+        assert.throws(() => ipv4.match(ipv6, 8), /cannot match ipv4 address with non-ipv4 one/)
+        assert.throws(() => ipv6.match(ipv4, 8), /cannot match ipv6 address with non-ipv6 one/)
+        assert.throws(() => ipv4.match({kind: () => "ipv4", octets: [10, 0]}, 8), /different lengths/)
+    })
+
+    it("throws on invalid CIDR and prefix lengths", () => {
+        assert.throws(() => ipaddr.IPv4.broadcastAddressFromCIDR("10.0.0.1"), /does not have IPv4 CIDR format/)
+        assert.throws(() => ipaddr.IPv4.networkAddressFromCIDR("10.0.0.1"), /does not have IPv4 CIDR format/)
+        assert.throws(() => ipaddr.IPv6.broadcastAddressFromCIDR("::1"), /does not have IPv6 CIDR format/)
+        assert.throws(() => ipaddr.IPv6.networkAddressFromCIDR("::1"), /does not have IPv6 CIDR format/)
+        assert.throws(() => ipaddr.IPv4.subnetMaskFromPrefixLength(33), /invalid IPv4 prefix length/)
+        assert.throws(() => ipaddr.IPv6.subnetMaskFromPrefixLength(129), /invalid IPv6 prefix length/)
+        assert.throws(() => ipaddr.parseCIDR("invalid"), /neither IPv6 nor IPv4 CIDR format/)
+    })
+
+    it("keeps the zone ID on fixed length IPv6 strings", () => {
+        assert.equal(ipaddr.parse("fe80::1%eth0").toFixedLengthString(), "fe80:0000:0000:0000:0000:0000:0000:0001%eth0")
+    })
+
+    it("throws when the IPv6 parser returns no parts", () => {
+        const parser = ipaddr.IPv6.parser
+
+        try {
+            ipaddr.IPv6.parser = () => ({parts: null})
+            assert.throws(() => ipaddr.IPv6.parse("::1"), /not formatted like an IPv6 Address/)
+        } finally {
+            ipaddr.IPv6.parser = parser
+        }
+    })
 })

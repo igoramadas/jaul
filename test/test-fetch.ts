@@ -156,6 +156,48 @@ describe("JAUL Fetch Tests", function () {
         assert.deepEqual(logs[0], ["Fetch.rateLimitDelay", "127.0.0.1/api", "Used 95.0% of API quota", "Delayed 75ms"])
     })
 
+    it("Parses forced JSON and keeps invalid JSON as text", async function () {
+        respond(reply(200, '{"a":1}', {"content-type": "text/plain"}), reply(200, "{invalid", {"content-type": "application/json"}))
+        const client = jaul.fetch.create(clientOptions)
+
+        assert.deepEqual(await client.request({url: baseURL, responseType: "json"}), {a: 1})
+        assert.equal(await client.request({url: baseURL}), "{invalid")
+    })
+
+    it("Logs used quota above half the threshold without delaying", async function () {
+        respond(reply(200, "ok", {"x-quota": "60"}))
+        const logs: any[][] = []
+        const client = jaul.fetch.create({...clientOptions, logger: {warn: (...args) => logs.push(args)}})
+
+        await client.request({url: `${baseURL}/api`, rateLimitExtractor: (res) => parseInt(res.headers.get("x-quota"))})
+        assert.deepEqual(logs, [["Fetch.rateLimitDelay", "127.0.0.1/api", "Used 60.0% of API quota"]])
+    })
+
+    it("Fails on invalid URLs without retrying", async function () {
+        const client = jaul.fetch.create(clientOptions)
+
+        await assert.rejects(client.request({url: "not a url"}), (err: any) => err.statusCode == 500 && err.url == "not a url" && !err.isTimeout)
+    })
+
+    it("Flags timeouts when retry is cancelled or times out again", async function () {
+        const late = (req, res) => void setTimeout(() => reply(200)(req, res), 200)
+        const client = jaul.fetch.create(clientOptions)
+
+        respond(late)
+        await assert.rejects(client.request({url: baseURL, timeout: 50, onRetry: () => false}), (err: any) => err.isTimeout === true && err.url == baseURL)
+
+        respond(late, late)
+        await assert.rejects(client.request({url: baseURL, timeout: 50}), (err: any) => err.isTimeout === true && err.statusCode == 500)
+    })
+
+    it("Delays and logs when rate limited", async function () {
+        const logs: any[][] = []
+        const client = jaul.fetch.create({...clientOptions, logger: {warn: (...args) => logs.push(args)}})
+
+        await client.rateLimitDelay({status: 429}, "127.0.0.1/api")
+        assert.deepEqual(logs, [["Fetch.rateLimitDelay", "127.0.0.1/api", "Rate limited"]])
+    })
+
     it("Logs rate limit extractor failures without failing the request", async function () {
         respond(reply(200, "ok"))
         const logs: any[][] = []
