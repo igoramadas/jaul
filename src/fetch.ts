@@ -191,7 +191,7 @@ export class FetchUtils {
 
         const processResponse = async (res: FetchResponse, options: FetchRequestOptions, logUrl: string): Promise<any> => {
             await rateLimitDelay(res, logUrl, options.rateLimitExtractor)
-            return res.status == 204 ? true : options.returnResponse ? res : res.data
+            return options.returnResponse ? res : res.status == 204 ? true : res.data
         }
 
         const request = async (reqOptions: FetchRequestOptions): Promise<any> => {
