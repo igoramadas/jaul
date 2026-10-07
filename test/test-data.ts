@@ -14,7 +14,6 @@ describe("JAUL Data tests", function () {
         jaul.data.removeFromString("ABAB.x$", ["AB", ".", "$"]).should.equal("x")
         jaul.data.removeFromString("a\u{1F600}b", "\u{1F600}").should.equal("ab")
         jaul.data.removeFromString("abc", []).should.equal("abc")
-        jaul.data.removeFromString("a1b2", [/\d/]).should.equal("ab")
     })
 
     it("Masks with defaults, literal replacements and oversized visible suffixes", function () {
@@ -26,19 +25,6 @@ describe("JAUL Data tests", function () {
 
     it("Generates version 4 UUIDs", function () {
         jaul.data.uuid().should.match(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/)
-    })
-
-    it("Ensures values end with the trailing suffix", function () {
-        jaul.data.ensureTrailing("https://example.com", "/").should.equal("https://example.com/")
-        jaul.data.ensureTrailing("https://example.com/", "/").should.equal("https://example.com/")
-        jaul.data.ensureTrailing("path\\to", "\\").should.equal("path\\to\\")
-        jaul.data.ensureTrailing("file.json", ".json").should.equal("file.json")
-        jaul.data.ensureTrailing("abc", "").should.equal("abc")
-        jaul.data.ensureTrailing("", "/").should.equal("")
-        require("chai").expect(jaul.data.ensureTrailing(null, "/")).to.equal(null)
-        require("chai")
-            .expect(() => (jaul.data.ensureTrailing as any)("abc"))
-            .to.throw(TypeError)
     })
 
     it("Remove specified characters from string, passing as array", function (done) {

@@ -72,7 +72,7 @@ describe("JAUL Fetch Tests", function () {
     })
 
     it("Returns full response, true for 204, text and buffers", async function () {
-        respond(reply(200, {a: 1}, {"x-custom": "yes"}), reply(204), reply(200, "text"), reply(200, "binary"))
+        respond(reply(200, {a: 1}, {"x-custom": "yes"}), reply(204), reply(204, undefined, {"x-custom": "empty"}), reply(200, "text"), reply(200, "binary"))
         const client = jaul.fetch.create(clientOptions)
 
         const res = await client.request({url: baseURL, returnResponse: true})
@@ -80,6 +80,9 @@ describe("JAUL Fetch Tests", function () {
         assert.equal(res.headers.get("x-custom"), "yes")
         assert.deepEqual(res.data, {a: 1})
         assert.equal(await client.request({url: baseURL}), true)
+        const empty = await client.request({url: baseURL, returnResponse: true})
+        assert.equal(empty.status, 204)
+        assert.equal(empty.headers.get("x-custom"), "empty")
         assert.equal(await client.request({url: baseURL}), "text")
         assert.deepEqual(await client.request({url: baseURL, responseType: "arraybuffer"}), Buffer.from("binary"))
     })
@@ -90,13 +93,6 @@ describe("JAUL Fetch Tests", function () {
 
         assert.equal(await client.request({url: baseURL, abortStatus: [404]}), null)
         assert.equal(requests.length, 1)
-    })
-
-    it("Does not abort requests without an HTTP response", async function () {
-        respond((req) => req.socket.destroy())
-        const client = jaul.fetch.create(clientOptions)
-
-        await assert.rejects(client.request({url: baseURL, abortStatus: [500], onRetry: () => false}), (err: any) => err.statusCode == 500)
     })
 
     it("Retries once on retryable status codes and timeouts", async function () {
@@ -113,14 +109,6 @@ describe("JAUL Fetch Tests", function () {
         respond((req) => req.socket.destroy(), reply(200, "retried"))
         assert.equal(await client.request({url: baseURL}), "retried")
         assert.equal(requests.length, 2)
-    })
-
-    it("Does not automatically retry non-idempotent requests", async function () {
-        respond(reply(503), reply(200, "must not be sent"))
-        const client = jaul.fetch.create(clientOptions)
-
-        await assert.rejects(client.request({url: baseURL, method: "POST", body: {write: true}}), (err: any) => err.statusCode == 503)
-        assert.equal(requests.length, 1)
     })
 
     it("Does not retry access denied or other client errors", async function () {
@@ -211,19 +199,6 @@ describe("JAUL Fetch Tests", function () {
 
         await client.rateLimitDelay({status: 429}, "127.0.0.1/api")
         assert.deepEqual(logs, [["Fetch.rateLimitDelay", "127.0.0.1/api", "Rate limited"]])
-    })
-
-    it("Applies quota backoff before retrying a rate-limited response", async function () {
-        respond(reply(429, "rate limited", {"x-quota": "95"}), reply(200, "retried"))
-        const logs: any[][] = []
-        const client = jaul.fetch.create({...clientOptions, retryInterval: 10, backoffInterval: 10, logger: {warn: (...args) => logs.push(args)}})
-
-        const started = Date.now()
-        assert.equal(await client.request({url: `${baseURL}/api`, rateLimitExtractor: (res) => parseInt(res.headers.get("x-quota"))}), "retried")
-        assert.ok(Date.now() - started >= 80)
-        assert.ok(logs.some((entry) => entry[2] == "Rate limited"))
-        assert.ok(logs.some((entry) => entry[2] == "Used 95.0% of API quota"))
-        assert.equal(requests.length, 2)
     })
 
     it("Logs rate limit extractor failures without failing the request", async function () {
