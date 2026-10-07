@@ -1,7 +1,7 @@
 // JAUL: system.ts
 
-import os = require("os")
-import path = require("path")
+import os from "os"
+import path from "path"
 
 /** @hidden */
 let lastCpuLoad = null
@@ -12,7 +12,7 @@ interface GetInfoOptions {
     labels: boolean
 }
 
-/** Stats about the system, returned by [[getInfo]]. */
+/** Stats about the system, returned by [[getInfo]] */
 interface SystemMetrics {
     /** System uptime as human readable string. */
     uptime: string
@@ -42,7 +42,9 @@ interface CpuLoad {
     total: number
 }
 
-/** System Utilities class. */
+/**
+ * System Utilities
+ */
 export class SystemUtils {
     private static _instance: SystemUtils
     /** @hidden */

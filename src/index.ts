@@ -1,11 +1,14 @@
 // JAUL: index.ts
 
 import {DataUtils} from "./data"
+import {FetchUtils} from "./fetch"
 import {IOUtils} from "./io"
 import {NetworkUtils} from "./network"
 import {SystemUtils} from "./system"
 
-/** Main JAUL class. */
+/**
+ * JAUL
+ */
 class JAUL {
     private static _instance: JAUL
     /** @hidden */
@@ -20,6 +23,9 @@ class JAUL {
 
     /** [[DataUtils]] exposed as .data */
     data: DataUtils = DataUtils.Instance
+
+    /** [[FetchUtils]] exposed as .fetch */
+    fetch: FetchUtils = FetchUtils.Instance
 
     /** [[IOUtils]] exposed as .io */
     io: IOUtils = IOUtils.Instance

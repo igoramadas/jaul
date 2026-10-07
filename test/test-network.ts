@@ -1,6 +1,7 @@
 // TEST: NETWORK
 
 import {after, before, describe, it} from "mocha"
+import assert = require("node:assert/strict")
 require("chai").should()
 
 describe("JAUL Network Tests", function () {
@@ -23,7 +24,7 @@ describe("JAUL Network Tests", function () {
         supertest = require("supertest").agent(app)
 
         app.get("/", function (req, res) {
-            let ip = jaul.network.getClientIP(req)
+            let ip = jaul.network.getClientIP(req, req.query.cfCheck === "true")
             res.json({
                 ip: ip
             })
@@ -86,6 +87,31 @@ describe("JAUL Network Tests", function () {
         }
     })
 
+    it("Matches IPv6 subnets and rejects mixed families", function () {
+        assert.equal(jaul.network.ipInRange("2001:db8::1", "2001:db8::/32"), true)
+        assert.equal(jaul.network.ipInRange("2001:db9::1", "2001:db8::/32"), false)
+        assert.equal(jaul.network.ipInRange("::ffff:192.168.1.1", "192.168.1.0/24"), false)
+        assert.equal(jaul.network.ipInRange("192.168.1.1", "::ffff:192.168.1.0/120"), false)
+    })
+
+    it("Preserves legacy IPv4 syntax and literal address comparisons", function () {
+        assert.equal(jaul.network.ipInRange("127.1", "127.0.0.0/8"), true)
+        assert.equal(jaul.network.ipInRange("192.168.1.1", "0xc0.0250.1.0/24"), true)
+        assert.equal(jaul.network.ipInRange("2001:db8::1", "2001:0db8::1"), false)
+    })
+
+    it("Handles subnet boundaries, invalid ranges and arrays", function () {
+        assert.equal(jaul.network.ipInRange("192.168.1.1", "0.0.0.0/0"), true)
+        assert.equal(jaul.network.ipInRange("192.168.1.1", "192.168.1.1/32"), true)
+        assert.equal(jaul.network.ipInRange("::1", "::1/128"), true)
+        for (const range of ["192.168.1.0/33", "::/129", "192.168.1.0/-1", "192.168.1.0/24/1", "192.168.1.0/"]) {
+            assert.equal(jaul.network.ipInRange("192.168.1.1", range), false)
+        }
+        assert.equal(jaul.network.ipInRange("192.168.1.1", ["10.0.0.0/8", "192.168.1.0/24"]), true)
+        assert.equal(jaul.network.ipInRange("192.168.1.1", []), false)
+        assert.throws(() => jaul.network.ipInRange("invalid", "192.168.1.0/24"))
+    })
+
     it("Get valid IP from browser", function (done) {
         supertest.get("/").expect(200, done)
     })
@@ -96,6 +122,61 @@ describe("JAUL Network Tests", function () {
         }
 
         supertest.get("/").set("X-Forwarded-For", "10.1.2.3").expect(200, body, done)
+    })
+
+    it("Prefers CF-Connecting-IP over other proxy headers", function (done) {
+        supertest.get("/?cfCheck=true").set("CF-Connecting-IP", "203.0.113.1").set("X-Forwarded-For", "10.1.2.3").set("X-Real-IP", "10.2.3.4").expect(200, {ip: "203.0.113.1"}, done)
+    })
+
+    it("Reads CF-Connecting-IP from plain HTTP request headers", function () {
+        assert.equal(jaul.network.getClientIP({headers: {"cf-connecting-ip": " 2001:db8::1 "}, remoteAddress: "127.0.0.1"}, true), "2001:db8::1")
+    })
+
+    it("Ignores CF-Connecting-IP unless cfCheck is true", function () {
+        const request = {headers: {"cf-connecting-ip": "203.0.113.1"}, remoteAddress: "127.0.0.1"}
+        assert.equal(jaul.network.getClientIP(request), "127.0.0.1")
+        assert.equal(jaul.network.getClientIP(request, false), "127.0.0.1")
+
+        const expressRequest = {get: (name) => ({"CF-Connecting-IP": "203.0.113.1", "X-Forwarded-For": "10.1.2.3"})[name]}
+        assert.equal(jaul.network.getClientIP(expressRequest), "10.1.2.3")
+        assert.equal(jaul.network.getClientIP(expressRequest, false), "10.1.2.3")
+    })
+
+    it("Falls back when CF-Connecting-IP is empty or not a string", function () {
+        for (const header of [undefined, "", "   ", ["203.0.113.1"]]) {
+            assert.equal(jaul.network.getClientIP({headers: {"cf-connecting-ip": header}, remoteAddress: "127.0.0.1"}, true), "127.0.0.1")
+        }
+        assert.equal(jaul.network.getClientIP({get: (name) => (name === "X-Forwarded-For" ? "10.1.2.3" : "")}, true), "10.1.2.3")
+    })
+
+    it("Gets IPs skipping internal and empty interfaces", function () {
+        const os = require("os")
+        const networkInterfaces = os.networkInterfaces
+
+        try {
+            os.networkInterfaces = () => ({lo: [{internal: true, family: "IPv4", address: "127.0.0.1"}], none: undefined, eth: [{internal: false, family: "IPv4", address: "10.0.0.1"}]})
+            assert.deepEqual(jaul.network.getIP(), ["10.0.0.1"])
+            assert.equal(jaul.network.getSingleIPv4(), "10.0.0.1")
+            assert.equal(jaul.network.getSingleIPv6(), null)
+
+            os.networkInterfaces = () => ({})
+            assert.equal(jaul.network.getSingleIPv4(), null)
+        } finally {
+            os.networkInterfaces = networkInterfaces
+        }
+    })
+
+    it("Gets IP from Forwarded and X-Real-IP headers", function () {
+        const request = (headers) => ({get: (name) => headers[name]})
+
+        assert.equal(jaul.network.getClientIP(request({Forwarded: "by=10.0.0.9; for=10.0.0.1"})), "10.0.0.1")
+        assert.equal(jaul.network.getClientIP(request({Forwarded: "by=10.0.0.9", "X-Real-IP": "10.0.0.2"})), "10.0.0.2")
+        assert.equal(jaul.network.getClientIP(request({"X-Real-IP": "10.0.0.3"})), "10.0.0.3")
+    })
+
+    it("Gets IP from handshake and nested request connections", function () {
+        assert.equal(jaul.network.getClientIP({connection: {}, handshake: {address: "10.0.0.4"}}), "10.0.0.4")
+        assert.equal(jaul.network.getClientIP({request: {connection: {remoteAddress: "10.0.0.5"}}}), "10.0.0.5")
     })
 
     it("Get valid IP from socket connection", function (done) {
