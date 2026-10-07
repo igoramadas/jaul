@@ -408,11 +408,12 @@ export class IOUtils {
                         return reject(new RangeError(`Expected weight (${cost}) to be <= limit (${limit})`))
                     }
 
-                    queue.push({weight: cost, run, reject})
+                    const job = {weight: cost, run, reject}
+                    queue.push(job)
                     if (!timer) pump()
 
-                    // Anything still queued means this call got delayed.
-                    if (head < queue.length && onDelay) {
+                    // This call is delayed only if its own job remains queued.
+                    if (queue.includes(job) && onDelay) {
                         try {
                             onDelay(...args)
                         } catch {}
